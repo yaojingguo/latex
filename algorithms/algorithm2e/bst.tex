@@ -1,0 +1,23 @@
+\documentclass[]{article} 
+\usepackage{algorithm2e}
+\begin{document} 
+\begin{algorithm}[H]
+ \KwIn{A, target}
+ \KwOut{If $target$ is found in $A$, the index for $target$. Otherwise, $-1$.}
+ $ n \leftarrow len(A)$\\
+ $left \leftarrow 0$\\
+ $right \leftarrow n - 1$\\
+ \While{$left \le right$}{
+  $mid \leftarrow (left + right) / 2$\\
+  \uIf{$target < A[mid]$}{
+   $right \leftarrow mid - 1$\\
+   }
+  \uElseIf{$target > A[mid]$}{
+   $left \leftarrow mid + 1$\\
+  }\Else{
+   \Return $mid$\\
+  }
+ }
+\caption{Binary search}
+\end{algorithm}
+\end{document} 
