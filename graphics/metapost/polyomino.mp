@@ -1,5 +1,6 @@
 % https://www-cs-faculty.stanford.edu/~knuth/programs/polyomino.mp
 % for the polyomino enumeration programs
+prologues := 2;
 numeric u; u=.2in;
 picture pix;
 fill unitsquare scaled u withcolor .9white;
