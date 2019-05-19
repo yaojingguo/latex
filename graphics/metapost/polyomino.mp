@@ -1,3 +1,4 @@
+% https://www-cs-faculty.stanford.edu/~knuth/programs/polyomino.mp
 % for the polyomino enumeration programs
 numeric u; u=.2in;
 picture pix;
