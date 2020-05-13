@@ -8,3 +8,6 @@
 
 *.eps
 *.mpx
+
+*.fls
+*.fdb_latexmk
