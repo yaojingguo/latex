@@ -1,7 +1,12 @@
-% illustrations for "Deconstructing Coroutines" and SPIDERS
-
+% https://www-cs-faculty.stanford.edu/~knuth/preprints.html
+% 
+% P160 Efficient coroutine generation of constrained Gray sequences, aka
+% ``Deconstructing coroutines'' (written with Frank Ruskey).
+%   MetaPost illustrations;
 prologues := 3;
 outputtemplate := "%j-%c.eps";
+
+% illustrations for "Deconstructing Coroutines" and SPIDERS
 path unitcircle;
 numeric s; s=1/sqrt2;
 unitcircle = ((0,-1){right}...(s,-s)...(1,0){up}...
