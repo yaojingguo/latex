@@ -1,5 +1,6 @@
 prologues := 3;
 outputtemplate := "%j-%c.eps";
+
 pair A, B, C, C';
 u := 1cm; A=(0,0); B=(5u,0); C=(2u,3u);
 % C'= whatever[A,B] = C + whatever*dir(

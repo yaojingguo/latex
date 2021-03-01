@@ -1,6 +1,6 @@
 % https://tex.stackexchange.com/a/459866/100
 prologues := 3; 
-outputtemplate := "%j%c.eps";
+outputtemplate := "%j-%c.eps";
 
 vardef open_arrowhead expr p =
   save q,e; path q; pair e;
