@@ -1,4 +1,7 @@
 % illustrations for "Deconstructing Coroutines" and SPIDERS
+
+prologues := 3;
+outputtemplate := "%j-%c.eps";
 path unitcircle;
 numeric s; s=1/sqrt2;
 unitcircle = ((0,-1){right}...(s,-s)...(1,0){up}...
