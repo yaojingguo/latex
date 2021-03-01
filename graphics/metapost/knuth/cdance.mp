@@ -1,7 +1,12 @@
-% illustrations for Dancing Links, color version
-
+% https://www-cs-faculty.stanford.edu/~knuth/preprints.html
+% 
+% P159 Dancing links.
+%   MetaPost illustrations (color);  
 prologues := 3;
 outputtemplate := "%j-%c.eps";
+
+% illustrations for Dancing Links, color version
+
 % first, data structure stuff:
 numeric u; u=.15in;
 numeric h; h=34u;
