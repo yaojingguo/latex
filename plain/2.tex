@@ -1,0 +1,50 @@
+\catcode`| = 13
+\def|{\TeX}
+...
+This is a stupid example of |.
+Great work!
+
+\count255 = 1
+\loop
+  \TeX
+\ifnum\count255 < 10
+\advance\count255 by 1
+\repeat
+
+\def\pointtocomma #1.#2 {(#1,#2)}
+%%...
+\pointtocomma 123.456
+
+%\count25555=17
+%\setbox0=\hbox{XXX}
+%\showbox0
+
+%\begin{myverbatim}
+%\mycommand{
+%whichever text it is important you
+%preserve the spacing and newslines
+%for, like when you want to generate
+%a verbatim block later on.
+%}
+%\end{myverbatim}
+
+\begingroup
+\obeylines
+\obeyspaces
+Relevant text here
+\endgroup
+
+\catcode`| = 13
+\def|{\item {--}}
+\def\itemize#1{{\leftskip = 40 pt #1 \par}}
+
+\itemize{
+| First item
+| Second item
+}
+
+%\setbox0=\hbox{T\kern-.1667em\lower.5ex\hbox{E}\kern-.125em X}
+%\showbox0
+
+
+\bye

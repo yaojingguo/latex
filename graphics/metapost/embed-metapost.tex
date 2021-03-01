@@ -1,0 +1,19 @@
+\documentclass{minimal}
+\usepackage{luamplib}
+
+\begin{document}
+Meta%
+\begin{mplibcode}
+beginfig(1);
+    numeric u; u=10pt;
+    pickup pencircle scaled .4pt;
+    draw fullcircle scaled 1u;
+    draw (-.3u,-.1u)..(0,-.3u)..(.3u,-.1u);
+    pickup pencircle scaled .8pt;
+    draw (0,0);
+    draw (-.2u,.2u); draw (.2u,.2u);
+endfig;
+\end{mplibcode}
+Post!
+
+\end{document}
