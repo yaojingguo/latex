@@ -1,0 +1,66 @@
+\documentclass{book}
+
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{extarrows}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{
+	cd,
+	math,
+	decorations.markings,
+	decorations.pathreplacing,
+	positioning,
+	arrows.meta,
+	circuits.logic.US,
+	shapes,
+	calc,
+	fit,
+	quotes}
+
+
+\begin{document}
+
+\chapter{Difference equations}
+
+\section{Rabbits}
+
+\begin{quote}
+  Rather than growing approximately exponentially, this sequence is exactly periodic. Why? Furthermore, it has period 6.
+  Why? How can this period be predicted without simulation?
+\end{quote}
+
+Answer:
+\begin{center}
+\begin{tabular}{ |c|c|c|c|c|c|c|c| } 
+ \hline
+           & 2 & 3 & 4  & 5  & 6  & 7 & 8 \\
+\hline \hline
+  $g[n-2]$ & 1 & 1 & 0  & -1 & -1 & 0 & 1 \\ 
+  \hline
+  $g[n-1]$ & 1 & 0 & -1 & -1 & 0  & 1 & 1 \\ 
+ \hline
+\end{tabular}
+\end{center}
+
+\subsection*{Prolem 1.2}
+The reason is that the quesss of $f(n)$ is not correct when $n$ is large.
+
+\subsection*{Problem 1.4}
+For $h(n\tau)$, we have $|\frac{dh}{dt}| = \frac{h}{\tau}$. For $h[n]$, $|\frac{dh}{dt}|=\frac{h{0}}{\tau}$. Since $h \le h[0]$ in the first interval, the
+formater is no larger that the latter. So the former is less than or equal to the later. The lower curve is $h[n]$.
+
+\subsection*{Problem 1.5}
+\begin{center}
+  \begin{tabular}{c|c}
+    $T = \frac{\tau}{2}$ & $h[n]=h[0](\frac{1}{2})^n$ \\
+    $T = \tau$ & $h[n] = 0$ \\
+    $T = 2\tau$ & $h[n] = h[0](-1)^n$ \\
+    $T = 3\tau$ & $h[n] = h[0](-2)^n$ \\
+  \end{tabular}
+\end{center}
+It is obvious that $h[n] = h[0](1-\frac{T}{\tau})^n$ is not a good approximation of $h(n)$ if $T$ is big.
+
+\end{document}
