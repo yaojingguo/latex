@@ -1,0 +1,451 @@
+\documentclass[a4paper]{article}
+\usepackage{fixltx2e} % LaTeX patches, \textsubscript
+\usepackage{cmap} % fix search and cut-and-paste in Acrobat
+\usepackage{ifthen}
+\usepackage[hidelinks]{hyperref}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+%%% Custom LaTeX preamble
+% PDF Standard Fonts
+\usepackage{mathptmx} % Times
+\usepackage[scaled=.90]{helvet}
+\usepackage{courier}
+\usepackage{CJKutf8}
+
+
+%%% User specified packages and stylesheets
+%%% Fallback definitions for Docutils-specific commands
+
+% providelength (provide a length variable and set default, if it is new)
+\providecommand*{\DUprovidelength}[2]{
+  \ifthenelse{\isundefined{#1}}{\newlength{#1}\setlength{#1}{#2}}{}
+}
+
+% lineblock environment
+\DUprovidelength{\DUlineblockindent}{2.5em}
+\ifthenelse{\isundefined{\DUlineblock}}{
+  \newenvironment{DUlineblock}[1]{%
+    \list{}{\setlength{\partopsep}{\parskip}
+            \addtolength{\partopsep}{\baselineskip}
+            \setlength{\topsep}{0pt}
+            \setlength{\itemsep}{0.15\baselineskip}
+            \setlength{\parsep}{0pt}
+            \setlength{\leftmargin}{#1}}
+    \raggedright
+  }
+  {\endlist}
+}{}
+
+% hyperlinks:
+\ifthenelse{\isundefined{\hypersetup}}{
+  \usepackage[colorlinks=true,linkcolor=blue,urlcolor=blue]{hyperref}
+  \urlstyle{same} % normal text font (alternatives: tt, rm, sf)
+}{}
+
+
+%%% Body
+\begin{document}
+\begin{CJK}{UTF8}{gkai}
+
+\section*{个人信息}
+
+\begin{DUlineblock}{0em}
+\item[] 姓名：么敬国
+\item[] 性别：男
+\item[] 手机：(86)139-1033-4380
+\item[] Email：yaojingguo@gmail.com
+\item[] Web site: \url{http://yaojingguo.github.io/},
+\url{https://github.com/yaojingguo},
+\item[] 出生日期: 1976年
+\end{DUlineblock}
+
+
+\section*{自我评价}
+\begin{itemize}
+\item 12年软件研发和管理经验。
+\item 能熟练使用Java，C/C++，Go, Python和Lisp。熟悉Scala和Ruby。
+\item 掌握分布式数据库系统设计和开发相关理论。
+\item 熟练使用主流大数据系统和掌握数据分析技术。丰富的Hadoop平台上数据分析应用开发经验。
+\end{itemize}
+
+\section*{英语}
+CET6优秀，口语流利，多年和海外团队合作经验。
+
+\section*{教育，认证和培训}
+\begin{itemize}
+\item 北京理工大学       计算机应用技术            硕士，2004年4月
+\item 北京理工大学       计算机科学                学士，1999年7月
+\item MIT-6.033 Computer Systems Engineering
+\item MIT-6.830 Database Systems
+\item MIT-6.828 Operating System Engineering
+\item MIT-6.824 Distributed Systems
+\item Stanford-CS143 Compilers
+\end{itemize}
+
+\section*{工作经历}
+\subsection*{北京新东方教育科技集团 (2014/05 -{}- 至今)}
+\subsubsection*{信息管理部}
+\begin{DUlineblock}{0em}
+\item[] 首席架构师
+\item[] 2014/05 -{}- 至今
+\end{DUlineblock}
+\begin{itemize}
+\item 新东方集团核心系统的架构，开发和调优：优能一对一系统和我学系统等。
+\item 基于Hadoop/Spark/MemSQL建设新东方大数据平台。
+\item 基于Kafka设计开发新东方数据总线系统。
+\item 参与数据挖掘系统的开发: 新东方游学学员推荐，搜课推荐和新东方前途出国重复文书识别。
+\item 参与CockroachDB开发，主要PR：
+\begin{itemize}
+  \item \href{https://github.com/cockroachdb/cockroach/pull/8867}{WIP perf: replace LLRB-tree with btree in interval.Tree}
+  \item \href{https://github.com/cockroachdb/cockroach/pull/3912}{sql: allow user priority to be set via SQL}
+  \item \href{https://github.com/cockroachdb/cockroach/pull/3783}{make MakePriority function more math precise}
+\end{itemize}
+\end{itemize}
+
+\subsection*{海南天涯在线网络科技有限公司 (2010/08 -{}- 2014/04)}
+
+\subsubsection*{天涯大数据部}
+\begin{DUlineblock}{0em}
+\item[] 总监
+\item[] 09/2012 -{}- 2014/04
+\end{DUlineblock}
+\begin{itemize}
+\item 数据挖掘，信息过滤，搜索，BI和会员团队管理。
+\end{itemize}
+
+\subsubsection*{天涯Hadoop数据分析平台}
+\begin{DUlineblock}{0em}
+\item[] 技术经理
+\item[] Java, Clojure， Hadoop
+\item[] 02/2011 -{}- 08/2012
+\end{DUlineblock}
+%
+\begin{itemize}
+\item 用Hadoop/Hive/Pig开发天涯的日志分析平台，并向Apache提交Patch。
+\item 用Hadoop实现协同过滤推荐算法。
+\item 自主开发和维护天涯BI系统。
+\end{itemize}
+
+\subsubsection*{天涯虚拟化平台}
+\begin{DUlineblock}{0em}
+\item[] 资深系统架构师
+\item[] 12/2010 -{}- 01/2011
+\end{DUlineblock}
+天涯虚拟化平台的前期调研和设计工作。
+
+\subsubsection*{Memlink Project}
+\begin{DUlineblock}{0em}
+\item[] Committer
+\item[] C Linux System Programming, libevent
+\item[] 09/2010 -{}- 11/2010
+\end{DUlineblock}
+\url{http://code.google.com/p/memlink}/是一个列表数据存储引擎。我设计实现了主从同步部分。
+
+\subsection*{IBM中国软件开发中心 (2004/11 -{}- 2010/08)}
+
+\subsubsection*{ECM/BPM CoE}
+\begin{DUlineblock}{0em}
+\item[] COE Leader
+\item[] Enterprise Content Mangement/Business Process Management
+\item[] 06/2010 -{}- 08/2010
+\end{DUlineblock}
+ECM/BPM COE的职责是促进IBM ECM/BPM软件产品在中国的成长。我们的主要任务是为ECM/BPM建立重要的样板客户。
+我作为COE Leader参加了银行业，保险，制造和核电行业的售前和方案设计工作。其中保险分析项目使用SPSS进行交叉
+销售，实用了关联规则和决策树。
+
+\subsubsection*{大数据查询语言Jaql}
+\begin{DUlineblock}{0em}
+\item[] Technical Leader
+\item[] 07/2009 -{}- 05/2010
+\item[] Java/C++/Hadoop/SPSS Statistics/SPSS Data Modler
+\end{DUlineblock}
+Jaql (\url{http://code.google.com/p/jaql})是IBM Hadoop大数据平台上的查询语言, 实现类似Hadoop Pig的功能。在这个
+项目中，我和IBM Almaden Research Center的科研人员合作。 我是中国方面的technial leader, 同时是
+Jaql项目的committer。我设计实现了Jaql catalog server，SPSS与Jaql的集成和JSON与CSV的转换。
+Catalog Server提供一个key-value存储机制。SPSS与Jaql的集成集成的目标是结合SPSS的统计数据挖掘能力和Hadoop
+平台的扩展性和并行计算机制。通过这个集成，可以平行的运行某些SPSS的算法。我还实现了JSON和CSV的转换，并做了
+系统性能优化，达到了和Pig相当的性能。
+
+
+\subsubsection*{泰康人寿保全工作流项目}
+\begin{DUlineblock}{0em}
+\item[] Development Lead/Architect
+\item[] 08/2008 -{}- 06/2009
+\item[] Java/JSF/IBM ECM/FileNet BPM
+\end{DUlineblock}
+我领导了泰康人寿保全工作流系统的开发。开发团队有IBM实验室，IBM服务部门，IBM合作伙伴和泰康IT人员组成。
+我领导团队按时高标准的完成了泰康个人保险保全项目，并和泰康建立了深厚的客户关系。在项目中，
+我设计实现了IBM Content Manager和Filenet BPM的集成。我出差到美国IBM IOD大会上演示了这个集成。
+这个集成被当作最主要的功能点放入了IBM CM 8.4.1发行版。
+
+\subsubsection*{Rapid Industry Solution Enabler}
+\begin{DUlineblock}{0em}
+\item[] Technical Leader
+\item[] 06/2006 -{}- 07/2008
+\end{DUlineblock}
+Rapid Industry Solution Enabler是一个代码生成工具，其目标是加速IBM ECM和BPM平台上的解决方
+案开发。这个工具从UML数据模型和流程模型生成数据库schema，流程定义, Java代码和UI代码。所有这些构成了
+一个可以运行的Web应用。这是一个IBM CDL和IBM Waston Research Center的合作项目。项目的技术
+领导者是一个IBM杰出软件工程师。
+
+\subsubsection*{ECM (企业内容管理)}
+\begin{DUlineblock}{0em}
+\item[] Software Engineer/Team Lead
+\item[] 11/2004 – 05/2006
+\item[] Java/J2EE
+\end{DUlineblock}
+这是一个IBM中国实验室和IBM Silicon Valley Lab的合作项目，为IBM ECM产品做开发和测试。我最初用Rational
+Robot和Rational Functional Tester做产品界面测试，用ANT和JUnit做非界面测试。我后来加入了
+Records Manager Enabler(一个ECM组件)的开发团队，设计实现了FIPS功能点。
+
+\subsection*{NEC-CAS (05/2004 -{}- 10/2004)}
+\begin{DUlineblock}{0em}
+\item[] Software Engineer
+\end{DUlineblock}
+我参与了几个文档管理系统的应用软件开发。我主要做了bug fixing，功能测试和性能测试的工作。
+
+\subsection*{北京理工大学 (09/2001 – 04/2004)}
+研究方向包括Semantic Web和知识推理。我参加了几个基于J2EE的项目。
+
+
+\subsection*{Yuanfull Co., Ltd (09/2000 – 08/2001 )}
+\begin{DUlineblock}{0em}
+\item[] Software Engineer/Project Manager
+\item[] Visual Baisc/SQL Server
+\end{DUlineblock}
+我领导了中国海油的建设成本管理系统和建设项目投标系统的开发。
+
+\subsection*{Lexotech Co., Ltd (08/1999 – 08/2000 )}
+\begin{DUlineblock}{0em}
+\item[] Software Engineer
+\item[] Visual Baisc/ASP/SQL Server
+\end{DUlineblock}
+我参加了湘财证券的投资管理和在线资讯系统的开发工作。另外我参加了一些垂直搜索引擎的简单开发工作。
+
+
+\section*{文章}
+\begin{itemize}
+\item Effective Java GUI automation on multiple platforms. IBM developerWorks.
+\url{http://www-128.ibm.com/developerworks/rational/library/05/1004_yao/?ca=dgr-lnxw06JavaGUI4Win-Linux}.
+\item Integrate FileNet BPM with IBM Content Manager,
+Part 3: Implement the Component Integrator-based work performers.
+IBM developerworks.
+\url{http://www.ibm.com/developerworks/data/library/techarticle/dm-0805yao/index.html}.
+\item 一个语义Web应用研究：旅游信息系统{[}J{]}。 北京理工大学学报(Ei核心刊物)。
+\item 语义Web系统及其实现{[}J{]}。 北京理工大学学报(Ei核心刊物)。 2004，24(2):145-149。
+\item 基于奇异值分解的中文Onotology自动学习技术{[}J{]}。 计算机工程（Ei Page One刊物），2003，29(9):137-139。
+\item CRL：对语义Web上的Ontology表示语言DAML-OIL的一种扩充方案{[}J{]}。 计算机工程与应用(核心期刊)，2003-23。
+\item 一个语义Web架构及其实现{[}J{]}。 计算机工程与应用(核心期)，2003-15。
+\end{itemize}
+
+\newpage
+
+%___________________________________________________________________________
+
+\section*{Personal Information}
+\begin{DUlineblock}{0em}
+\item[] Name:   Jingguo Yao
+\item[] Gender: Male
+\item[] Mobile: (86)139-1033-4380
+\item[] Email:  \href{mailto:yaojingguo@gmail.com}{yaojingguo@gmail.com}
+\item[] Blog:   \url{http://yaojingguo.javaeye.com}
+\url{https://github.com/yaojingguo}
+\end{DUlineblock}
+
+
+\section*{Summary}
+\begin{itemize}
+\item 11-year experience of software development and project management
+experience.
+\item Fluent in Java, C/C++, Python, Lisp and Bash. Familiar with Haskell and Ruby.
+\item Deep knowledge in computer system construction. Rich experience on building
+mission-critical systems.
+\item Experienced with Big Data system and data mining technology. Rich experience
+on building data analysis systems on Hadoop platform.
+\item Familiar with cloud virtualization technology.
+\end{itemize}
+
+\section*{English}
+CET6 Excellent, fluent spoken English, many years of experience to collaborate
+with oversea teams.
+
+\section*{Education, Certification and Training}
+\begin{itemize}
+\item Beijing Institute of Technology M.S. of Computer Application, April 2004
+\item Beijing Institute of Technology B.Sc. of Computer Science, July 1999
+\item IBM Certified Solution Designer DB2 Content Manager V8
+\item MIT-6.830 Database Systems
+\item MIT-6.828 Operating System Engineering
+\item MIT-6.824 Distributed Systems
+\end{itemize}
+
+\section*{Professional Experience}
+
+\subsection*{www.tianya.cn (2010/08 -{}- present)}
+
+\subsubsection*{Tianya Big Data Department}
+\begin{DUlineblock}{0em}
+\item[] Director
+\item[] 09/2012 -{}- present
+\end{DUlineblock}
+\begin{itemize}
+\item Manage data mining, information filtering, search and membership teams.
+\item Draft Tianya Big Data strategy.
+\item Follow Big Data research.
+\end{itemize}
+
+\subsubsection*{Tianya Data Analysis Platform}
+\begin{DUlineblock}{0em}
+\item[] Technical manager
+\item[] Java, Clojure
+\item[] 02/2011 -{}- 08/2012
+\end{DUlineblock}
+\begin{itemize}
+\item Develop log analysis platform with Hadoop/Hive.
+\item Develop recommendation algorithm with Hadoop.
+\item Develop a data integration system with Clojure to replace an existing
+commercial system. Leveraging clojure's DSL power, I was able to develop a
+powerful and extensible system with a small code base.
+\item Develop and maintain BI system.
+\end{itemize}
+
+\subsubsection*{Tianya Virtualization Platform}
+\begin{DUlineblock}{0em}
+\item[] senior system architect
+\item[] 12/2010 -{}- 01/2011
+\end{DUlineblock}
+Technique investigation and design.
+
+\subsubsection*{Memlink Project}
+\begin{DUlineblock}{0em}
+\item[] Committer
+\item[] C Linux System Programming, libevent
+\item[] 09/2010 -{}- 11/2010
+\end{DUlineblock}
+\url{http://code.google.com/p/memlink/} is a list data storage engine. I designed and
+implemented the master-slave synchronization part.
+
+\subsection*{IBM CDL Beijing (2004/11 -{}- 2010/08)}
+
+\subsubsection*{ECM/BPM CoE}
+\begin{DUlineblock}{0em}
+\item[] COE Leader
+\item[] Enterprise Content Management/Business Process Management
+\item[] 06/2010 -{}- 08/2010
+\end{DUlineblock}
+The goal of ECM CoE is to grow China market for IBM ECM/BPM products. Our task
+is to help build strategic reference accounts for IBM ECM/BPM products. As the
+CoE leader, I was involved in pre-sales and solution design for banking, insurance
+, manufacture and nuclear-power industries. Insurance analysis project uses SPSS to
+do cross-selling, association rule and decision tree algorithms are used.
+
+
+\subsubsection*{Big Datg Query Language Jaql}
+\begin{DUlineblock}{0em}
+\item[] Jaql Committer/Technical Leader
+\item[] 07/2009 -{}- 05/2010
+\item[] Java/C++/SPSS Statistics
+\end{DUlineblock}
+Jaql (\url{http://code.google.com/p/jaql/}) is a query language on top of IBM Hadoop Big Data platform.
+It is similar to Hadoop Pig. In this project, I worked together with researchers
+from IBM Almaden Research Center. I was the technical leader at China side and Jaql
+committer. I designed and implemented Jaql catalog server, the integration between
+SPSS and Jaql, and the conversion between JSON and CSV. Catalog server provides a
+simple key-value storage. The SPSS and Jaql integration is aimed to combine the
+statistics and data mining power of SPSS and the scalability and parallelism of
+Hadoop platform. With this integration, some SPSS algorithms can be executed in
+parallel on Hadoop. After the design and implementation of the conversion between
+JSON and CSV, I did performance improvement to make it have the same performance
+characteristics as Pig.
+
+\subsubsection*{ECM (Enterprise Content Management) Advanced Engagement}
+\begin{DUlineblock}{0em}
+\item[] Development Lead
+\item[] 08/2008 -{}- 06/2009
+\end{DUlineblock}
+I led the development of policy conservation system for Taikang Life. The
+development team consists of IBM Dev/Service team, IBM business partner team
+and Taikang IT personnel. The system uses IBM ECM and FileNet BPM products. I
+led the team to finish the project with a high quality on a tight schedule. In
+this project, I did the integration between IBM Content Manager and FileNet BPM
+which has been put into product in IBM Content Manager 8.4.1. And I travelled
+to US to demonstrate the integration in IOD 2008.
+
+\subsubsection*{Rapid Industry Solution Enabler}
+\begin{DUlineblock}{0em}
+\item[] Technical Leader
+\item[] 06/2006 -{}- 07/2008
+\end{DUlineblock}
+Rapid Industry Solution Enabler is a code generation tool to accelerate the
+solution development based on IBM ECM and BPM products. Fed with a UML data
+model and a process model, the tool can generated database schema, process
+definition, Java code and UI code which are parts of a runnable web application.
+In this project, I worked together with an IBM distinguished engineer and IBM Waston
+Research Center.
+
+\subsubsection*{ECM}
+\begin{DUlineblock}{0em}
+\item[] Software Engineer/Team Lead
+\item[] 11/2004 – 05/2006
+\end{DUlineblock}
+I worked together with IBM Silicon Valley Lab. At first, I did various test
+automation work for ECM products.  I use Rational Robot and Ration Functional
+Tester to test GUI.  And I use ANT and JUnit for non-GUI test. Later on, I did
+the development work for Records Manager Enabler (One ECM component). I
+designed and implemented FIPS feature. The related techniques are Java and
+J2EE.
+
+\subsection*{NEC-CAS (05/2004 -{}- 10/2004)}
+\begin{DUlineblock}{0em}
+\item[] Software Engineer
+\end{DUlineblock}
+I took part in the development and test of several document management
+software.  I did bug fixing, functional testing and performance testing.
+
+\subsection*{Beijing Institute of Technology (09/2001 – 04/2004)}
+Research interests are Semantic Web and knowledge reasoning.
+I took part in some J2EE-based projects.
+
+\subsection*{Yuanfull Co., Ltd (09/2000 – 08/2001)}
+\begin{DUlineblock}{0em}
+\item[] Software Engineer/Project Manager
+\item[] Visual Baisc/SQL Server
+\end{DUlineblock}
+I led the development of construction cost management system and construction
+project bidding system for CNOOC. These two systems employed C/S architecture.
+
+\subsection*{Lexotech Co., Ltd (08/1999 – 08/2000)}
+\begin{DUlineblock}{0em}
+\item[] Software Engineer
+\item[] Visual Baisc/ASP/SQL Server
+\end{DUlineblock}
+I developed investment management system  and on-line consultation system for
+Xiangcai Securities Co. I also took part in the development of a vertical
+search engine.
+
+\section*{Publications}
+\begin{itemize}
+
+\item Effective Java GUI automation on multiple platforms. IBM developerWorks.
+\url{http://www-128.ibm.com/developerworks/rational/library/05/1004_yao/?ca=dgr-lnxw06JavaGUI4Win-Linux}.
+\item Integrate FileNet BPM with IBM Content Manager, Part 3: Implement the
+Component Integrator-based work performers. IBM
+developerworks. \url{http://www.ibm.com/developerworks/data/library/techarticle/dm-0805yao/index.html}.
+\item A Case Study of Semantic Web Application: Tourism Information System {[}J{]}.
+Transactions of Beijing Institute of Technology (Ei core journal).
+\item A Semantic Web System Architecture and its Implementation {[}J{]}. Transactions
+of Beijing Institute of Technology (Ei core journal). 2004, 24(2):145-149.
+\item Automated Chinese Ontology Learning Technology Based on Singular Value
+Decomposition {[}J{]}. Computer Engineering (Ei Page One journal), 2003,
+29(9):137-139.
+\item CRL: an Extension of DAML+OIL-Ontology Language for the Semantic Web {[}J{]}.
+Computer Engineering and Application (core journal), 2003-23.
+\item A Semantic Web Architecture and its Implementation {[}J{]}. Computer Engineering
+and Application (core journal), 2003-15.
+\end{itemize}
+\end{CJK}
+\end{document}

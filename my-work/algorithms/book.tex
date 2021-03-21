@@ -1,0 +1,443 @@
+\documentclass{book}
+
+\usepackage{clrscode3e}
+\usepackage{upgreek}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{mathabx}
+\usepackage{url}
+\usepackage{csquotes}
+
+\newtheorem{problem}{Problem}
+
+\begin{document}
+
+\chapter{GeekforGeeks}
+
+\section{\href{http://www.geeksforgeeks.org/two-elements-whose-sum-is-closest-to-zero}{Two elements whose sum is closest to zero}}
+
+The invariant is that $min\_sum$ is the min-abs-sum of pairs whose one element
+is among $a[0]...a[l-1]$ or $a[r+1]...a[n-1]$.
+
+\textbf{Initialization}: Before the first iteration, $l = 0$ and $r = n- 1$.
+$a[0]...a[-1]$ or $a[n]...a[n-1]$ is empty. It is trivial to see that
+the invariant is true.
+
+\textbf{Maintenance}: If $sum > 0$, the min-abs-sum which involves $a[r]$ and
+does not involve elements among $a[0]...a[l-1]$ or $a[r+1]...a[n-1]$ is $sum$
+since $sum \ge a[i] + a[r] (l < i < r)$. So picking one of  $min\_sum$ and $sum$
+with the less absulate value as $min\_sum$ ensures that $min\_sum$ is the
+min-abs-sum of pairs whose one element is among $a[0]...a[l-1]$ or
+$a[r]...a[r]$.  Before the next iteration, $r$ is increased by $1$. So the
+invariant holds.  The case for $sum < 0$ is symmetric.
+
+\textbf{Termination}: Before the iteration for $l = r$, $min\_sum$ is the
+min-abs-sum of pair whose one element is among $a[0]...[l-1]$ or
+$a[l]...a[n-1]$ which is $a[0]...a[n]$.
+
+\section{\href{http://www.geeksforgeeks.org/longest-monotonically-increasing-subsequence-size-n-log-n/}{Longest
+Increasing Subsequence Size $N\log N$}}
+
+\textbf{Invariant}: $S[l]$ be defined as the smallest integer that ends an
+increasing sequence of length $l$.
+
+\textbf{Initialization}: Before the iteration, $S$ is empty, the invariant is trivally true.
+
+\textbf{Maintenance}: There are only two ways to change $S$ in one iteration
+when considering to append $X[i]$ to sequences in $S$:
+\begin{itemize}
+\item Append $X[i]$ to the end of the longest $S[l]$. Add a new element to set
+$S$.
+\item Decrease the end of some $S[l]$. $[l-1] < X[i] < S[l]l$:
+decrease the sequence $S[l]$ by appending $X[i]$ to $S[l-1]$ whose end is the
+smallest.
+\end{itemize}
+
+\chapter{AVL vs Red-black Tree}
+
+From \href{https://en.wikipedia.org/wiki/AVL_tree}{AVL Tree}:
+\begin{quotation}
+Mehlhorn \& Sanders (2008) point out: "AVL trees do not support constant amortized update costs", but red-black trees do.[21]
+\end{quotation}
+
+
+From \href{https://en.wikipedia.org/wiki/Red-black_tree}{red-black tree}:
+\begin{quotation}
+For lookup-intensive applications, AVL trees are faster than red–black trees because they are more rigidly balanced.[4]
+\end{quotation}
+
+\href{https://docs.google.com/presentation/d/1w_n0Ejpe7BGwJmASEXJIcOYWEc5O0Nycibc3IXQfH_c/edit#slide=id.g1221257ba_010}{A
+comparsion of AVL and red-black tree}
+
+
+Other references are \url{http://www.stanford.edu/~blp/papers/libavl.pdf} and
+\url{http://people.mpi-inf.mpg.de/~mehlhorn/ftp/Toolbox/SortedSequences.pdf}
+
+\chapter{Reservoir Sampling}
+\section{A Formal Proof}
+From $k$-permuation of $n$, uniformly remove one number. The result is a
+$k-1$-permuation of $n$.
+
+\begin{proof}
+Use $A$ to indicate the event that $k$-permuation of $n$ whose remaining numbers is
+the same as a $k-1$-permuation of $n$.
+
+  \begin{align*}
+    P(\text{$k-1$-permuation of $n$})
+    &= \sum_{i=1}^{k}P(\text{remove $i$th number}) \cdot P(A) \\
+    &= \sum_{i=1}^{k}\frac{1}{k} \cdot \sum_{j=1}^{n-k+1}P(\text{$k$-permuation
+  of $n$}) \\
+    &= \sum_{i=1}^{k}\frac{1}{k} \cdot \sum_{j=1}^{n-k+1}\frac{1}{n...(n-k+1)} \\
+    &= \sum_{i=1}^{k}\frac{1}{k} \cdot \frac{1}{n...(n-k+2)} \\
+    &= \frac{1}{n...(n-k+2)} \\
+  \end{align*}
+\end{proof}
+
+A corollary is: From $k$-combination of $n$, uniformly remove one number. The result is a
+$k-1$-combination of $n$. The proof is trivial.
+
+\begin{proof}
+
+The result of reservoir sampling is $\binom{n}{k}$ combinations. Every combination's possibility is
+$\frac{1}{\binom{n}{k}}$.
+
+\textbf{Initialization}: when $n = k$, there is only 1 combination and possibility is
+1. The conclusion holds.
+
+\textbf{Maintenance}: Use $r$ to indicate the number uniformly generated  from $[1, n]$.
+
+\textbf{Case for random number $r > k$}:
+
+There will be $\binom{n-1}{k}$ combinations. The possibility for each
+combination:
+
+\begin{align*}
+P \{\text{combination of }k\text{ from }n\}
+& = P \{\text{combination of }k\text{ from }n-1\} \cdot P\{r > k\} \\
+& = \frac{1}{\binom{n-1}{k}} \cdot \frac{n-k}{n} \text{ (since the conclusion holds for $n-1$)} \\
+& = \frac{1}{\binom{n-1}{n-k-1}} \cdot \frac{1}{\frac{n}{n-k}} \\
+& = \frac{1}{\binom{n}{n-k}} \\
+& = \frac{1}{\binom{n}{k}}
+\end{align*}
+
+\textbf{Case for random $r \le k$}: $n$ will replace one of the $k$ numbers.
+There will be $\binom{n-1}{k-1}$ combinations from the above corollary.
+
+\begin{align*}
+  P &= \frac{1}{\binom{n-1}{k-1}} \cdot \frac{k}{n} \\
+    &= \frac{1}{\binom{n-1}{k-1}} \cdot \frac{1}{\frac{n}{k}} \\
+    &= \frac{1}{\binom{n}{k}}
+\end{align*}
+
+So the combination from all cases has the same probability. And the total of all
+the combinations:
+
+\begin{align*}
+\binom{n}{k} = \binom{n}{k-1} + \binom{n-1}{k-1}
+\end{align*}
+
+
+\end{proof}
+
+\chapter{Probability Analysis}
+
+\url{http://math.stackexchange.com/a/1619048/16625}
+
+$$\int p(x)^n p'(x) \,dx =  \int p(x)^n\,dp(x) = \frac{1}{n+1}p(x)^{n+1}\Bigg{|}_{-\infty}^{\infty}=\frac{1}{n+1}$$
+
+\begin{align*}
+  P(max(X_1, ..., X_n) > max(Y_1, ..., Y_m)) &= P(X_i = max(X_1, ..., X_n, Y_1,
+  ..., Y_m), i=1,...,n) \\
+  &= \sum_{i=1}^n P(X_i = max(X_1, ..., X_n, Y_1, ..., Y_m) \\
+  &= \sum_{i=1}^n \frac{1}{n+m} \\
+  &= \frac{n}{n+m} \\
+\end{align*}
+
+\begin{problem}
+  Prove that $p_{X_1,X_2,...,X_n}(x_1,x_2,...,x_n) = \prod_{i=1}^{n}p_{X_i}(x_i)$ implies $p_{X_{j_{1}},
+X_{j_{2}},...,X_{j_{m}}} = \prod_{k=1}^{m}p_{X_{j_{k}}}(x_{j_{k}})$.
+\end{problem}
+
+\begin{proof}
+$p_{X,Y,Z}(x,y,z) = p_{X}(x)p_{Y}(y)p_{Z}(z)$ (0) implies the following equations:
+
+\begin{itemize}
+  \item $p_{X,Y}(x,y) = p_{X}(x)p_{Y}(y)$  (1)
+  \item $p_{X,Z}(x,z) = p_{X}(x)p_{Z}(z)$  (2)
+  \item $p_{Y,Z}(y,z) = p_{Y}(y)p_{Z}(z)$  (3)
+\end{itemize}
+
+For any $x$, $y$, sum over all $z$ for (0). Left-size =
+$\sum_{z}P_{X,Y,Z}(x,y,z) = P_{X,Y}(x,y)$. Right-side =
+$\sum_{z}p_{X}(x)p_{Y}(y)p_{Z}(z) = p_{X}(x)p_{Y}(y)\sum_{z}p_{Z}(z) =
+p_{X}(x)p_{Y}(y)$. So (1) is true. (2) and (3) can also be proved in a similar
+way.
+
+The general independence form for random variables is $p_{X_1,X_2,...,X_n} =
+\prod_{i=1}^{n}p_{X_i}(x_i)$. It also implies $p_{X_{j_{1}},
+X_{j_{2}},...,X_{j_{m}}}(x_{j_1},x_{j_2},...,x_{j_m}) = \prod_{k=1}^{m}p_{X_{j_{l}}}(x_{j_{l}})$. Let $S = \{
+{X_{j_{1}}},{X_{j_{2}},...,X_{j_{m}}} \}$ and $N = \{1,2,...,n\}$. $S$ satisfy
+$S \in N$. For any $X_{j_{1}}, X_{j_{2}},...,X_{j_{m}}$, sum over all
+$X_{k_{1}}, X_{k_{2}},...,X_{k_{n-m}} \in S^c$. The left side:
+
+$\sum_{X_{k_{1}}}\sum_{X_{k_{2}}}...\sum_{X_{k_{n-m}}}p_{X_{1},X_{2},...,X_{n}}
+(x_1,x_2,...,x_n) =p_{X_{j_{1}}, X_{j_{2}},...,X_{j_{m}}}(x_{j_{1}}, x_{j_{2}},...,x_{j_{m}})$
+
+The right side:
+\begin{align*}
+& \sum_{X_{k_1}}\sum_{X_{k_2}}...\sum_{X_{k_{n-m}}}\Big(\prod_{i=1}^{n}p_{X_i}(x_i)\Big) \\
+&= p_{X_{i_1}}(x_{i_1})p_{X_{i_2}}(x_{i_2})...p_{X_{i_m}}(x_{i_m})\sum_{X_{k_{1}}}\sum_{X_{k_{2}}}...\sum_{X_{k_{n-m}}}
+   \Big(p_{X_{k_{1}}}(x_{k_{1}})p_{X_{k_{2}}}(x_{k_{2}})...p_{X_{k_{n-m}}}(x_{k_{n-m}})\Big) \\
+&= p_{X_{i_1}}(x_{i_1})p_{X_{i_2}}(x_{i_2})...p_{X_{i_m}}(x_{i_m})\Big(\sum_{X_{k_{1}}}p_{X_{k_{1}}}(x_{k_{1}})\Big)
+   \Big(\sum_{X_{k_{2}}}p_{X_{k_{2}}}(x_{k_{2}})\Big)...\Big(\sum_{X_{k_{n-m}}}p_{X_{k_{n-m}}}(x_{k_{n-m}})\Big) \\
+&= p_{X_{i_1}}(x_{i_1})p_{X_{i_2}}(x_{i_2})...p_{X_{i_m}}(x_{i_m}) \text{ since } \sum_{X_{k_l}} p_{X_{k_l}} = 1, l = 1,2,..., m-n \\
+\end{align*}
+
+So $p_{X_1,X_2,...,X_n}(x_1,x_2,...,x_n) = \prod_{i=1}^{n}p_{X_i}(x_i)$ implies $p_{X_{j_{1}},
+X_{j_{2}},...,X_{j_{m}}}(x_{j_1},x_{j_2},...,x_{j_m}) = \prod_{k=1}^{m}p_{X_{j_{k}}}(x_{j_{k}})$.
+\end{proof}
+
+
+\chapter{Cache-Oblivious Streaming B-trees}
+
+SHUTTLE TREE
+
+Shuttle-tree structure
+
+Shuttle tree algorithm complexity:
+\begin{itemize}
+  \item Search(optimal): $O(\log_{B+1}N)$
+  \item Range query of $L$ successive elements (Optimal): $\log_{B+1}N + L/B$
+  \item Insertion: $\frac{\log_{B+1}N}{B^{\Theta(\frac{1}{(\log\log B)^2})}+\frac{(\log^2 N)}{B}}$
+\end{itemize}
+
+A shuttle tree is a strongly weight-balanced search tree (SWBST). Each non-leaf node points to a a linked list of buffers. These buffers are recursively defined to be shuttle trees.
+
+The weight of a node $u$ in  a tree, denoted $w(u)$, is the total number of descendents of $u$ plus one; that is, $w(u)=\sum_{v\in children(u)}w(v)$, with $w(u)=1$ if $u$ is a leaf. The depth of a node $u$ is $u$’s distance from the root. SWBSTs have leaves all at the same depth. For such trees, we define the height of node $u$, denoted $h(u)$, to be the distance to a leaf plus one, i.e., $h(u) = h(v)+1$ for every child $v$ of $u$, and $h(u) = 1$ if $u$ is a leaf.
+
+A \textbf{SWBST} is a balanced search tree that maintains the following invariant: For fanout parameter $c > 1$ and for any node $v$, $w(v) = \Theta(c^{h(v)})$.
+
+A height 4 tree with fanout $c=4$has $1 + 4 + 4^2 + 4^3=\frac{4^4-1}{4-1}=85$ nodes. A height $h$ tree has $N=\frac{c^h-1}{c-1}$ nodes.
+
+LEMMA 1. Consider an N-node weight-balanced tree with constant balance parameter $c$.
+\begin{enumerate}
+  \item The degree of any node is $\Theta(c)$.
+  \item For any node u and constant $d<h(u)$, the number of descendants
+of $u$ that have height at least $h(u)-d$ is $\Theta(c^d)$.
+\item Suppose that a node split has cost 1. Then the amortized cost to
+insert into the tree is the search cost plus O(1).
+\item Suppose that splitting a node u costs Q(ch(u)). Then the amortized
+cost to insert into the tree is the search cost plus O(logN).
+\end{enumerate}
+
+\textbf{Proof}.
+(1) This claim is intuitive.
+
+For a leaf node, its height is $1$. By the invariant, we have $N=\Theta(c)$ and the degreee is $\Theta(c)$. We will prove $N=\Theta(c) c^{h-1}$ and the degree is $\Theta(c)$ for any node $u$. Assume that this claim is true for any node $v$ with height $h-1$.
+
+$w(u) = \Theta(c) c^{h-1} = c_{u} c^{h-1}$
+
+$w(u) = \Theta(c) c^{h-1} + ... + \Theta(c) c^{h-1} = c_{v_1} c^{h-1} + ... +
+c_{v_{degree}}c^{h-1}$
+
+$c_{u} c^{h-1} = c_{v_1} c^{h-1} + ... +  c_{v_{degree}}c^{h-1}$
+
+$c_{u} c = c_{v_1}  + ... +  c_{v_{degree}}$,
+$c = \frac{c_{v_1}}{c_u} + ... +  \frac{c_{v_{degree}}}{c_u}$, Each term in the right side $\approx 1$, so the term count should be $\Theta(c)$. The term count is the degree.
+
+(2) See the picture in Omnigraffle.
+
+(3) $T = \frac{1}{c}  + \frac{1}{c^2} + ... + \frac{1}{c^h}=O(1)$, $h$ is the tree height.
+
+(4) $T = \frac{c}{c}  + \frac{c^2}{c^2} + ... + \frac{c^h}{c^h}=h=\log_{c}{N}=O(\log N)$, $h$ is the tree height.
+
+
+LEMMA 2. When an element is inserted into a leaf , all nodes on the path from the root to  can be fetched without increasing the asymptotic complexity, as long as $M = W(B\log N)$.
+
+Define Fibonacci factor for a positive integer $h$:
+
+$\xi(h) = \begin{cases}
+  \displaystyle h & \text{if } h \text{ is a Fibonacci number,} \\
+  \displaystyle \xi(h-f) & \text{otherise, } f \text{ is the largest Fibonacci number less than } h
+\end{cases}$
+
+The buffer sizes of a node at height $h+1$ depend upon $\xi(h)$. In particular, consider a node $u$ at height $h+1$ in the tree, and let $k$ be such that $F_k = \xi(h)$.  We define the buffer-height-index function $H(j)=j- \lceil 2\log_{\phi} j \rceil$, where $\phi\approx 1.618$ is the golden ratio. Then $u$ has buffers with heights $F_{H( j)}$, for each integer $j$, $j = \Theta(1)$, . . . , $k-1$, $k$.  In other words, there are roughly $k$ buffers increasing geometrically in their heights, and the largest buffer has height $F_H(k) = F_{k-2\lceil  \log_{\phi} k\rceil}$. These settings mean that the parent node of a subtree containing roughly $K$ nodes has the largest buffer of size roughly $K^{\frac{1}{\Theta((\log \log k)^2)}}$.
+
+Use $m$ to denote the weigth of the parent:
+
+$m \approx c^{F_{k-2\lceil  \log_{\phi} k\rceil}}$\\
+$F_{k-2\lceil  \log_{\phi} k\rceil} \approx \phi^{k-2\lceil  \log_{\phi} k\rceil}
+\approx \frac{\phi^{k}}{\phi^{2\lceil  \log_{\phi} k\rceil}}
+\approx \frac{\phi^{k}}{k^2}$\\
+$m \approx c^{\frac{\phi^k}{k^2}} = (c^{\phi ^k})^{\frac{1}{k^2}}$\\
+$m \approx c^{\frac{\phi^k}{k^2}} = (c^{F_{k}})^{\frac{1}{k^2}}$\\
+$m \approx c^{\frac{\phi^k}{k^2}} = (K/c)^{\frac{1}{k^2}} \approx K^{\frac{1}{k^2}}$\\
+Since $k = \Theta(\log_{\phi} height) =\Theta(\log_{\phi} \log_c K) = \Theta(\log \log K)$
+ $K^{\frac{1}{\Theta((\log \log K)^2)}}$.
+
+
+LEMMA 3. Consider a node at height $h+1>1$ in a shuttle tree
+(i.e,. a non-leaf node). This node is the leaf of some height-$F_{k-1}$
+recursive subtree if and only if $\xi(h) F_k$.
+
+\textbf{proof}
+
+$h+1=85$, $\xi(84) = 8$, $F_6=8$, $F_5=5$
+
+Base case: $\xi(h) = F_x$, $F_x \geq F_k$
+
+Maintenance:
+\begin{itemize}
+\item If $F_x = F_k$, split tree with $F_k = F_{k-2} + F_{k-1}$,  $F_{k-1}$ is the height of the bottom subtree. Termination.
+\item If $F_x > F_k$, split tree with $F_x = F_{x-1} + F_{x-2}$,  We have $F_{x-1} \geq F_k$ since $F_{x-1} \geq F_{x-2}$. We have $F_{x-1} \geq F_k$. Recursion.
+\end{itemize}
+
+
+LEMMA 4. For a shuttle tree of height $F_k$ and fanout $c$, which contains $N = \Theta(c^{F_k})$ elements, the worst-case search cost is $O(F_k/\log B) = O(log_B N)$.
+
+\textbf{Proof}
+
+$H(j) = j - \lceil2\log_{\phi} j\rceil$
+Recurrence: $T(F_{k+1}) = T(F_{k-1}) + T(F_k) + T(F_{H(k)}) + T(F_{H(k+1)})$
+
+$T(F_k) \leq (c_1F_k-\frac{c_2F_k}{\log_{\phi}F_k})/\log B$
+
+$T(F_{k+1}) \leq (c_1F_{k+1}-\frac{c_2F_{k+1}}{\log_{\phi}F_{k+1}})/\log B$
+
+$F(F_{k+1}) \leq (c_1F_{k-1}-\frac{c_2F_{k-1}}{\log_{\phi}F_{k-1}} + c_1F_k-\frac{c_2F_k}{\log_{\phi}F_k} + c_1F_{H(k)}-\frac{c_2F_{H(k)}}{\log_{\phi}F_{H(k)}}+ c_1F_{H(k+1)}-\frac{c_2F_{H(k+1)}}{\log_{\phi}F_{H(k+1)}})/\log B$
+
+$F(F_{k+1}) \leq (c_1F_{k+1}-\frac{c_2F_{k-1}}{\log_{\phi}F_{k-1}} -\frac{c_2F_k}{\log_{\phi}F_k} + c_1F_{H(k)}-\frac{c_2F_{H(k)}}{\log_{\phi}F_{H(k)}}+ c_1F_{H(k+1)}-\frac{c_2F_{H(k+1)}}{\log_{\phi}F_{H(k+1)}})/\log B$
+
+$F(F_{k+1}) \leq (c_1F_{k+1}-(\frac{c_2F_{k-1}}{\log_{\phi}F_{k-1}} +\frac{c_2F_k}{\log_{\phi}F_k} - c_1F_{H(k)}+\frac{c_2F_{H(k)}}{\log_{\phi}F_{H(k)}} - c_1F_{H(k+1)}+\frac{c_2F_{H(k+1)}}{\log_{\phi}F_{H(k+1)}}))/\log B$
+
+We need to prove:
+
+$\frac{c_2F_{k-1}}{\log_{\phi}F_{k-1}} +\frac{c_2F_k}{\log_{\phi}F_k} - c_1F_{H(k)}+\frac{c_2F_{H(k)}}{\log_{\phi}F_{H(k)}} - c_1F_{H(k+1)}+\frac{c_2F_{H(k+1)}}{\log_{\phi}F_{H(k+1)}}\geq \frac{c_2F_{k+1}}{\log_{\phi}F_{k+1}}$
+
+$rightside\approx \frac{c_2F_{k+1}}{k+1}$
+
+$leftside\geq \frac{c_2F_{k-1}}{k-1} +\frac{c_2F_k}{k} - c_1\frac{F_k}{k^2}+\frac{c_2F_k}{k^3} - c_1\frac{F_{k+1}}{(k+1)^2}+\frac{c_2F_{k+1}}{(k+1)^3}$
+
+Make $c_1 \leq c_2$
+
+$leftside \geq \frac{c_2F_{k-1}}{k-1} +\frac{c_2F_k}{k} - c_2\frac{F_k}{k^2}+\frac{c_2F_k}{k^3} - c_2\frac{F_{k+1}}{(k+1)^2}+\frac{c_2F_{k+1}}{(k+1)^3}$
+
+
+We need to prove $\frac{c_2F_{k-1}}{k-1} +\frac{c_2F_k}{k} -
+c_2\frac{F_k}{k^2}+\frac{c_2F_k}{k^3} -
+c_2\frac{F_{k+1}}{(k+1)^2}+\frac{c_2F_{k+1}}{(k+1)^3} \geq
+\frac{c_2F_{k+1}}{k+1}$.\\
+$\frac{F_{k-1}}{k-1} +\frac{F_k}{k} - \frac{F_k}{k^2}+\frac{F_k}{k^3} -
+\frac{F_{k+1}}{(k+1)^2}+\frac{F_{k+1}}{(k+1)^3} \geq \frac{F_{k+1}}{k+1}$.\\
+$\frac{F_{k-1}}{k-1} +\frac{F_k}{k} - \frac{F_k}{k^2}+\frac{F_k}{k^3} -
+\frac{F_{k+1}}{(k+1)^2}+\frac{F_{k+1}}{(k+1)^3} \geq
+\frac{F_{k}}{k+1}+\frac{F_{k-1}}{k+1}$\\
+$\frac{2F_{k-1}}{(k-1)(k+1)} +\frac{F_k}{k(k+1)} - \frac{F_k}{k^2}+\frac{F_k}{k^3} - \frac{F_{k+1}}{(k+1)^2}+\frac{F_{k+1}}{(k+1)^3} \geq 0$
+
+$\frac{2F_{k-1}}{(k-1)(k+1)} +\frac{\phi F_{k-1}}{k(k+1)} - \frac{\phi F_{k-1}}{k^2}+\frac{\phi F_{k-1}}{k^3} - \frac{\phi^2F_{k-1}}{(k+1)^2}+\frac{\phi^2F_{k-1}}{(k+1)^3} \geq 0$
+
+$\frac{2}{(k-1)(k+1)} +\frac{\phi }{k(k+1)} - \frac{\phi }{k^2}+\frac{\phi }{k^3} - \frac{\phi^2}{(k+1)^2}+\frac{\phi^2}{(k+1)^3} \geq 0$
+
+\begin{itemize}
+\item $F_{H(k)} \approx \phi^{H(k)} = \phi^{k-\lceil2\log_{\phi}k\rceil}=\frac{\phi^k}{\phi^{\lceil2\log_{\phi}k\rceil}} \leq \frac{\phi^k}{\phi^{2\log_{\phi}k}} = \frac{\phi^k}{\phi^{\log_{\phi}k^2}}=\frac{\phi^{k}}{k^2}\approx \frac{F_k}{k^2}$
+
+\item $\log_{\phi}F_{H(k)} \approx \log_{\phi}\phi^{H(k)} = H(k)$
+
+\item $F(F_{k+1}) \leq (c_1F_{k+1}-\frac{c_2F_{k-1}}{\log_{\phi}F_{k-1}} -\frac{c_2F_k}{\log_{\phi}F_k} + c_1\frac{F_k}{k^2}-\frac{c_2F_{H(k)}}{\log_{\phi}F_{H(k)}}+ c_1\frac{F_{k+1}}{(k+1)^2}-\frac{c_2F_{H(k+1)}}{\log_{\phi}F_{H(k+1)}})/\log B$
+
+\item $\frac{F_{H(k)}}{\log_{\phi}F_{H(k)}}\approx\frac{F_k}{k^2H(k)}=\frac{F_k}{k^2(k-\lceil2\log_{\phi}k\rceil)} \geq \frac{F_k}{k^3}$
+
+\end{itemize}
+
+LEMMA 5. An n-node shuttle tree uses $O(n)$ space.
+
+\chapter{Seven Bridge Problem}
+
+https://www2.cs.duke.edu/courses/spring11/cps102/notes/lec24.pdf says:
+
+\begin{displayquote}
+An Euler circuit has been constructed if all the edges have been used.
+Otherwise, consider the subgraph $H$ obtained from $G$ be deleting the edges
+already used and vertices that are not incident with any remaining edges.
+Because $G$ is connected, H has at least one vertex in common with the
+circuit that has been deleted. Let $w$ be such a vertex.
+\end{displayquote}
+
+Use $C$ to indicate the circuit. All the edges in $G$ are divided into two sets.
+One set is edges in $C$. Color edges in $C$ with $red$. The other set is edges in
+$H$. Color edges in $H$ with $blue$.  Assume that there is no vertex which belongs
+to both $C$ and $H$. Then vertices in $G$ are divided into two sets. One set is
+vertice which only $red$ edges are incident to. The other set is vertice which
+only $blue$ edges are inciden to. Since there is no vertex which one $red$ edge
+and one $blue$ edge are incident to, there is no path between any $red$ vertex and
+any $blue$ vertex. So $G$ is disconnected, which contracts with the fact that $G$
+is connected.
+
+\chapter{Amortized Analysis}
+\section{Dynamic Table}
+Neither C++'s STL vector nor Java's ArrayList do automatic table contraction. But
+algorithm book Algorithms and CLRS both mention automatic table contraction. Here is my
+question about STL vection's hehaviour: https://stackoverflow.com/questions/52791430/will-a-stdvectors-capacity-ever-be-reduced
+
+\chapter{Basics}
+
+\section{Bit Manipulation}
+
+$x \& (x-1), x \ne 0$ will clear the right most bit of $x$. In the following
+discussion, we will use the 8 bit integer.
+
+\begin{proof}
+  First let's prove the case that $x$ is positive. For example $x = 5 =
+0000 0101, x - 1 = 4 = 0000 0100$, we have $x \& (x-1) = 0100$. If $x = 4 = 0000
+     0100$, $x = 3 = 0000 0011$, then we have $x \& (x-1) = 0000 0000$. Now consider negative integers. x =
+-6, x - 1 = -7.
+
+- x     = 6 = 0000 0110 \\
+- (x-1) = 7 = 0000 0111
+
+$-x \& -(x-1)$ will clear the right most 1 bit of $-x$ since $x$ is positive. Flip every bit until the
+rightmost $1$ will get $x$ from $-x$ and $x-1$ from $-(x-1)$. Since the flipping
+does change the result of $0 \$ 1$. $x \& (x-1)$ will also clear the right most
+1 bit of $x$. A special care need to be taken for $ x = -128 = 1000 0000$. $x -
+  1$ will overflow to $1111 1111$. The claim holds for this situation.
+\end{proof}
+
+\section{Medians and Order Statistics}
+
+For the Random-Select algorithm on Page 216 of Introduction to Algorithm, Third
+Edition, Second Printing, we can do without the local variable k. For details,
+refer to
+\href{https://mail.google.com/mail/u/0/#inbox/QgrcJHsTkLLCjNWbLPRJMmqDBRSjdplRtBl}{
+A suggestion to the Random-Select algorithm in Introduction to Algorithm, Third
+Edition, Second Printing}.
+
+$k = q - p +  1= q - (p - 1) = q - k'$ $k'$ is the $k$ in the previous
+iteration. And $i = i - k'$. So the CRLS version and my version both works.
+
+\section{Array Partition}
+There are three ways to partition a array $A[l..r]$. Use $x$ to denote the pivot
+element.
+
+\begin{itemize}
+  \item CLRS way. This will split the array to three parts: $A[l..i-1]$ whose
+    elements are are less than or equal to $x$, $A[i] = x$, $A[i+1..r]$ whose
+    elements are all greater than $x$.
+  \item Shu Ju Jie Gou book way. This will split the array to three parts: $A[l..i-1]$ whose
+    elements are $\le x$, $A[i] = x$, $A[i+1..r]$ whose
+    elements are $\ge x$.
+  \item \href{https://www.jiuzhang.com/solution/kth-largest-element/#tag-highlight-lang-python}{Jiuzhang Python solution}
+    There are two cases.
+    \begin{enumerate}
+      \item Split the array to three parts: $A[l..i-1]$ whose
+        elements are $\le x$, $A[i] = x$, $A[i+1..r]$ whose
+        elements are $\ge x$.
+      \item Split the array to two parts: $A[l..i-1]$ whose
+        elements are $\le x$, $A[i..r]$ whose
+        elements are $\ge x$. We don't know whether $A[i-1]$ or $A[i]$ is equal to $x$.
+    \end{enumerate}
+\end{itemize}
+
+
+\end{document}

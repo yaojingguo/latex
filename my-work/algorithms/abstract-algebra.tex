@@ -1,0 +1,44 @@
+\documentclass{book}
+
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{extarrows}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{
+	cd,
+	math,
+	decorations.markings,
+	decorations.pathreplacing,
+	positioning,
+	arrows.meta,
+	circuits.logic.US,
+	shapes,
+	calc,
+	fit,
+	quotes}
+
+
+\begin{document}
+If $a \ne 0$, $b = qa + c$, then $a|b$ iff $a|c$.
+
+\begin{proof}
+  If $a|c$, we have $c = aq'$. $b = qa + c = qa + aq' = a(q + q')$. So $a|b$. If
+  $a|b$, we have $b = as$. We already have $b = qa +c$. Combine these two
+  equatiosn to have $as = qa +c$. $c = a(s -q)$. $a|c$.
+\end{proof}
+
+$a \equiv b \pmod{m}$ iff $a = q_1 m + r_1, 0 \le r_1 < m$ and $b = q_2 m + r_2,
+0 \le r_2 < m$, and $r_1 = r_2$.
+
+\begin{proof}
+  From the left side, $a - b = (q_1 - q_2) m + (r_1 - r_2)$. From $m|a-b$, we
+  have $m|r_1 - r_2$. And $ 0 \le |r_1 - r_2| < m$, we can have $r1 - r2 = 0$,
+  i.e. $r_1 = r_2$.\\
+  From the right side, we have $a - b = (q_1 - q_2) m$. So $m|a-b$. $a \equiv b
+  \pmod{m}$.
+\end{proof}
+
+\end{document}

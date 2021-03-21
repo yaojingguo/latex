@@ -1,0 +1,538 @@
+\documentclass[12pt,twoside]{article}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{url}
+\usepackage{xcolor,graphicx}
+\usepackage{clrscode3e}
+\graphicspath{ {images/} }
+\usepackage{csquotes}
+
+\begin{document}
+
+\section{PSet 3}
+
+In the analysis of (s), there is the following sentence:
+
+\begin{displayquote}
+Since the $l$ node is in the $x$ node's right subtree, it follows that $l < y$ (by the BST’s invariant).
+\end{displayquote}
+
+
+It should be:
+
+
+\begin{displayquote}
+Since the $l$ node is in the $y$ node's left subtree, it follows that $l < y$ (by the BST’s invariant).
+\end{displayquote}
+
+The analysis given in the solution is complicated. Here is another way to
+analyze it. A slight modifiation to the $\proc{Node-List}$ function results:
+
+\begin{codebox}
+\Procname{$\proc{Node-List}(x, l, h, result)$}
+\li \If $x \ne nil$
+\li \Then \If $x.key \ge l$
+\li \Then $\proc{Node-List}(x.left, l, h, result)$
+\End
+\li \If $l \le x.key$ and $x.key \le h$
+\li \Then $\proc{Add-Key}(result, x.key)$
+\End
+\li \If $x.key \le h$
+\li \Then $\proc{Node-List}(x.right, l, h, result)$
+\End
+\End
+\end{codebox}
+
+This function produces the same result as the original version. But it has the
+same structure as $\proc{Inorder-Tree-Walk}$. Use $a$ node to indicate the
+largest node which satisfy $a.node < l$. Use $b$ node to indicate the largest 
+node which satisfy $b.key \le  h$.
+
+
+The folloing code has the same time complexity as the $\proc{List}$ given in
+$(s)$ and it is much simpler:
+
+\begin{codebox}
+\Procname{\proc{List}(x, l, h, result)}
+\li \If $x = nil$
+\li \Then \Return
+\End
+\li $cmpl = \proc{Compare}(l, x.key)$
+\li $cmph = \proc{Compare}(h, x.key)$
+\li \If $cmpl \le 0$
+\li \Then $\proc{List}(x.left, l, h, result)$
+\End
+\li \If $cmpl \le 0$ and $cmph \ge 0$
+\li \Then $\proc{Add-Key}(result, x.key)$
+\End
+\li \If $cmph \ge 0$
+\li \Then $\proc{List}(x.right, l, h, result)$
+\End
+
+
+
+\end{codebox}
+
+
+\begin{enumerate}
+\item Finding $a$ node which costs $O(\log n)$.  
+\item After vistitng $a$ node and before visiting $b$ node in an inorder tree walk, all
+visited nodes are wanted. So it cost $O(L)$. 
+\item Visiting $b$ node which costs $O(1)$.
+\item After visiting $b$ node, all nodes are not wanted. $\proc{Node-List}$ will
+  not make any recursion call of $\proc{Node-List}$. The recursion path will be
+  continuously popped off. Use $x$ indicate any node in the recursion path. If
+  $b$ is in $x$'s left subtree, we can have $x.key > b > h$. Line 7 will be
+  skipped. If $x$ is in $x$'s right subtree, it means that Line 7 has been
+  called. So $\proc{Node-List}$ for $x$ will not do any recursion call.
+ 
+\end{enumerate}
+
+
+\section{PSet 5}
+
+\begin{codebox}
+\Procname{$\proc{KthRoot}(A, K, N)$}
+\li \Return $\proc{KthRoot}(A, 1, A, K, N)$
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{KthRoot}(A, L, H, K, N)$}
+\li $M = \lfloor(L+H)/2\rfloor $
+\li $cmp = \proc{Probe}(A, M, K, N)$
+\li \If $cmp \isequal \proc{Equal}$
+\li \Then \Return $M$
+\li \ElseIf $cmp \isequal \proc{Greater}$
+\li \Then \Return $\proc{KthRoot}(A, M+1, H, K, N)$
+\li \ElseIf $cmp \isequal \proc{Smaller}$
+\li \Then \Return $\proc{KthRoot}(A, L, M-1, K, N)$
+\End
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Probe}(A, M, K, N)$}
+\li $A2 = \proc{Zero}(2N)$
+\li \For $i = 1$ \To $N$
+\li \Do $A2[i] = A[i]$
+\End
+\li $P = 1$
+\li \For $i = 1$ \To $K$
+\li \Do $P = \proc{Multiply}(P, M, N)$
+\li $cmp = \proc{Cmp}(A2, P, N)$
+\li \If $cmp \isequal \proc{Equal}$
+\li \Then \Return $\proc{Equal}$
+\li \ElseIf $cmp \isequal \proc{Smaller}$
+\li \Then \Return $\proc{Smaller}$
+\End
+\End
+\li $M = M + 1$
+\li $P = 1$
+\li \For $i = 1$ \To $K$
+\li \Do $P = \proc{Multiply}(P, M, N)$
+\li $cmp = \proc{cmp}(A2, P, N)$
+\li \If $cmp \isequal \proc{Smaller}$
+\li \Then \Return $\proc{Equal}$
+\End
+\End
+\li \Return $\proc{Greater}$
+\end{codebox}
+
+\section{PSet 6}
+\subsection{Problem 6-1}
+
+\begin{codebox}
+\Procname{$\proc{RenBook}(s, Adj, ER, k)$}
+\li $st = \{s: 1\}$
+\li $i = 1$
+\li $frontier = [s]$
+\li \While $frontier$ and $i \le k$
+\li \Do $next = []$
+\li $T = \{\}$
+\li \For $u \In frontier$
+\li \Do \For $v \In Adj[u]$
+\li \Do $strength = st[u] \cdot ER[(u, v)]$
+\li \If $v \Not\In st $ or $strength > st[v]$
+\li \Then $T[v] = strength$
+\li $next.append(v)$
+\End \End \End
+\li \For $v$ \In $T$:
+\li \Do $st[v] = T[v]$ \End
+\li $frontier = next$
+\li $i = i + 1$
+\End \End
+\li \Return $st$
+\end{codebox}
+
+This algorithm is similar to a breadth-first search. The only difference is that
+an edge may be put into next at most $k$ times. So the algorithm complexity is
+$O(kE+V)$.
+
+\begin{proof} Loop invariant proof.
+
+
+\textbf{Invariant}: At the start of $i$ iteration of the \textbf{while} loop of
+line 4-13, $st$ contains the strengths of the strongest connnections from $s$ to
+any $v \in V$ with edge length at most $i-1$.
+
+\textbf{Initialization}: Prior to the 1st iteration, $st = \{s: 1\}$ which
+contains the strength of the the strongest connnections with at most $0$ edges.
+The invariant is true.
+
+\textbf{Maintenance}: Before a iteration, $st$ contains the strength of at most
+$i-1$ edges. line 6-11 will check all connections with $i$ edges. If the
+connection to $v$ does not exist or the connection to $v$ is stronger than the
+strongest connection with at most $i-1$ edges, the connection to $v$ is updated.
+So after line-12, $st$ contains the strength of at most $i$ edges. line-13
+increases $i$, so the beginnging of next iteration, $st$ contains the strength
+of at most $i-1$ edges.
+
+\textbf{Termination}: The loop terminates when $i \isequal k+1$. At that time,
+$st$ contains the strengths of at most $k$ edges.
+
+\end{proof}
+
+\subsection{Problem 6-2}
+\textbf{(a)}: Construct a directed graph $G = (V, E)$. Each libary is a vertex
+in $V$. If $v$ depends on $u$, there is edge $(u, v) \in e$. Vertex $w$
+represents the web server library. Do a topological sort on $G$, store the
+result in list $order$. List $order$ stores the installation order.
+%if $v$ depends on $u$, there is edge $(u, v) \in e$. vertex $w$ represents the
+%web server library. append $u$ to list $order$ at the end of
+%$\proc{dfs-visit}(g, u)$. after doing $\proc{dfs-visit}(g, w)$,  list $order$
+%contains the installation order.
+
+\textbf{(a)}: Construct a directed graph $G = (V, E)$. Each libary is a vertex
+in $V$. If $u$ depends on $v$, there is edge $(u, v) \in e$. Vertex $w$
+represents the web server library.
+
+\begin{codebox}
+\Procname{$\proc{Install-Order}(w, Adj, parent, install)$}
+\li \Comment Hashtable $parent$ already contains an entry for every instaled library
+\li $parent[w] = None$
+\li $\proc{Dfs-Visit}(u, Adj, parent, install)$
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Dfs-Visit}(u, Adj, parent, install)$}
+\li \For $v$ \In $Adj[u]$
+\li \Do \If $v$ \Not \In $parent$
+\li \Then $parent[v] = u$
+\li $\proc{Dfs-Visit}(v, Adj, parent, install)$
+\End \End
+\li \Comment List $install$ contains the installation order
+\li $install.append(u)$
+\end{codebox}
+
+\begin{proof}: The loop invariant is that all vertices reachable from $u$ have
+  been appended to list $order$. For each such vertex $v \in V'$, there is a
+  simple path from $u$ to $v$.
+
+\textbf{Initialization}: If $u$'s out-degree is 0, there is no reachable
+vertices from $u$.  The loop invariant holds.
+
+\textbf{Maintenance}: Assume that for $v$ in $\proc{Dfs-Visit}$, the loop
+invariant holds. So before calling $\proc{Dfs-Visit}(u, ...)$.
+\begin{enumerate}
+\item All reachable vertices for each $v$ have been appended to list $order$.
+\item Each $v$ has been appended just after its dependent vertices.
+\end{enumerate}
+
+And $u$'s reachable vertices can be divided into 2 parts:
+
+\begin{enumerate}
+\item The path from $u$ to such a vertex has lenght 1. These vertex are adjacent
+  to $u$.
+\item The path from $u$ to such a vertex has length bigger than 1.
+\end{enumerate}
+
+So it is obvious that all vertices reachable from $u$ have been appened to list
+$order$.
+
+\textbf{Termination}: Before calling $\proc{Dfs-Visit}(w, ...)$, all vertices
+reachable from $w$ have been appended to list $order$. So for all the reachable
+vertices from it has been appended to list $order$. After $w$ is appended to
+list $order$, $order$ contains the installation order.
+
+\end{proof}
+\begin{codebox}
+\Procname{$\proc{Topological-Sort}(G)$}
+\li $degree = \{\}$
+\li \For $u$ \In $G.V$
+\li \Do \For $v$ \In $G.adj[u]$
+\li \Do $degree[v] = degree[v] + 1$
+\End \End
+\li $frontier = []$
+\li \For $u$ \In $degree$:
+\li \Do \If $degree[u] \isequal 0$
+\li \Then $frontier.append(u)$
+\End \End
+\li $order = []$
+\li \While $frontier$
+\li \Do $order.extend(frontier)$
+\li $next = []$
+\li \For $u$ \In $frontier$
+\li \Do \For $v$ \In $G.adj[u]$
+\li \Do $degree[v] = degree[v] - 1$
+\li \If $degree[v] \isequal 0$
+\li \Then $next.append(v)$
+\End \End \End
+\li $frontier = next$
+\End \End \End
+\End
+\li \Return $order$
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Find-Max-Bids}(bids)$}
+\li $w = \{\}$
+\li \For $i$ from 1 \To $n+1$
+\li \Do $g.adj[i] = []$
+\End
+\li \For $i$ from 1 \To $n$
+\li \Do $g.adj[i] = i+1$
+\li $w[(i, i+1)] = 0$
+\End
+\li \Comment (s, e, price)
+\li \For $b$ \In $bids$
+\li \Do
+$s = b.s$
+\li $e = b.e + 1$
+\li \If $(s, e)$ not in $w$ or $b.p > w[(b, e)]$
+\li \Then $w[(s, e)] = b.p$
+\li $g.adj[s] = [e]$
+\End \End
+\li \For $w$ in $W$
+\li \Do $W[w] = -W[w]$
+\End
+\li $\proc{Dag-Shortest-Paths}(g, w, 1)$
+\End
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Multiset-Ksum}(n, K, S, s)$}
+\li \For $j$ in $\{0, 1...S\}$
+\li \Do \For $k$ in $\{0, 1...K\}$
+\li \Do \If $j \isequal 0$ and $k \isequal 0$
+\li \Then $dp[j][k] = 1$
+\li \ElseIf $j \isequal 0$ or $k \isequal 0$
+\li \Then $dp[j][k] = 0$
+\li \Else $choices = []$
+\li \For $i$ in $\{0, 1...n-1\}$
+\Do \li \If $j-s[i] \ge 0$ and $k > 0$
+\li \Then $choices.append(dp[j-s[i]][k-1]+v[i])$
+\End \li $dp[j][k] = \proc{MAX}(choices)$
+\End \End \End
+\li \Return $dp[S][K]$
+\end{codebox}
+
+If the strategy in the above algorithm is employed to solve $\proc{KSum}$
+problem, $choices$ can only be made from bars which have not been chosen. So
+with DP top-down approach, bars which have not been chosen must be remembered.
+With DP bottom-up, it seems that this strategy does not work.
+
+
+\begin{codebox}
+\Procname{$\proc{StockLimited}()$}
+\li create a table $profit$
+\li create a table $purchase$
+\li \For $cash = 0$ to $total$
+\li \Do $profit[cash, 0] = cash$
+\li $purchase[cash, 0] = 0$
+\li \For $stock = 1$ to count
+\li \Do $profit[cash, stock] = profit[cash, stock-1]$
+\li $purchase[cash, stock] = 0$
+\li \If $start[stock] \le cash$
+\li \Then $leftover = cash - start[stock]$
+\li \If $purchase[leftover, stock] < limit[stock]$
+\li \Then $current = end[stock] + profit[leftover, stock]$
+\li \If $profit[cash, stock] < current$
+\li \Then $profit[cash, stock] = current$
+\li $purchase[cash, stock] = purchase[leftover, stock] + 1$
+\End \End \End \End \End
+\li \Return $profit[total][count]$
+\end{codebox}
+
+Time complexity is $\Theta(total \cdot count)$. Recurrence relation:
+
+\begin{equation}
+profit[c, s] = max
+\begin{cases}
+profit[c, s-1], \\
+profit[c-start[s], s] + end[s] & \text{if } purchase[c-start[s], s] < limit[s]
+ \end{cases}
+\end{equation}
+This algorithm is similar to $\proc{Stock-Table-A}$. $purchase[cash, stock]$ is
+used to remember how many shares of $stock$ is bought. When deciding where to
+buy a share of $stock$, the algorithm ensures that there is enough $cash$ and
+the count of $stock$ shares does exceed $limit[stock]$.
+
+\begin{codebox}
+\Procname{$\proc{Largest-Square-Parking-Space}(A, n)$}
+\li create table $s[n][n]$
+\li \For $i=0$ to $n-1$
+\li \Do $S[i][0] = A[i][0]$
+\li \For $j=1$ to $n-1$
+\Do
+\li \For $k=i$ to $i-s[i][j-1]+1$
+\Do \li \If $A[k][j] \isequal 0$
+\li \Then $s[i][j] = k - i$
+\li \textbf{continue}
+\End \End
+\li \If $A[i-s[i][j-1]][j] \isequal 1$ and $s[i-1][j-1] == s[i][j-1]$
+\li \Then $s[i][j] = s[i][j-1] + 1$
+\li \Else $s[i][j] = s[i][j-1]$
+\End \End \End
+\li $largest = 0$
+\li \For $i = 0$ to $n-1$
+\Do \li \For $j = 0$ to $n-1$
+\Do \li \If $s[i][j] > largest$
+\li \Then $largest = s[i][j]$
+\End \End \End
+\li \Return $largest$
+\end{codebox}
+Running time complexity: $O(n^3)$
+
+
+\begin{codebox}
+\Procname{$\proc{Binary-Search}(A, k)$}
+\li $l = 0$
+\li $h = A.length - 1$
+\li \While $l \le h$
+\li \Do $m = \lfloor(l + h) / 2\rfloor$
+\li \If $k < A[m]$
+\li \Then $h = m -1$
+\li \ElseIf $k > A[m]$
+\li \Then $l = m + 1$
+\li \Else \Return $m$
+\End \End
+\li \Return $h+1$
+\end{codebox}
+$\proc{Binary-Search}$ returns the index for the given key $k$ if $k$ exists in
+the array. Otherwise, it returns the index where $k$ should be inserted into the
+array. The proof is for the latter case.
+
+\noindent \hangindent=3ex \textbf{Loop Invariant}: $A[-1...l-1] < k$ and
+$A[h+1...n] > k$ ($n$ is $A.length$) just prior to the $i$th iteration of loop
+lines 3-9.
+
+\noindent \hangindent=3ex \textbf{Initialization:} Add imaginary items $A[-1] =
+-\infty$ and $A[n] = \infty$. Before the first iteration, $l = 0$ and $h = n-1$.
+So $A[l-1] = A[-1] = -\infty < k$ and $A[h+1] = A[n] = \infty > k$.
+
+\noindent \hangindent=3ex \textbf{Maintenance:} Assume that $A[l-1] < k$ and
+$A[h+1] > k$ before the $i$th iteration. If $k < A[m]$, only $h$ is changed to
+$h'$. $h' = m - 1$. So $A[h'+1] = A[m] > k$. And since the array is sorted,
+$A[i] >= A[h'+1]$ for $i > h'+1$. We have $A[h'+1...n] > k$. So the invariant
+holds before the next iteration for this case.  The case for $k > A[m]$ is
+similar.
+
+\noindent \hangindent=3ex \textbf{Termination:} At termination, $h = l -1$,
+$A[l...h]$ is empty. From $A[l-1] < k$ and $A[l-1] = A[h]$, we have $A[h] < k$.
+So we have $A[h] < k$ and $A[h+1] > k$.
+
+
+The correctness of the following $\proc{Rank}$ can be proved similarly.
+\begin{codebox}
+\Procname{$\proc{Rank}(A, k)$}
+\li $l = 0$
+\li $h = A.length - 1$
+\li \While $l \le h$
+\li \Do $m = \lfloor(l + h) / 2\rfloor$
+\li \If $k < A[m]$
+\li \Then $h = m -1$
+\li \ElseIf $k > A[m]$
+\li \Then $l = m + 1$
+\li \Else \Return $m$
+\End \End
+\li \Return $l$
+\end{codebox}
+
+\section{Recitation 10}
+The following is a update version of \textbf{Problem 3. Divide and Conquer}.
+
+\textbf{my comment}: The lengthes of $l1$ and $l2$ can be different. Assume that
+$l1$'length is $p$ and $l2$'s length is $q$. If $p$ or $q$ is less than $n$,
+append $\infty$ to the end of the respective array.
+
+Suppose we are searching the interval $(a, b)$. Let $i$ and $j$ be indices into
+$l1$ and $l2$, respectively. We'll start with $i = (a + b)/2$ (halfway through
+the search range) and then $j=n-i-2$. $i+j+1=n-1$ can be derived. This way, if we've chosen $i$ and
+$j$ properly, we're looking at the $n$th-smallest element.
+
+Compare $l1[i]$, $l1[i + 1]$, $l2[j]$, and $l2[j + 1]$. If $l1[i] < l2[j]$ and
+$l1[i + 1] > l2[j]$ then we've
+found the right interleaving of the two lists; $l2[j]$ is greater than exactly
+$i + 1 + j  = n - 1$
+elements (and therefore is the $n$th-smallest), and is our answer. Symmetrically,
+if $l2[j] < l1[i]$ and
+$l2[j + 1] > l1[i]$, then we return $l1[i]$.
+If both $l1[i]$ and $l1[i + 1]$ are less than $l2[j]$, then the rank of $l2[j]$ is greater than n, and we need to
+take more elements from $l1$ and fewer from $l2$. We recurse on the upper half of the search interval,
+letting $a = i + 1$. In the opposite case, we recurse on the lower half, and let
+$b = i - 1$.
+
+\textbf{my comment}: For $a=i+1$ case, the elements less than $a[i]$ is at most
+$i+j=n-2$. So any element in $l1[0..i]$ can't be the $n$th element. The element less than $a[j]$
+is at least $(i+2)+j=n$. So any element in $l2[j..(n-1)]$ can't be the $n$th element.
+
+\begin{codebox}
+\Procname{$\proc{FindNth}(a, b)$}
+\li $i = \lfloor(a+b)/2\rfloor$
+\li $j = n - i - 2$
+\li \If $l1[i] < l2[j]$
+\li \Then \If $l1[i+1] > l2[j]$
+\li \Then \Return $l2[j]$
+\li \Else \Return $\proc{FindNth}(i+1, b)$
+\End
+\li \Else \If $l2[j+1] > l1[i]$
+\li \Then \Return $l1[i]$
+\li \Else \Return $\proc{FindNth}(a, i-1)$
+\End
+\End
+\end{codebox}
+
+Since we are halving the size of the problem each time we recurse, and each call
+involves constant work, this is a logarithmic-time solution. The relevant
+reccurence is $T(n) = T (n/2) + Θ(1)$.
+
+\begin{codebox}
+\li $l1[-1] = -\infty$
+\li $l1[n] = \infty$
+\li $l2[-1] = -\infty$
+\li $l1[n] = \infty$
+\end{codebox}
+
+And $i$'s range needs to be $[-1, n-1]$.
+
+\includegraphics[scale=0.1]{1}
+
+
+The following code alsow allow duplicated elements in $l1$ and $l2$.
+
+\begin{codebox}
+\Procname{$\proc{FindNth}(a, b)$}
+\li $i = \lfloor(a+b)/2\rfloor$
+\li $j = n - i - 2$
+\li \If $l1[i] \le l2[j]$
+\li \Then \If $l1[i+1] \ge l2[j]$
+\li \Then \Return $l2[j]$
+\li \Else \Return $\proc{FindNth}(i+1, b)$
+\End
+\li \Else \If $l2[j+1] \ge l1[i]$
+\li \Then \Return $l1[i]$
+\li \Else \Return $\proc{FindNth}(a, i-1)$
+\End
+\End
+\end{codebox}
+
+The following digrams shows Line $6$ case.
+
+\includegraphics[scale=1]{2}
+
+Implies since $l2[j] > l1[i+1] \ge l1[i]$:
+
+\includegraphics[scale=1]{3}
+
+\end{document}
+

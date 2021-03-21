@@ -1,0 +1,3311 @@
+\documentclass{book}
+
+\usepackage{clrscode3e}
+\usepackage{upgreek}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{mathabx}
+\usepackage{CJKutf8}
+
+\begin{document}
+\begin{CJK}{UTF8}{gkai}
+\part{Foundations}
+\chapter{The Role of Algorithms in Computing}
+\chapter{Get Started}
+\chapter{Growth of Functions}
+
+Why $F_i=\lfloor \frac{\phi ^ i}{\sqrt{5}} + \frac{1}{2} \rfloor$?
+
+$\frac{|\hat{\phi}^i|}{\sqrt{5}} < \frac{1}{\sqrt{5}} < \frac{1}{2}$
+
+$F_i = \frac{\phi ^ i}{\sqrt{5}} + \frac{1}{2} - (\frac{1}{2}+ \frac{\hat{\phi}^i}{\sqrt{5}})$
+
+$F_i + (\frac{1}{2}+ \frac{\hat{\phi}^i}{\sqrt{5}})= \frac{\phi ^ i}{\sqrt{5}} + \frac{1}{2}$
+
+$\frac{1}{2}+ \frac{\hat{\phi}^i}{\sqrt{5}} \leq \frac{1}{2}+ \frac{|\hat{\phi}^i|}{\sqrt{5}} < \frac{1}{2} + \frac{1}{2}=1$
+
+$\frac{1}{2}+ \frac{\hat{\phi}^i}{\sqrt{5}} \geq \frac{1}{2} - \frac{|\hat{\phi}^i|}{\sqrt{5}} > \frac{1}{2} - \frac{1}{2}=0$
+
+So $0<\frac{1}{2}+ \frac{\hat{\phi}^i}{\sqrt{5}}<1$
+
+$F_i<F_i + (\frac{1}{2}+ \frac{\hat{\phi}^i}{\sqrt{5}})<F_i+1$
+
+ $F_i<\frac{\phi ^ i}{\sqrt{5}} + \frac{1}{2}<F_i+1$
+ 
+ So $F_i=\lfloor \frac{\phi ^ i}{\sqrt{5}} + \frac{1}{2} \rfloor$
+
+\subsection*{3.2-6}
+
+$\phi^2=(\frac{1+\sqrt{5}}{2})^2=\frac{3+\sqrt{5}}{2}$ and $\phi +
+1=\frac{1+\sqrt{5}}{2} = \frac{3+\sqrt{5}}{2}$. So $\phi$ satisfies $x^2=x+1$
+
+$\hat{\phi}^2=(\frac{1-\sqrt{5}}{2})^2=\frac{3-\sqrt{5}}{2}$ and $\hat{\phi} +
+1=\frac{1-\sqrt{5}}{2} = \frac{3-\sqrt{5}}{2}$. So $\hat{\phi}$ satisfies $x^2=x+1$
+
+\subsection*{3.2-7}
+$F_0 = 0$ and $\frac{\phi^0 - \hat{\phi}^0}{\sqrt{5}}=\frac{1-1}{\sqrt{5}}=0$
+
+$F_1=1$ and $\frac{\phi^1 - \hat{\phi}^1}{\sqrt{5}}=\frac{\frac{1+\sqrt{5}}{2}
+-\frac{1-\sqrt{5}}{2}}{\sqrt{5}}$
+
+Assume $F_i = \frac{\phi^i-\hat{\phi}^i}{\sqrt{5}}$ for $i \geq 1$.
+
+
+\begin{align*}
+  F_{i+1}  & = F_{i} + F_{i-1} \\
+            &  = \frac{\phi^i - \hat{\phi}^i}{\sqrt{5}} + \frac{\phi^{i-1} -
+\hat{\phi}^{i-1}}{\sqrt{5}} \\
+&  = \frac{\phi^i - \hat{\phi}^i + \phi^{i-1}- \hat{\phi}^{i-1}}{\sqrt{5}} \\
+            &  = \frac{(\phi^i + \phi^{i-1})- (\hat{\phi}^i + \hat{\phi}^{i-1})}{\sqrt{5}}
+\end{align*}
+
+Since $\phi^i + \phi^{i-1}=\phi^{i-1}(\phi+1)=\phi^{i-1}\cdot\phi^2=\phi^{i+1}$
+and $\hat{\phi}^i +
+\hat{\phi}^{i-1}=\hat{\phi}^{i-1}(\hat{\phi}+1)=\hat{\phi}^{i-1}\cdot\hat{\phi}^2=\hat{\phi}^{i+1}$.
+We have $F_{i+1}=\frac{\phi^{i+1}-\hat{\phi}^{i+1}}{\sqrt{5}}$
+
+\chapter{Divide-and-Conquer}
+\subsection*{Unknown point list}
+\begin{itemize}
+\item solution to 4.3-i
+\item permutation and fixed point (mentioned in solution to 5.2-4)
+\end{itemize}
+
+\section{The maximum-subarray problem}
+\section{Strassen's algorithm for matrix multiplication}
+\section{The substitution method for solving recurrences}
+
+\subsection*{4.3-6}
+Show that the solution to $T(n) = 2T(\lfloor n/2 \rfloor + 17) + n$ is $O(n \lg n)$.
+
+Assume that $T(n) = 1$, for all $0 < n < 35$. We need to show that for some $n_0 > 0$, 
+and some fixed constant $c > 0$,
+\begin{align*}
+T(n) \le cn\lg n
+\end{align*}
+for all $n \ge n_0$. Let $n_0 = 35$.
+
+If $T(n) \le c(n-34)\lg(n-34) - n$ then $T(n) \le cn\lg n$ by the transitivity of 
+inequalities because $c(n-34)\lg(n-34) -n \le cn\lg n$. 
+
+\textbf{Base case:} let $n = 36$.
+\begin{align*}
+T(35) = 2T(34) + 35 = 2 + 35 = 37 \\
+T(36) = 2T(35) + 36 = 2 * 37 + 36 = 110
+\end{align*}
+and $c(n-34)\lg(n-34)-n = c2\lg2 - 36 = 2c - 36 \ge 110$ when $c \ge 73$.
+
+\textbf{Inductive step}: Suppose $T(n) \le c(n-34)\lg(n-34) - n$ for all $n\ge n_0$.
+\begin{align*}
+T(n)  & = 2T(\lfloor n/2 \rfloor + 17) + n \\
+& \le 2(c((\lfloor n/2 \rfloor+17)-34)\lg((\lfloor n/2\rfloor+17)-34)-(\lfloor n/2 \rfloor + 17)) + n \\
+& \le 2(c(n/2+17-34)\lg(n/2+17-34)-((n-1)/2+17)) + n \\
+& = c(n-34)\lg((n-34)/2)-(n-1+34) + n \\
+& = c(n-34)(\lg(n-34)-\lg2)-33 \\
+& = c(n-34)(\lg(n-34)-1)-33 \\
+& = c(n-34)\lg(n-34) -cn+34c-33 \\
+& = c(n-34)\lg(n-34) - n + ((1-c)n + 34c - 33) \\
+& \le c(n-34)\lg(n-34) -n 
+\end{align*}
+The last inequality holds when 
+\begin{align*}
+((1-c)n+34c-33) <= 0 \\
+n\ge(34c-33)/(c-1) 
+\end{align*}
+Let $c = 73$. The above inequality results $n \ge 35$. Therefore, $T(n) = O(n\lg n)$.
+
+\subsection*{4.3-b}
+We guess by the means of recursion tree. The size of level $i$ is $n/3^i$. Solve 
+$n/3^i = 1$, we have $\log_3 n$. So the depth of the recursion tree is $\log_3n$. 
+Level cost is 
+\begin{equation}
+\frac{3^i (n/3^i)}{\lg(n/3^i)} = \frac{n}{\lg3(\log_3 n - i)}
+\end{equation}
+
+The sum for all levels is
+
+\begin{align*}
+\sum_{i=0}^{\log_3 n - 1} \frac{n}{\lg3(\log_3 n - i)} & = \frac{n}{\lg3}\sum_{i=1}^{\log_3 n} \frac{1}{i} \\
+& = \frac{n}{\lg3} \Uptheta (\lg\log_3 n) \\
+& = \Uptheta(n\lg\log_3 n) \\
+& = \Uptheta(n\lg\lg n)
+\end{align*}
+
+We will show  $T(n)\le \log_3 2 \cdot n(1 + H_{\lfloor log_3 n \rfloor})$ and 
+$T(n)\ge \log_3 2 \cdot n \cdot H_{\lceil \log_3 n \rceil}$,
+where $H_k = 1 + 1/2 + 1/3 + \dotsi + 1/k$. We also define $H_0 = 0$.
+Since $H_k = \Uptheta(\lg k)$, 
+we have that $H_{\lfloor\log_3 n\rfloor} = \Uptheta(\lg\lfloor \log_3 n \rfloor)
+= \Uptheta(\lg\log_3 n)$ and $H_{\lceil\log_3 n\rceil} = \Uptheta(\lg\lceil \log_3 n \rceil)
+= \Uptheta(\lg\log_3 n)$.
+
+The base case for the proof is for $n=1$, and we use $T(1) = 1$. Here, $log_3 n = 0$, 
+so that $log_3 n = \lfloor\log_3 n\rfloor = \lceil\log_3 n\rceil$. Since $H_0 = 0$, we 
+have $T(1) = 1 \le 1(1+H_0)$ and $T(1) = 1 \ge 0 = 1 \cdot H_0$.
+
+For the upper bound of $T(n) \le n(1+H_{\lfloor \log_3 n \rfloor})$, we have
+
+\begin{align*}
+T(n) & = 3T(n/3) + n /\lg n \\
+& \le 3\log_3 2 \cdot (n/3)(1+H_{\lfloor\log_3 \frac{n}{3} \rfloor}) + n/\lg n \\
+& = \log_3 2 \cdot n(1+H_{\lfloor\log_3 n - 1\rfloor}) + \log_3 2 \cdot n/\log_3 n \\
+& = \log_3 2 \cdot n(1+H_{\lfloor\log_3n -1\rfloor} + 1/\log_3 n) \\
+& \le \log_3 2 \cdot n(1+H_{\lfloor \log_3 n \rfloor - 1} + 1/\lfloor \log_3 n \rfloor) \\
+& = \log_3 2 \cdot n(1+H_{\lfloor \log_3 n \rfloor})  
+\end{align*}
+where the last line follows from the identity $H_k = H_{k-1} + 1/k$. 
+The lower bound of $T(n)\ge \log_3 2 \cdot n \cdot H_{\lceil \log_3 n \rceil}$ is similar:
+\begin{align*}
+T(n) & = 3T(n/3) + n/\lg n \\
+& \ge 3\log_3 2 \cdot (n/3)H_{\lceil\log_3\frac{n}{3}\rceil} + n/\lg n \\ 
+& = \log_3 2 \cdot n(H_{\lceil\log_3 n - 1\rceil} + 1/\log_3 n) \\
+& \ge \log_3 2 \cdot n(H_{\lceil\log_3 n\rceil - 1} + 1/\lceil\log_3 n \rceil) \\
+& = \log_3 2 \cdot n \cdot H_{\lceil\log_3 n\rceil}
+\end{align*}
+
+\subsection*{4.3-d}
+If there is not $-2$ in $n/3-2$, $T(n) = \Uptheta(n\lg n)$ from the master
+theorem. So the guess is $T(n)=\Uptheta(n\lg n)$. 
+
+The base case is $T(1)=T(2)=1$.
+
+First, we prove that
+$T(n)=O(n\lg n)$. We assume that $T(n) \le c\cdot (n+3)\lg(n+3)$.
+\begin{align*}
+T(n) & = 3T(n/3-2) + n/2 \\
+& \le 3\cdot c\cdot ((n/3-2)+3)\lg((n/3-2)+3) \\
+& = c(n+3)(\lg(n+3) - 1) + n/2 \\
+& = c(n+3)\lg(n+3) + (1/2-c)n- 3c \\
+& = c(n+3)\lg(n+3) - 3/2 \\
+& \le c(n+3)\lg(n+3) 
+\end{align*}
+Choose $c=1/2$. $T(2) = 1 \le 3/2\cdot (2+3)\lg(2+3)$ and $T(1) = 1 \le
+3/2\cdot (1+3)\lg(1+3)$.
+
+Second, we prove that $T(n) = \Omega(n\lg n)$. We assume that 
+$T(n) \ge c(n+3)\lg(n+3)$.
+\begin{align*}
+T(n) & \ge c(n+3)\lg(n+3) + (1/2-c)n - 3c \\
+& = c(n+3)\lg(n+3) + \frac{49}{100}n-3/100 \\
+& \ge c(n+3)\lg(n+3)
+\end{align*}
+Choose $c=1/100$. $T(2) = 1 \ge 1/100\cdot(2+3)\lg(2+3)$ and 
+$T(1) = 1 \ge 1/100\cdot(1+3)\lg(1+3)$.
+
+\subsection*{4.3-i uncomplete}
+$T(n) = T(n-2) + 1/\lg n$. The depth is $(n-1)/2$.
+\begin{align*}
+T(n) &= \sum_{i=0}^{(n-1)/2-1} \frac{1}{\lg n} \\
+& = \sum_{i=3/2}^{n}\frac{1}{1 + \lg n}
+\end{align*}
+
+\subsection*{4.3-g $T(n) = \sqrt{n}T(\sqrt{n}) + n$}
+The size of level $i$ is $n^{\frac{1}{2_i}}$. The depth of the recursion tree is 
+$\lg\lg n$. The cost for level $i$ ($0 \le i \le \lg\lg n $) is $n$ (assmue that 
+$T(2) = 2$). So $T(n) = n\lg\lg n$.
+\begin{align*}
+T(n) &= \sqrt{n}\sqrt{n}\lg\lg{\sqrt{n}} + n \\
+&= n\lg(\frac{1}{2}\lg{n}) + n \\
+&= n(\lg\lg{n} - 1) + n \\
+&= n\lg\lg{n}
+\end{align*}
+
+\section{The recursion-tree method for solving recurrences}
+\section{The master method for solving recurrences}
+
+\subsection*{4.5-5}
+Let $g(n) = cn^{log_b a + \epsilon}$ and $\epsilon \le log_b 1/c$.Assume that 
+when $n\ge n_0$, $af(n/b)=cf(n)$ and $c<1$. So for $n=b^dm$, we have $a(b^dm) 
+\ge (a/c)^d f(m)$. We can decrease $c$ to satisfy $f(m) \ge g(m)$. The proof of 
+$b^dm$ case:
+\begin{align}
+f(n) &= f(b^dm) \\
+& \ge (\frac{a}{c})^d f(m) \\
+& \ge (\frac{a}{c})^d g(m) \\
+& \ge (ab^\epsilon)^d g(m) \\
+& = (b^d)^{log_b a + \epsilon} g(m) \\
+& = g(b^dm) \\
+& = g(n)
+\end{align}
+(5) holds since $\epsilon \le log_b 1/c$.
+
+\section{Proof of the master theorem}
+\section{Problems}
+
+\subsection*{4.5}
+\begin{flushleft}
+\begin{itemize}
+\item[\textbf{a.}] Let $g$ be the number of good chips and $n-g$ be the number 
+of bad chips. Since $n/2$ chips are bad, $n-g > g$. We can always find a set G 
+of good chips and a set B of bad chips of equal sizes.  Now, assume that the set 
+B of bad chips conspire to fool the professor in the following way: for any test 
+made by the professor, they declare themselves as 'good' and the chips in G as 
+'bad'.  Notice that the chips in G report correct answers and then exhibit a 
+symmetric behaviour: they declare themselves as 'good' and the chips in B as 
+'bad'. This implies that whichever is the strategy based on the kind of test 
+considered and used by the professor, the behaviour of the chips in G is 
+indistinguishable from the behaviour of the chips in B . This does not allow the 
+professor to determine which chips are good.
+
+\item[\textbf{b.}] Assume that $n$ is even. Then we can match chip in pairs 
+($c_{2i-1}, c_{2i}$), for $i = 1, \dots, n/2$ and test all these pairs. Then we 
+throw away all pairs of chips that do not say 'good, good'. In this way, the 
+pairs that we have discarded contain at least a bad chip.  Finally we take a 
+chip from each pair. In this way, the good chips and bad chips lelf are divided 
+by two. So the final set contains at most n/2 chips and we still keeping more 
+good chips than bad ones. 
+
+Now, assume $n$ is odd. Then, we test $\lfloor n \rfloor$ pairs constructed as 
+before; this time, however, we don't test one chip, say, $c_n$. Our final set 
+will contain one chip for every pair tested that reported 'good, good'.  
+Moreover, according to the number of such chips are odd or even, we discard chip 
+$c_n$ or put it into our final set.
+
+First, assume that the number is $2k+1$. There are at least $k+1$ good chips in 
+this set because of the precondition that good chips are no less than bad chips 
+in this set.  If there are $k$ good chips in this set, then the number of bad 
+chips is $k+1$. So we discard $c_n$ in this case.
+
+Second, assume that the number is $2k$. Assume that $c_n$ is good. In this case, 
+after place $c_n$ in the set, there are at least $k+1$ good chips. Assume that 
+$c_n$ is $bad$. There are at least 2 more good chips than bad chips in the chips 
+we tested. So there are more good chips than bad chips in the set. As the number 
+is even. There are at lease $k+2$ good chips. Place $c_n$ in the set, there are 
+still more good chips than bad chips in the set.
+
+\item[\textbf{c.}] If more that $n/2$ of the chips are good, using the answer to 
+question b, we can compute a single good chip. Now, in order to find all good 
+chips, we can just test the good chip with all the others: for each pair of this 
+type, knowing that at least one of the two chips in the pair is good is enough 
+to decide whether the other chip is good or not.  This last stage takes $n-1$ 
+more tests. Then, in order to prove that the goof chips can be found with 
+$\Uptheta(n)$ pairwise tests, we just need to show that the number of tests to 
+find a single good chip is $\Uptheta(n)$. To show this, we can write the number 
+of tests T(n) that we do in the answer to b as:
+
+\begin{equation}
+T(n) = T(\lceil n/2 \rceil) + \lfloor n/2 \rfloor \label{clever}
+\end{equation}
+
+We can use master theorem to solve this equation. $a = 1, b = 2, n^{\log_b a} = 
+1, f(n) = \lfloor n/2 \rfloor$. $f(n) = \Omega(n^{0+1}), \epsilon=1$. $af(n/b) = 
+\lfloor n/4 \rfloor \le \frac{1}{2} \lfloor n/2 \rfloor$. This inequality can be 
+easily proved be writing $n=4k, n=4k+1, n=4k+2, n=4k+3$.
+\end{itemize}
+\end{flushleft}
+
+\subsection*{4.6 Monge arrays}
+\textbf{a.} First to prove 'only if' part. If A is a $m \times n$ monge array, 
+then for all $i$, $j$, $k$ and $l$ such that $1\le i < k \le m$ and $1\le j < l 
+\le n$, we have $A[i,j] + A[k,l] \le A[i,l] + A[k,j]$. Let $k=i+1, l=j+1$. We 
+have the desired result.
+
+Now to prove the 'if' part. The condition is for all $i = 1, 2, \dots, m$ and $j 
+= 1,2,\dots,n$, we have
+\begin{equation*}
+A[i,j] + A[i+1,j+1] \le A[i,j+1] + A[i+1, j]
+\end{equation*}
+First to prove
+\begin{equation}
+A[i,j] + A[k,j+1] \le A[i,j+1] + A[k, j]
+\end{equation}
+$1\le i < k \le m$ and $j = 1,2,\dots,n-1$. The base case is $k=i+1$. It holds 
+fron the condition. Now assume that the following equation holds.
+\begin{equation}
+A[i,j] + A[k-1,j+1] \le A[i,j+1] + A[k-1, j]
+\end{equation}
+And we have
+\begin{equation}
+A[k-1, j] + A[k, j+1] \le A[k-1,j+1] + A[k,j+1]
+\end{equation}
+
+Add (10) and (11), remove same items, we have
+\begin{equation*}
+A[i,j] + A[k,j+1] \le A[i,j+1] + A[k, j]
+\end{equation*}
+
+Now to prove the monge array condition. The base case is $l=j+1$. It holds from 
+(10). Now assume that
+\begin{equation}
+A[i,j] + A[k,l-1] \le A[i,l-1] + A[k,j]
+\end{equation}
+
+And we have
+\begin{equation*}
+A[i,l-1] + A[k, l] \le A[i,l] + A[k, l-1]
+\end{equation*}
+
+Add (13) and (14),  and remove same items. We have
+\begin{equation}
+A[i,j] + A[k,l] \le A[i,l] + A[k,j]
+\end{equation}
+
+\textbf{b.} Increase 22 to 24 in the first row. Another solution to replace 7 
+with 4 on the second row and the third column.
+
+\textbf{c.} Let $f(k)$ be the index of the column containing the leftmost 
+minimum element of row $k$ and $f(k+1)$ for $k+1$ row. And assume that $f(k) > 
+f(k+1)$. We have $A[k, f(k+1)] > A[k, f(k)]$ by the defintion of $f(i)$. And we 
+have $A[k+1, f(k)] \ge A[k+1, f(k+1)]$. Add these two equalities, we have
+\begin{equation*}
+A[k, f(k+1)] + A[k+1, f(k)] > A[k, f(k)] + A[k+1, f(k+1)]
+\end{equation*}
+This inequality is in contradiction with the definiton of monge array.
+
+\textbf{d.}
+The recursive solution to the problem of computing $f(i)$ is based on the 
+observation that if A is a Monge array and A' is a subarray obtained by 
+selecting a subset of rows of A, then A' is also Monge. Assuming we already 
+computed the $f(i)$ for the even $i$, we can compute each odd index $f(2k+1)$ by 
+observing that
+$f(2k) \le f(2k + 1) \le f(2k + 2)$ by the previous problem.  Hence in order to 
+compute $f(2k+1)$, we only need to check entries from $A[2k + 1, f(2k)]$ to 
+$A[2k + 1, f(2k+2)]$. Therefore, the required computation can be done in
+\begin{align*}
+f(2) + \sum_{i=1}^{m/2} (f(2i+2)-f(2i)+1) & = f(m) + m/2 -1 \\
+&  = O(m+n)
+\end{align*}
+because $f(m) \le n$. $f(2)$ appears as $f(2)$ entries have to be checked to 
+compute $f(1)$.  Hence the worst-case running time is $O(m + n)$.  
+
+\textbf{e.} Recursion equation:
+\begin{equation*}
+T(m,n) = T(m/2, n) + O(m+n)
+\end{equation*}
+
+We will prove $T(m,n) \le c(m+n\lg m)$.
+\begin{align*}
+T(m,n) & \le c(\frac{m}{2}+n\lg\frac{m}{2}) + d(m+n) \\
+& = c(m+n\lg m) + (d-\frac{c}{2})m + (d-c)n \\
+& \le c(m+n\lg m)
+\end{align*}
+The last line holds if $c\ge 2d$.
+
+\chapter{Probabilistic Analysis and Randomized Algorithms}
+
+\section{The hiring problem}
+
+\subsection*{Balls and Bins}
+
+\begin{align*}
+  \text{Pr\{A bin is not hittedn in $m$ tosses\}} & = \prod_{i = 1}^{m} 
+  \text{Pr\{A bin is not hitted in $i$th toss\}} \\
+  & = \prod_{i = 1}^{m}\frac{n-1}{n} \\
+  & = \left(\frac{n-1}{n}\right)^m
+\end{align*}
+
+\begin{align*}
+  \text{Pr\{A bin is  hittedn in $m$ tosses\}} & = 1 - \text{Pr\{A bin is not 
+  hitted in $m$ tosses\}} \\
+  & = 1 - \left(\frac{n-1}{n}\right)^m \\
+  & = \left(\frac{1}{n} + \frac{n-1}{n}\right)^m - \left(\frac{n-1}{n}\right)^m \\
+  & = \sum_{k=0}^{m}\binom{n}{k}\left(\frac{1}{n}\right)^k 
+  \left(\frac{n-1}{n}\right)^{m-k} - \left(\frac{n-1}{n}\right)^m \\
+  & = \sum_{k=1}^{m}\binom{n}{k}\left(\frac{1}{n}\right)^k 
+  \left(\frac{n-1}{n}\right)^{m-k}
+\end{align*}
+
+\subsection*{5.1-2}
+The algorithm:
+\begin{lstlisting}[language=Python]
+import math
+import random
+def rand(a, b):
+  d = math.floor(math.log(b, 2)) + 1
+  n = 0;
+  for i in range(d):
+    n += (random.randint(0, 1) << i)
+  if a <= n and n <= b:
+    return n
+  else:
+    return rand(a, b)
+\end{lstlisting}
+
+The probability of $n$ hitting in the range $[a, b]$ is $\frac{b-a+1}{2^d}$. The 
+invocation count of $rand$ function is a geometic distriction. The expect number 
+is $\frac{1}{p} = \frac{2^d}{b-a+1}$.
+
+\subsection*{5.1-3}
+See \textbf{Instructor's Manual}
+
+\subsection*{5.3-3}
+This code does not produce a uniform random permutation. Some permuation will 
+have a higher probability than others. Take an array with length 3 as an 
+example. There are $3!=6$ permuations. But the code produces $3^3 = 27$ results.  
+Since 27 can't be evently divide by 6, some permuations must correspond to more 
+results than others. Here is the code to verify it:
+%\lstinputlisting[language=C]{/data/code/algorithm/prog/perm.c}
+
+\subsection*{5.3-5}
+The number of different results are $n^3 \cdot n^3 \dots n^3$. The number of 
+permuations of $RANDOM(1, n^3)$ is $n^3 \cdot (n^3-1) \dots (n^3-(n-1))$. So
+\begin{align*}
+Pr & = \frac{n^3 \cdot n^3 \dots n^3}{n^3 \cdot (n^3-1) \dots (n^3-(n-1))} \\
+& = (1-\frac{1}{n^3}) \dots (1-\frac{n-1}{n^3}) \\
+& > 1-\frac{1}{n^3}-\dots-\frac{n-1}{n^3} \\
+& = 1-\frac{n(n-1)}{2n^3} \\
+& > 1-\frac{1}{n}
+\end{align*}
+
+$(1-a_1)(1-a_2)\dots(1-a_n) > 1-a_1-a_2-\dots-a_n, a_i>0 (i=1,\dots,n)$ can be 
+easily proved with the use of induction.
+
+\subsection*{5.3-6}
+If two or more priorities are the same, regenerate the priorities. But there is 
+a problem, it is possible that the procedure will never end if the RANDOM always 
+produce some identitcal priorities. Maybe there is some better solutions.
+
+\subsection*{5.3-7}
+Prove the following statement by induction. An $l$-element subset S of $A[1], 
+\cdots, A[n-(m-l)]$ is created by invocation of $RANDOM-SAMPLE(l, n-(m-l))$ 
+($l=1,\dots, m$). Such each $l$-subset is likely by probability 
+$\frac{1}{\binom{n-(m-l)}{l}}$. 
+
+The base case is $l=1$.  S is $1$-element subset whose only element is chosen 
+from $A[1], \dots, A[n-(m-1)]$ by probability of 
+$\frac{1}{(n-(m-1))}=\frac{1}{\binom{n-(m-1)}{1}}$. The statement holds.
+
+Now assume that S is a $k-1$-element subset by the invocation of $RANDOM(k-1, 
+n-(m-(k-1)))$.  And each $k-1$-subset is likely by 
+$\frac{1}{\binom{n-(m-(k-1))}{k-1}}$.  Now we need to prove that S is a 
+$k$-element subset by the invocation of $RANDOM(k, n-(m-k))$.  Such each 
+$k$-subset is equally likely by probability $\frac{1}{\binom{n-(m-k)}{k}}$.
+
+There are two situations. One situation is $k$-subset which includes $A[n-k]$.  
+The other is one which does not include $A[n-k]$. Define the former event as 
+$E_1$ and the later as $E_2$.
+
+Define $E_0$ the event that any particular $k-1$-subset occurs.Define $E_{11}$ 
+as the event that $i$ in line 4 is $A[n-k]$.  Define $E_{12}$ as the event that 
+$i \in S_{k-1}$. $S_{k-1}$ is $k-1$-subset created by the invocation of 
+$RANDOM-SAMPLE(k-1, n-(m-(k-1)))$.
+\begin{align*}
+Pr\{E_1\} & = Pr\{E_0\}\cdot Pr\{E_{11} \cup E_{12}\} \\
+& = \frac{1}{\binom{n-(m-(k-1))}{k-1}}\cdot(\frac{1}{n-(m-k)} + 
+\frac{k-1}{n-(m-k)}) \\
+& = \frac{1}{\binom{n-(m-(k-1))}{k-1}}\cdot\frac{k}{n-(m-k)} \\
+& = \frac{1}{\binom{n-(m-(k-1))}{k-1}}\cdot\frac{1}{\frac{n-(m-k)}{k}} \\
+& = \frac{1}{\binom{n-(m-k)}{k}}
+\end{align*}
+
+To produce a particular $k$-subset which does not include $A[n-(m-k)]$. First,  
+a $k-1$-subset must contain the $k-1$ elements chosen from the $k$-subset.  
+Define such an event as $E_21$. Second, the 1 element left in $k$-subset must be 
+chosen.
+\begin{align*}
+Pr\{E_1\} & = Pr\{E_{21}\}\cdot Pr\{E_{22}\} \\
+& = \frac{\binom{k}{k-1}}{\binom{n-(m-(k-1))}{k-1}} \cdot \frac{1}{n-(m-k)} \\
+& = \frac{1}{\binom{n-(m-(k-1))}{k-1}} \cdot \frac{1}{\frac{n-(m-k)}{k}} \\
+& = \frac{1}{\binom{n-(m-k)}{k}}
+\end{align*}
+
+Now we can claim that every $k$-subset is likely by probability of 
+$\frac{1}{\binom{n-(m-k)}{k}}$. Let $l=m$, we have that every $m$-subset is 
+equally likely by probability $\frac{1}{\binom{n}{m}}$.
+
+\subsection*{5.4-1}
+\textbf{a} The probability that a person has the same birthday as me is $1/365$ 
+(we don't take leap year into account). Define $E_1$ as the event that one 
+person of $n$ persons has the same birthday as me. This is a $n$ Bernoulli 
+trials, $p=1/365,, q=364/365$. Define $E_2$ as the event that none has the same 
+birthday as me.
+\begin{align*}
+Pr\{E_1\} & = 1 - Pr\{E_2\} \\
+& = 1 - \frac{\binom{n}{0}}{365} (\frac{364}{365})^n \\
+& = 1 - (\frac{364}{365})^n\\
+\end{align*}
+Make the probability bigger than $1/2$, we have 253.
+\textbf{b} This is also Bernoulli trials.  4. Make the following definitions:
+\begin{description}
+\item[$E_1$] at least two person have a birthday on July 4.
+\item[$E_2$] no person has a birthday on July 4.
+\item[$E_3$] only one person has a birthday on July 4.
+\end{description}
+\begin{align*}
+Pr\{E_1\} & = 1 - P\{E_2\} - P\{E_3\} \\
+& = 1 - \binom{n}{0}(\frac{364}{365})^n - 
+\binom{n}{1}\frac{1}{365}(\frac{364}{365})^{n-1}
+\end{align*}
+
+Make the probability bigger than $1/2$, we can have the number.
+
+\subsection*{5.4-2}
+The following text is from 
+\href{http://www.physicsforums.com/showthread.php?t=248541}{mikepol's solution}
+First, I think the problem is stated a little ambiguously, so this is my 
+understanding of it. Suppose I perform the following experiment: take b empty 
+bins and start tossing balls into them at random. As soon as a ball lands in 
+already occupied bin, I record the number of throws I had made. The problem asks 
+to find the expected value of these recorded numbers, which will be the average 
+over this experiment performed great many times. In other words, I need to find 
+the expected number of tosses that result in a single collision on the last 
+toss.
+
+I have approached this from two paths.
+
+First way is define a random variable X such that event X=k means that after k-1 
+tosses, there were no collisions, but k'th toss resulted in a collission. In 
+other words, X=k is the event that k'th toss results in a single bin having two 
+balls, while all the rest have at most one. Then probability of X=k is:
+
+\begin{align*}
+P(X=k) = \frac{(b)_{k-1}(k-1)}{b^k}
+\end{align*}
+
+Where $(b)_{k}=\frac{b!}{(b-k)!}$. And the expected value that the problem is to 
+compute is:
+
+\begin{equation*}
+E(X) = \sum_{k=2}^{b+1} kP(X=k) = \sum_{k=2}^{b+1} \frac{(b)_{k-1}(k-1)}{b^k}k
+\end{equation*}
+
+This is a solution in a form of a sum.
+
+From the fact that X is a random variable and that it takes values from 2 to b+1, we also have:
+
+\begin{equation*}
+\sum_{k=2}^{b+1}P(X=k) = \sum_{k=2}^{b+1}\frac{(b)_{k-1}(k-1)}{b^k} = \frac{1}{b}\sum_{k=1}^{b}\frac{(b)_{k}k}{b^k}=1
+\end{equation*}
+
+A second way of getting an answer is define an indicator random variable $I_{k}$ 
+such that the event $I_{k}=1$ means that there was k'th toss, and define 
+$I_{k}=0$ otherwise. In other words, it means that previous tosses have resulted 
+in no collisions, and therefore we made k'th toss, the result of which is 
+unknown. The probability of this event is equals to the probability that 
+previous k-1 tosses had no collisions. It is:
+
+\begin{equation*}
+P(I_{k}=1) = \frac{(b)_{k-1}}{b^{k-1}} = E(I_{k})
+\end{equation*}
+
+And random variable X can be expressed in terms of I's:
+
+\begin{equation*}
+X=\sum_{k=1}^{b+1}I_k
+\end{equation*}
+
+So by linearity of expectations we have:
+
+\begin{equation*}
+E(X)=\sum_{k=1}^{b+1}E(I_k) = \sum_{k=1}^{b+1}\frac{(b)_{k-1}}{b^{k-1}} = 
+\sum_{k=0}^{b}\frac{(b)_k}{b^k}
+\end{equation*}
+
+\subsection*{5.4-3}
+The birthday paradox holds even when the birthdays are only pairwise 
+independent.  
+$\mbox{Pr}\{b_i=b_j\}=\sum_{r=1}^n\mbox{Pr}\{b_i=r\quad\mbox{and}\quad b_j=r\}$
+Obviously, it involves only two variables $b_i$ and $b_j$. Thus, pairwise 
+independence is sufficient.
+
+\subsection*{5.4-4}
+\textbf{a. use probability: } Suppose that there are k people invited, and all 
+years have $n=365$ days. $P_k = (n-k+1)/n$
+$$\mbox{Pr\{there are exactly 3 people with the same birthday\}} = \frac{n \cdot C^{n-1}_{k-3} \cdot \frac{k!}{3!}}{n^k}$$
+$$\mbox{Pr\{there are at least 3 people with the same birthday\}} = 1 - \frac{P^n_k}{n^k} - \frac{n \cdot C^{n-1}_{k-2} \cdot \frac{k!}{2!}}{n^k}$$
+
+\textbf{b. use random variable: } The probability that $i$'s, $j$'s and $k$'s 
+birthday all fall on day $r$ is
+\begin{align*}
+Pr\{b_i=r \;\text{and}\; b_j=r\;\text{and}\; b_k=r\} & = 
+Pr\{b_i=r\}Pr\{b_j=r\}Pr\{b_k=r\} \\
+& = 1/n_3.
+\end{align*}
+
+Thus, the probability that they all fall on the same day is
+\begin{align*}
+Pr\{b_i = b_j = b_k\} &= 
+\sum_{r=1}^{n}Pr\{b_i=r\;\text{and}\;b_j=r\;\text{and}\;b_k=r\} \\
+& = \sum_{r=1}^{n}(1/n^3) \\
+& = 1/n^2
+\end{align*}
+
+For each pair $(i,j,k)$ of the $l$ people invited, we define the indicator 
+variable $X_{ijk}$, for $1\le i \le j \le k \le l$, by
+
+\begin{align*}
+X_{ijk} & = \text{I\{person $i$, $j$ and $k$ have the same birthday\}} \\
+& = \left\{
+\begin{array}{rl}
+  1 & \text{if person $i$, $j$ and $k$ has the same birthday,}  \\
+  0 & \text{otherwise.}
+\end{array} \right.
+\end{align*}
+
+Letting $X$ be the random variable that counts the number of pairs of people 
+having the same birthday, we have
+\begin{align*}
+X = \sum_{i=1}^{l}\sum_{j=i+1}^{l}\sum_{k=j+1}^{l}X_{ijk}.
+\end{align*}
+
+Taking expectations of both sides and applying linearity of expectation, we 
+obtain
+\begin{align*}
+E[X] & = E \Bigg[\sum_{i=1}^{l}\sum_{j=i+1}^{l}\sum_{k=j+1}^{l}X_{ijk} \Bigg] \\
+& = \sum_{i=1}^{l}\sum_{j=i+1}^{l}\sum_{k=j+1}^{l}E[X_{ijk}] \\
+& = \binom{l}{3}\frac{1}{n^2} \\
+& = \frac{l(l-1)(l-2)}{6n^2}
+\end{align*}
+When $l(l-1)(l-2) \ge 6n^2$, the expected number of pairs of people with the 
+same birthday is at least 1. Thus, if we have at least $\sqrt{6n^2}+2$ people 
+invited, we can expect at least three to have the same birthday. The number is 
+about 897.
+
+\subsection*{5.4-5}
+(1) $$Pr = \frac{n!}{n^k(n-k)!}$$
+(2) n is the days all year have, k is how many people are invited to the party, 
+and k-permutation denotes all people have distinct birthdays, no one has the 
+same birthday as the other's.
+
+\subsection*{5.4-7}
+In the proof in subsection* 5.4.3, treat $\lfloor(\lg n)/2\rfloor$ as a function 
+$f(n)$, replace the function with $\lfloor\lg n - 2\lg\lg n\rfloor$.
+Then the probability required is at most:
+\begin{align*}
+  (1-2^{-f(n)})^{\lfloor \frac{n}{f(n)}\rfloor} & = (1-2^{2\lg\lg n - \lg n})^{\lfloor\frac{n}{f(n)}\rfloor}\\
+  & = \bigg(1 - \frac{(\lg n)^2}{n}\bigg)^{\lfloor\frac{n}{f(n)}\rfloor} \\
+  & = \bigg(1 - \frac{(\lg n)^2}{n}\bigg)^{\lfloor\frac{n}{\lfloor \lg n - 2\lg \lg n \rfloor }\rfloor} \\
+  & \le \bigg(1 - \frac{(\lg n)^2}{n}\bigg)^{\frac{n}{\lfloor \lg n - 2\lg \lg n \rfloor }-1} \\
+  & \le \bigg(1 - \frac{(\lg n)^2}{n}\bigg)^{\frac{n}{\lg n - 2\lg \lg n}-1} \\
+  & \le e^{-\frac{(\lg n)^2}{n} (\frac{n}{\lg n - 2\lg \lg n} - 1)} \qquad, (1+x) \le e^x\\
+& = O(e^{-\lg n}) \\
+& = O(\frac{1}{n})
+\end{align*}
+
+We can prove that for sufficient large $n$, $\frac{(\lg n)^2}{n} (\frac{n}{\lg n - 2\lg \lg n} - 1) \ge \lg n$. Divide 
+$\lg n$, we have:
+
+\begin{align*}
+\frac{(\lg n)^2}{n} (\frac{n}{\lg n - 2\lg \lg n} - 1) \frac{1}{\lg n} & \ge 1 \\
+\frac{(\lg n)}{n} (\frac{n}{\lg n - 2\lg \lg n} - 1) & \ge 1\\
+\frac{n\lg n - (\lg n)^2 + 2 \lg n\lg \lg n}{n\lg n - 2n\lg\lg n} \ge 1
+\end{align*}
+
+To prove the above inequality, we use the denominator to minus the numerator. We have:
+\begin{align}
+2n\lg\lg n - (\lg n)^2 + 2\lg n \lg\lg n & \ge n - (\lg n)^2 \\
+ & \ge 0
+\end{align}
+
+Any positive polynomial function grows faster than any polylogrithmic function 
+and we can find a sufficient large constant $n_0$ to let (2.2) holds, (2.2) 
+holds.
+
+\subsection*{5-2 Searching an unsorted array}
+\textbf{a:} The code:
+\begin{codebox}
+\Procname{$\proc{Random-Search}(A, x)$}
+\li Let $F[1..n]$ be a a new array
+\li \For $i \gets 1$ \To $n$
+\li \Do $A[i] \gets 0$
+\End
+\li $count \gets 0$
+\li \While $count < n$
+\Do \li $k = \proc{Random}(1, n)$
+\li \If $x \isequal A[i]$
+\li \Then \Return $k$
+\End
+\li \If $F[k] \isequal 0$
+\li \Then $count \gets count + 1$
+\li $F[k] \gets 1$
+\End
+\End
+\end{codebox}
+
+\textbf{b:} The number of generated indexes obeys geometric distribution. $p$ is 
+$1/n$. So the expected number is $1/p=n$.
+
+\textbf{c:} Solved in a way similar to b. The expected number is $n/k$.
+
+\textbf{d:} This problem is the same "How many balls must we toss before every 
+bin contains at least one ball?". So the answer is $n(\ln n + O(1)) 
+$.
+
+\textbf{e:} The average-case running time:
+\begin{align*}
+E[X] & = \sum_{i = 1}^{n} i Pr\{\text{running time is $i$}\}\\
+& = \sum_{i = 1}^{n} i (1/n) \\
+& = (n+1)/2
+\end{align*}
+The worst-case running time is $n$.
+
+\textbf{f:}
+Define $E_i$ as the event that the $i$ element is a $x$ which appears before all 
+the other $x$s.
+The probability of the running time is ($1 < i \le n -k +1$):
+\begin{align*}
+Pr\{E_i\} & = Pr\{\text{$1$ element is not $x$}\} \dots Pr\{\text{$i-1$ element 
+is not $x$}\} Pr\{\text{$i$ element is $x$}\} \\
+& = \underbrace{\frac{n-k}{n} \dots \frac{n-k-i+2}{n-i+2} 
+\frac{k}{n-i+1}}_\text{$i$ factors} \\
+& = \frac{(n-i)!}{n!} \frac{(n-k)!}{(n-i-k+1)!} k \\
+& = \frac{(n-i)!(n-k)!k}{n!(n-i-k+1)!} \\
+& = \frac{k(n-k)!}{n!}\frac{(n-i)!}{(n-i-k+1)!} \\
+& = \frac{k!(n-k)!}{n!}\frac{(n-i)!}{(n-i-k+1)!(k-1)!} \\
+& = \frac{\frac{(n-i)!}{(n-i-k+1)!(k-1)!}}{\frac{n!}{k!(n-k)!}} \\
+& = \frac{\binom{n-i}{k-1}}{\binom{n}{k}}
+\end{align*}
+Assign index to $k$ $x$-elements. There are $\binom{n}{k}$ combinations. If $i$ 
+element is the first $x$-element, $n-i$ positions will be assinged to $k-1$ 
+$x$-elements. So the probability that $i$ element is the first $x$-element is 
+$\frac{\binom{n-i}{k-1}}{\binom{n}{k}}$.
+
+
+The average-case running time:
+\begin{align*}
+E[X] & =\sum_{i=1}^{n-k+1}\frac{\binom{n-i}{k-1}}{\binom{n}{k}}i \\
+& = \frac{n+1}{k+1}
+\end{align*}
+\href{http://stackoverflow.com/questions/5125525/average-case-running-time-of-linear-search-algorithm}{answer 
+3} is a great explanation.
+
+The worst-case running time is $n-k+1$.
+
+\textbf{g:} Both the average-case running time and the worst-case running time are $n$.
+
+\textbf{h:} Besides the elements comparisons, \proc{Scramble-Search} incurs the 
+cost of permuting the input array which is $n$. For $k=0$, both the worst case 
+and the average-case are $n+n=2n$. For $k=1$, the worst case happens when $x$ is 
+shuffled to the end of the array. The cost is $n+n=2n$. The average-case is 
+$n+\frac{n+1}{2} = \frac{3n+1}{2}$. For generalized case, the worst case happens 
+when all $x$s are shuffled to the end of the array. The cost is 
+$n+(n-k+1)=2n-k+1$.  The average case is $n+\frac{n+1}{k+1}$.
+
+\textbf{i:} I choose \proc{Deterministic-Search} since it is simple and 
+efficient for general case unless I have specific requirements. The other 2 
+algorithms all incurs cost related to random number generations.
+
+\part{Sorting and Order Statistics}
+
+\chapter{Heapsort}
+Prove the following equation for $h$ = $0$, ..., $\lfloor\lg n\rfloor$
+\begin{equation}
+  \lceil\frac{n}{2^{h+1}}\rceil \le \frac{n}{2^h}
+\end{equation}
+
+\begin{proof}
+  For $h = \lfloor\lg n\rfloor$
+  \begin{align*}
+    \lceil\frac{n}{2^{h+1}}\rceil & = \lceil\frac{2^{\lg n}}{2^{\lfloor\lg 
+n\rfloor+1}}\rceil \\
+& = \lceil 2^{\lg n - (\lfloor \lg n \rfloor + 1)}\rceil
+  \end{align*}
+  Since $\lg n < \lfloor \lg n \rfloor + 1$, we have $\lg n - (\lfloor \lg n 
+  \rfloor + 1) < 0$. Then we have $0 < \lceil 2^{\lg n - (\lfloor \lg n \rfloor + 
+  1)}\rceil < 1$. So $\lceil\frac{n}{2^{h+1}}\rceil = 1$.
+
+  \begin{align*}
+    \frac{n}{2^h} & = \frac{2^{\lg n}}{2^{\lfloor\lg n\rfloor}} \\
+                  & = 2^{\lg n - \lfloor \lg n \rfloor} \\
+                  & \ge 1\text{  }(\lg n - \lfloor \lg n \rfloor \ge 0)
+  \end{align*}
+  So we have $\lceil\frac{n}{2^{h+1}}\rceil \le \frac{n}{2^h}$ for h = $\lfloor\lg 
+  n \rfloor$.
+
+  For $h$ = $0$, ..., $\lfloor\lg n \rfloor - 1$
+  \begin{align*}
+    \lceil\frac{n}{2^{h+1}}\rceil & \ge \lceil\frac{n}{2^{\lfloor\lg n\rfloor - 
+1+1}}\rceil \\
+& = \lceil\frac{2^{\lg n}}{2^{\lfloor\lg n\rfloor}}\rceil \\
+& \ge 1
+  \end{align*}
+  \begin{align*}
+    \lceil\frac{n}{2^{h+1}}\rceil & < \frac{n}{2^{h+1}} + 1 \\
+                                  & \le \frac{n}{2^{h+1}} + \frac{n}{2^{h+1}} \\
+                                  & = \frac{n}{2^h}
+  \end{align*}
+  So we have $\lceil\frac{n}{2^{h+1}}\rceil \le \frac{n}{2^h}$ for $h$ = $0$, 
+  ..., $\lfloor\lg - 1$
+\end{proof}
+
+\subsection*{6.1-7}
+For this proof, the following complete binary tree property is used:
+\begin{itemize}
+  \item If $2i > n$, the node $i$ does not have a left child.  Otherwise, its 
+    left child is node $2i$.
+  \item If $2i+1 > n$, the node $i$ does not have a right child.  Otherwise, its 
+    right child is $2i+1$.
+\end{itemize}.  These are properties are from page 125 of
+\textit{Dropbox/book/algorithm/数据结构.pdf}.
+
+If $n$ is even, $2i+1 > 2i = 2(\lfloor n/2 \rfloor +1) = n + 2$. So node 
+$\lfloor n/2 \rfloor + 1$ does not have children. So it is obvious that leaves 
+are $\lfloor n/2 \rfloor + 1$, $\lfloor n/2 \rfloor + 2$, ..., $n$.
+
+if $n$ is odd, $2i+1 > 2i = 2(\lfloor n/2 \rfloor +1) = n -1 + 2 = n + 1$. This 
+case is similar to the case that $n$ is even. We have the same conclustion.
+
+So with the array representation of storing an $n$-element heap, the leaves are 
+the nodes indexed by $\lfloor n/2 \rfloor + 1$, $\lfloor n/2 \rfloor + 2$, ..., 
+$n$.
+
+\subsection*{6.4-5}
+"On the Best Case of Heapsort" has the answer. It is difficult.
+
+\subsection*{6.5-4}
+\proc{Max-Heap-Insert} invokes \proc{Heap-Increase-Key}. Setting the inserted 
+node to $-\infty$ is to make sure that $key$ is not smaller that 
+$A[A.heap-size]$.
+
+\subsection*{6.5-5}
+\textbf{Initialization:} When \proc{Heap-Increase-Key} is called, A is a heap.  
+Then, the value of $A[i]$ is increased to $key$. Because $A[i]$ is increased, 
+this update will not influence the max-heap properties of $A[i]$'s children.  
+This update will only influence the max-heap properties of its parent. And 
+$A[Parent(i)]$ is no less that $A[i]$'s children.
+
+\textbf{Maintenance:} Before line 5, the only violation is $A[i]$ is larger that 
+$A[Parent(i)]$. After the exchange, $i$ node maintains the max-heap property 
+since $A[Parent(i)]$ is no less than $i$'s children. And after the exchange, 
+$A[Parent(i)]$ has the max-heap property. But since $A[Parent(i)]$ is increased, 
+$A[i]$'s parent's parent may not has the max-heap property. Set $i$ to 
+$Parent(i)$. We have that $i$'s parent is not less than $i$' children.
+
+\textbf{Termination:} There are two situations for the termination. When $i = 
+1$, the subarray $A[1\dots A.heap-size]
+$ satisfies the max-heap property except that $A[1]$ may be larger than $A[0]$.  
+Since $A[0]$ doest not exist, $A[1\dots A.heap-size]$ is a heap. When 
+$A[\proc{Parent}(i)]$ is no less than $A[i]$, the only violation does not exist. 
+So A is a heap.
+
+\subsection*{6.5-6}
+\begin{codebox}
+\Procname{$\proc{Heap-Increase-Key}(A, key)$}
+\li \If $key < A[i]$
+\li \Then \Error "new key is smaller than current key"
+\End
+\li \While $i > 1 $ and $A[\proc{Parent}(i)] < key$
+\li \Do $A[i] \gets A[\proc{Parent}(i)]$
+\li $i \gets \proc{Parent}(i)$
+\End
+\li $A[i] \gets key$
+\end{codebox}
+
+\subsection*{6.5-7}
+\textbf{Queue:} Add a new field $current$ to a max heap. Set $current$ to 
+integer's maximum value. Queue's $append$ method invokes 
+$\proc{Max-Heap-Insert}(A, current)$ and decreases $current$ with 1. Queue's 
+$remove$ method invokes $\proc{Heap-Extract-Max}$.
+
+\textbf{Queue:} Add a new field $current$ to a max heap. Set $current$ to 
+integer's minimum value. Queue's $append$ method invokes 
+$\proc{Max-Heap-Insert}(A, current)$ and increases $current$ with 1. Queue's 
+$remove$ method invokes $\proc{Heap-Extract-Max}$.
+
+\textbf{6.5-8}
+\begin{codebox}
+\Procname{$\proc{Heap-Delete}(A, i)$}
+\li $deleted \gets A[i]$
+\li \If $i \isequal A.heap\mbox{-}size$
+\li \Then $A.heap-size \gets A.heap\mbox{-}size - 1$
+\li \Else $A[i] \gets A[A.heap\mbox{-}size]$
+\li $A.heap-size \gets A.heap\mbox{-}size - 1$
+\li $\proc{Max-Heapify}(A,i)$
+\End
+\li \Return $deleted$
+\end{codebox}
+
+\textbf{6.5-9}
+\begin{codebox}
+\Procname{$\proc{K-Way-Merge}(A, k)$}
+\li $B[1\dots k]$, $C[1\dots k]$ and $D[1\dots \sum_{i=1}^{k}A[i].length]$ be 
+new arrays
+\li \For $i \gets 1$ \To $k$
+\li \Do $B[i].no \gets i$
+\li$B[i].key \gets A[i][1]$
+\End
+
+\li $\proc{Build-Min-Heap}(B)$
+
+\li \For $i \gets 1$ \To $k$
+\li \Do $C[i] \gets 2$
+\End
+
+\li \For $i = 1$ \To $B.length$
+\li \Do $min \gets B[1]$
+\li $D[i] \gets min.key$
+\li $arrno \gets min.no$
+\li $C[arrno] \gets C[arrno] + 1$
+\li $B[1].no = arrno$
+\li $B[1].key = A[arrno][C[arrno]]$
+\li $\proc{Min-Heapify}(B)$
+\End
+
+\li \Return $D$
+\end{codebox}
+
+\subsection*{6.2}
+\textbf{a:}
+\begin{codebox}
+\Procname{$\proc{D-Parent}(i)$}
+\li \Return $\lfloor (i-2)/d + 1\rfloor$
+\end{codebox}
+\begin{codebox}
+\Procname{$\proc{D-Ary-Child}(i,j)$}
+\li \Return $d(i-1)+j+1$
+\end{codebox}
+
+\textbf{b:} The total number of nodes in a tree of height $h$ is between 
+$\frac{d^{h+1}-1}{d-1}$ and $\frac{d^h-1}{d-1}+1$. Multiply with $d-1$ we have 
+$d^{h+1}-1$ and $d^h+d-2$. Since $d \ge 2$, we have $h=\lfloor \lg_d n(d-1) 
+\rfloor = \Uptheta(\lg_d n)$.
+
+\textbf{c:} The procedure $\proc{Heap-Extract-Max}$ for binary heaps also works 
+for $d$-ary heaps. The only needed update is $\proc{Max-Heapify}$.
+\begin{codebox}
+\Procname{$\proc{D-Ary-Max-Heapify}(A,i)$}
+\li $largest \gets i$
+\li \For $j \gets 1$ \To $d$
+\li \Do $index = \proc{D-Ary-Child}(i,j)$
+\li \If $index \le A.heap\mbox{-}size$ and $A[index] > A[largest]$
+\li \Then $largest \gets index$
+\End
+\End
+\li \If $largest \ne i$
+\li \Then exchange $A[i]$ with $A[largest]$
+\li $\proc{D-Ary-Max-Heapify}(A, largest)$
+\End
+\end{codebox}
+$T(n) = \Uptheta(d\lg_d n)$
+
+\subsection*{6.3}
+\textbf{a:}
+\begin{equation*}
+\left(
+\begin{array}{cccc}
+2 & 3 & 4 & 5 \\
+8 & 9 & 12 & 14 \\
+16 & \infty & \infty & \infty \\
+\infty & \infty & \infty & \infty \\
+\end{array} \right)
+\end{equation*}
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+2 & 3 & 4 & 5 \\ \hline
+8 & 9 & 12 & 14 \\ \hline
+16 & $\infty$ & $\infty$ & $\infty$ \\ \hline
+$\infty$ & $\infty$ & $\infty$ & $\infty$ \\ \hline
+\end{tabular}
+
+\textbf{b:} First, argue the case that $Y[1,1] = \infty$.From the definition of 
+Young tableau, we have $A[1,j] \ge A[1,1]$ and $A[i,j] \ge A[1,j]$ ($1\le i \le 
+m, 1 \le j \le n$). So we have $A[i,j] \ge A[1,1]$.  Since $A[1][1]$ is 
+$\infty$, $A[i][j]$ is $\infty$. So $Y$ is empty. Second, argue the case that 
+$Y[m,n] < \infty$. From the definition of Young tableau, we have $A[m,j] \le
+A[m,n]$ and $A[i,j] \le A[m,j]$. So we have $A[i,j] \le A[m,n]$. Since $A[m,n] < 
+\infty$, we have $A[i,j] < \infty$. So $Y$is full.
+
+\textbf{c:}
+
+\begin{codebox}
+\Procname{$\proc{Extract-Min}(A,m,n)$}
+\li $min \gets A[1,1]$
+\li $A[1,1] \gets -\infty$
+\li $\proc{Extract-Min}(A,1,1,m,n)$
+\li \Return $min$
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Extract-Min}(A,i,j,m,n)$}
+\li $down \gets i+1$
+\li $right \gets j+1$
+\li \If \bf{not} ($down \le m$ \bf{and} $A[down,j] < A[i,j]$)
+\li \Then $down \gets i$
+\End
+\li \If \bf{not} ($right \le n$ \bf{and} $A[i,right] < A[down,j]$)
+\li \Then $right \gets j$
+\li \Else $down \gets i$
+\End
+
+\li \If $down \ne i$ \bf{or} $right \ne j$
+\li \Then exchange $A[i,j]$ with $A[down,right]$
+\li $\proc{Extract-Min}(A,down,right,m,n)$
+\End
+\end{codebox}
+
+\begin{align*}
+T(p) & = T(p-1) + \Uptheta(1) \\
+T(p) & = T(p-1) + b \\
+\end{align*}
+Assume $T(p) \le cp$. The base case $T(1) = d$. We can choose make $c \ge b$ and 
+$c \ge d$.
+\begin{align*}
+T(p) & = T(p-1) + c \\
+& \le c(p-1) + c \\
+& =cp
+\end{align*}
+
+\textbf{d:}
+\begin{codebox}
+\Procname{$\proc{Insert}(A,m,n,key)$}
+\li \If $A[m,n] \ne \infty$
+\li \Then \Error "Young tableau is full"
+\End
+\li $A[m,n] \gets key$
+\li $\proc{Decrease}(A,m,n)$
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Decrease}(A,i,j)$}
+\li $up \gets i-1$
+\li $left \gets j-1$
+\li $largest_i \gets i$
+\li $largest_j \gets j$
+\li \If $up \ge 1$ and $A[up, j] > A[i,j]$
+\li \Then $largest_i = up$
+\li $largest_j = j$
+\End
+\li \If $left \ge 1$ and $A[i, left] > A[largest_i, largest_j]$
+\li \Then $largest_i = i$
+\li $largest_j = left$
+\End
+\li \If $largest_i \ne i$ or $largest_j \ne j$
+\li \Then exchange $A[i,j]$ with $A[largest_i, largest_j]$
+\li $\proc{Decrease}(A, largest_i, largest_j)$
+\End
+\end{codebox}
+\textbf{Loop invariant:} $A[i\dots m, i\dots n]$ is a young tableau. Define 
+$largest_i$ and $largest_j$ as the row and column indices of the largest element 
+among $A[i,j], A[i-1,j]$ and $A[i,j-1]$. $A[largest_i, largest_j] \le A[i+1,j]$ 
+and $A[largest_i, largest_j] \le A[i,j+1]$.
+
+\textbf{Initialization:} $i=m, j=n$, $A[m\dots m, n\dots n]$ contains only a 
+element $A[m,n]$. So $A[m\dots m,n\dots n]$ is a young tableau. And $A[i+1,j]$ 
+and $A[i,j+1]$ do not exist. So the loop invariant holds.
+
+\textbf{Maintenance:} $A[i,j]$ is replaced with $A[largest_i, largest_j]$. Since 
+$A[largest_i, largest_j] \le A[i+1,j]$ and $A[largest_i, largest_j] \le 
+A[i,j+1]$. So $A[i\dots m, j\dots n]$ is still a young tableau. 
+
+Now lets explain the case when $largest_i = i-1$ and $largest_j = j$.  
+$A[i-1\dots m, j\dots n]$ is produced by prefixing $A[i-1,j\dots n]$ row to the 
+young tableau $A[i\dots m, j\dots n]$.  We have $A[i-1,j] \le A[i,p]$ ($j < p 
+\le n$) since $A[i-1,j] \le A[i-1,p]$ before the element exchange and $A[i-1,j]$ 
+is decreased by the element exchange.  Since $A[i-1,j+1\dots n]$ is young 
+tableau row, $A[i-1,j\dots n]$ is a young tableau row.  $A[i-1,j]$ satisfies the 
+yount tableau row property since $A[i-1,j] \le A[i,j]$.  $A[i-1,p]$ satisfies 
+the yount tableau column property since $A[i+1\dots m, j+1 \dots n]$ is produced 
+by increasing values of the young tableau $A[1\dots m, j+1\dots n]$. So 
+$A[i-1\dots m,j\dots n]$ is a young tableau. 
+
+No to prove that $A[largest_{i-1}, largest_j] \le A[i-1,j+1]$ and 
+$A[largest_{i-1},largest_j] \le A[i,j]$. First to prove 
+$A[largest_{i-1},largest_j] \le A[i-1,j+1]$.  Before the element exchange, we 
+have $A[i-1,j-1] \le A[i-1,j] \le A[i-1,j+1]$ and $A[i-2,j] \le A[i-1,j] \le 
+A[i-1,j+1]$. After the element exchange, we still have $A[i-1,j-1] \le 
+A[i-1,j+1]$ and $A[i-2,j] \le A[i-1,j+1]$. And $A[i-1,j] \le A[i-1,j+1]$ since 
+$A[i-i,j]$ is decreased by the element exchange. So we have $A[largest_{i-1}, 
+largest_j] \le A[i-1,j+1]$.  Second to prove $A[largest_{i-1},largest_j] \le 
+A[i,j]$. Before the element exchange, we have $A[i-2, j] \le A[i-1,j]$ and 
+$A[i-1,j-1] \le A[i-1,j]$. And $A[i,j] < A[i-1,j]$ since $largest_i = i-1$ and 
+$largest_j = j$.After the element exchange, we have $A[i-2,j] \le A[i,j]$ and 
+$A[i-1,j-1] \le A[i,j]$. And we have $[i-1,j] < A[i,j]$.
+
+The case for $largest_i = i$ and $largest_j = j-1$ is similar. 
+
+So the loop invariant for $largest_i, largest_j$ holds.
+
+\textbf{Termination:} When $largest_i = i$ and $largest_j = j$, $A[1\dots m, 
+1\dots n]$ is a young tableau by the definition of young tableau.
+
+\textbf{e:}
+\begin{codebox}
+\Procname{$\proc{Sort}(B)$}
+\li \For $i \gets 1$ \To $n_2$
+\li \Do $\proc{Insert}(A,n,n,B[i])$
+\End
+\li \For $i \gets 1$ \To $n_2$
+\li \Do $B[i] \gets \proc{Extract-Min}(A,n,n)$
+\End
+\end{codebox}
+
+\textbf{f:}
+\begin{codebox}
+\Procname{$\proc{Contain}(A,i,j,m,n,key)$}
+\li \If $key \isequal A[i,j]$
+\li \Then \Return True
+\li \ElseIf $key < A[i,j]$
+\li \Then \Return False
+\End
+\li $k \gets i$
+\li \While $k+1 \le m$ and $key \le A[k+1,j]$
+\li \Do $k \gets k+1$
+\End
+\li $l \gets j$
+\li \While $l+1 \le n$ and $key \le A[i,l+1]$
+\li \Do $l \gets l+1$
+\End
+\li \If $k > i$ and $l > j$
+\li \Then $\proc{Contain}(A,i+1,j+1,k,l,key)$
+\li \Else \Return False
+\End
+\end{codebox}
+Let $p = m+n$. We have $T(p) = T(p-q) + \Uptheta(q)$. $T(p) \le T(p-q) + bq$. We 
+will prove $T(p) \le cp$ ($c \ge b$).
+\begin{align*}
+T(p) & \le T(p-q) + bq \\
+& \le c(p-q) + bq \\
+& \le c(p-q) + cq \\
+& = cp
+\end{align*}
+And we can increase $c$ to satisfy the base base. So $T(p) \le cp$. $T(p) = O(p) 
+= O(m+n)$.
+
+
+\chapter{Quicksort}
+\subsection*{7.1-2} $q$ is $r$ when all element in the array $A[p\dots r]$ have the 
+same value.
+\begin{codebox}
+\Procname{$\proc{Partition}$(A,p,r)}
+\li $x \gets A[r]$
+\li $i \gets p-1$
+\li $equals \gets 0$
+\li \For $j \gets p$ \To $r-1$
+\li \Do \If $A[j] \isequal x$
+\li \Then $equals \gets equals+1$
+\End
+\li \If $A[j] \le x$
+\li \Then $i \gets i+1$
+\li exchange $A[i]$ with $A[j]$
+\End
+\End
+\li exchange $A[i+1]$ with $A[r]$
+\li \If $equals \isequal r-1$
+\li \Then \Return $\lfloor (p+r)/2 \rfloor$
+\li \Else \Return $i+1$
+\End
+\end{codebox}
+
+\subsection*{7.2-1} From $T(n) = T(n-1) + \Uptheta(n)$, we have $T(n) = T(n-1) + 
+f(n)$. From the defintion of $\Uptheta$, we have $c_1 n \le f(n) \le c_2 n$ when 
+$n \ge n_0$ ($c_1$, $c_2$ and $n_0$ are positive constants). And we have $d_1 n 
+\le c_1 n \le f(n) \le c_2 n \le d_2 n$ ($0 < d_1 \le c_1$ and $d_2 \ge c_2$). 
+
+First, we prove $T(n) = O(n_2)$. We assume that $T(n) \le e n_2$.
+\begin{align}
+T(n) & \le e(n-1)_2 + d_2 n \\
+& = en_2 + (d_2-2e)n + d \\
+& \le en_2
+\end{align}
+4.3 holds when $e \le d_2/2$. The base cases are $T(1) = 1$. We can increase 
+  $d_2$ to satisfy it.
+
+The proof for $T(n) = \Omega(n_2)$ is similar.
+
+\subsection*{7.2-4} If the elements of the input array is in ascending order, then 
+$\proc{Partition}$ always return $r$. So $T(n) = T(n-1) + \Uptheta(n)$. Solve 
+it, we have $T(n) = \Uptheta(n_2)$. For $\proc{Insert-Sort}$, if the input array 
+is in in ascending order, $T(n) = \Uptheta(n)$. So the latter is better for this 
+use case.
+
+\subsection*{7.2-6} The balance of the split depends on the $r$ element's relative 
+ordering of the input array. When $A[r]$ is among the input array's $\alpha n$ 
+smallest elements or $\alpha n$ largest elements, $\proc{Partition}$ produces a 
+split which is less than $1-\alpha$ to $\alpha$.  We defines this case as event 
+$E_1$.  The probability of $E_1$ is $2\alpha$. The event that $\proc{Partition}$ 
+produces a split more balanced than $1-\alpha$ to $\alpha$ is $\bar{E_1}$. So 
+the probability of $\bar{E_1}$ is approximately $1-2\alpha$.
+
+\subsection*{7.3-2} Use $T(n)$ to denote the count of calls made to $\proc{Random}$.  
+For the worst case, $T(n) = T(n-1) + 1$. Solve it, we have $T(n) = \Uptheta(n)$.  
+For the best case, $T(n) = 2T(n/2) + 1$. This equation satisfies the case 1 of 
+the Master Theorem. So $T(n) = \Uptheta(n)$.
+
+\subsection*{7.4-1} Assume that $T(n) \ge cn_2$.
+\begin{align*}
+T(n) & = \max_{0\le q \le n-1} (T(q)+T(n-q-1)) + \Uptheta(n) \\
+& \ge \max_{0\le g \le n-1} (cq^2 + c(n-q-1)^2) + \Uptheta(n) \\
+& \ge c \cdot \max_{0\le g \le n-1} (q^2 + (n-q-1)^2) + \Uptheta(n)
+\end{align*}
+Since $\max_{0\le q \le n-1}(q^2+(n-q-1)^2) \le (n-1)^2 = n_2-2n+1$, we have:
+\begin{align*}
+T(n) & \ge cn^2-c(2n-1) + \Uptheta(n) \\
+& \ge cn_2,
+\end{align*}
+since we can pick the constant $c$ small enough so that $\Uptheta(n)$ term 
+dominates the $c(2n-1)$ term. Thus, $T(n) = \Omega(n^2)$.
+
+\subsection*{7.4-4} From the discussion in the book, we know that $T(n) \ge X$.
+\begin{align}
+E[X] & = \sum_{i=1}^{n-1}\sum_{j=i+1}^{n}\frac{2}{j-i+1} \\
+& = \sum_{i=1}^{n-1}\sum_{k=1}^{n-i}\frac{2}{k+1} \\
+& = \sum_{i=1}^{n-1}\sum_{k=2}^{n-i+1}\frac{2}{k} \\
+& \ge \sum_{i=1}^{n-1}\sum_{k=2}^{n}\frac{1}{k} \\
+& = \sum_{i=1}^{n-1}\Big(\sum_{k=1}^{n}\frac{1}{k} - 1\Big) \\
+& = \sum_{i=1}^{n-1}\sum_{k=1}^{n}\frac{1}{k} - (n-1) \\
+& \ge \sum_{i=1}^{n-1}\ln(n+1) - (n-1) \\
+& = n\ln(n+1) - \ln(n+1) - (n-1) \\
+& = \Omega(n\ln n) \\
+& = \Omega(n\lg n)
+\end{align}
+
+From $T(n) \ge X$ and $E[X] = \Omega(n\lg n)$, we have $T(n) = \Omega(n \lg n)$.  
+(4.7) holds, since $\sum_{i=1}^{n-1}\sum_{k=2}^{n-i+1}\frac{1}{k}$ is the sum of 
+all the elements in the following matrix multiplied by $2$:
+
+\begin{equation*}
+\left(
+\begin{array}{ccccc}
+\frac{1}{2} & \frac{1}{3} & \dots \frac{1}{n-1} & \frac{1}{n} \\
+\frac{1}{2} & \frac{1}{3} & \dots \frac{1}{n-1} &  \\
+\dots \\
+\frac{1}{2} & \frac{1}{3} \\
+\frac{1}{2}
+\end{array} \right)
+\end{equation*}
+
+\begin{align*}
+\sum_{i=1}^{n-1}\sum_{k=2}^{n-i+1}\frac{2}{k} & = 
+\sum_{i=1}^{n-1}\Big(\sum_{k=2}^{n-i+1}\frac{1}{k} + 
+\sum_{k=2}^{n-i+1}\frac{1}{k}\Big) \\
+& \ge \sum_{i=1}^{n-1}\Big(\sum_{k=2}^{n-i+1}\frac{1}{k} + 
+\sum_{k=2}^{n-i}\frac{1}{k}\Big) \\
+& = \sum_{i=1}^{n-1}\Big(\sum_{k=2}^{n-i+1}\frac{1}{k} + 
+\sum_{k=2}^{i}\frac{1}{k}\Big) \\
+& = \sum_{i=1}^{n-1}\Big(\sum_{k=2}^{n-i+1}\frac{1}{k} + 
+\sum_{k=2}^{i}\frac{1}{k}\Big) \\
+& \ge \sum_{i=1}^{n-1}\Big(\sum_{k=2}^{n}\frac{1}{k}\Big) \\
+\end{align*}
+
+\subsection*{7.4-5} There are two parts of this sorting algorithm. One part is the 
+time to run quicksort. Among this part, there are at most $n/k$ calls to 
+partition and the comparsions between elements. Only $z_{ij}$ ($j-i \ge k$) has 
+a chance to have a comparsion. So the expected comparsions number is:
+\begin{align*}
+E[X] & = \sum_{i=1}^{n-k+1}\sum_{j=i+k-1}^{n}\frac{2}{j-i+1} \\
+& = \sum_{i=1}^{n-k+1}\sum_{l=k-1}^{n-i}\frac{2}{l+1} \\
+& \le \sum_{i=1}^{n-k+1}\sum_{l=k-1}^{n-i}\frac{2}{l+1} \\
+& \le \sum_{i=1}^{n-k+1}\sum_{l=k}^{n}\frac{2}{l} \\
+& \le 2n\sum_{l=k}^{n}\frac{1}{l} \\
+& = 2n \cdot O(\lg(\frac{n}{k})) \\
+& = O(n\lg(\frac{n}{k}))
+\end{align*}
+
+Here is a proof for $\sum_{l=k}^{n} = O(\lg(\frac{n}{k}))$.
+\begin{align*}
+\sum_{l=k}^{n}\frac{1}{l} & \le \int_{k-1}^{n}\frac{\mathrm{d}x}{x} \\
+& = \ln(n) - \ln(k-1) \\
+& = \ln(\frac{n}{k-1}) \\
+& = O(\ln(\frac{n}{k})) \\
+& = O(\lg(\frac{n}{k}))
+\end{align*}
+
+The other part is to run insertion-sort. The cost of runing insertion-sort over 
+q $k$ element arrray is $\Uptheta(k^2)$. There are $n/k$ such arrays. So the 
+total cost of running insertion-sort is $\Uptheta(k^2)\cdot n/k = \Uptheta(nk)$.
+
+So the total cost is $O(nk+n\lg(n/k))$. The other discussion is similar to the 
+solutoin to Problem 2-1.
+
+\subsection*{7.4-6} Define $E$ as the event for getting at best 
+$\alpha-to-(1-\alpha)$ split. Define $x_1, x_2 and x_3$ as the three elements 
+randomly chosen. And assume that $x_1 \le x_2 \le x_3$. There are 2 cases to get 
+a $\alpha-to-(1-\alpha)$ split. One is when $x_1 \le \alpha$ and $x_2 \le 
+\alpha$. The other is when $x_2 \le (1-\alpha)$ and $x_3 \le (1-\alpha)$. Due to 
+their symmetriy, their probabilities are the same. Now let's compute the 
+probability for the former. Choose 3 elements with a probability to choose a 
+element which is among the $A$'s $\alpha n$ smallest elements. The probability 
+is $\alpha$. This is a Bernoulli trial. So the probability for the for case is 
+$\binom{3}{2}\alpha_2(1-\alpha) = 3\alpha_2(1-\alpha)$. So $Pr\{E\} = 
+6\alpha_2(1-\alpha)$. $\bar{E}$ is the event for getting at worst 
+$\alpha-to-(1-\alpha)$ split. $Pr\{\bar{E}\} = 1 - Pr{E} = 1 - 
+6\alpha_2(1-\alpha)$.
+
+\subsection*{7.1}
+\textbf{b:} In the first iteration, $i$ and $j$ do not access an element of $A$ 
+outside of $A[p\dots r]$. After the first iteration, $i=p$ and $p\le j \le r$.  
+Let $k = j$ after the first iteration. If the subroutine does not return, we 
+have $A[p] \le x$ and $A[k] = x$. In the following iterations, $j$ will never 
+access an element outside of $A[p\dots r]$ since $A[p] \le x$. And $i$ will 
+never access an element outside of $A[p\dots r]$ since $A[k] =x $.
+
+\textbf{c:} In a:, we already have $p\le j \le r$. We only need to prove that $j 
+< r$. If the subroutine terminates after the first subroutine. We have $i\ge j$ 
+and $i = p, p < r$. So we have $j < r$. If the subroutine doest not terminate in 
+the first iteration, $j$ will be decreased at least one time. So we still have 
+$j < r$.
+
+\textbf{d:} We will proove the following \textbf{loop invariant}: \\
+At the start of every iteration, $A[p\dots i] \le x$, $A[j\dots r] \ge x$.\\
+\textbf{Initialization:} Before the first iteration, $i = p-1$ and $j=r+1$.  
+$A[p\dots p-1]$ and $A[r+1\dots r]$ are empty, the loop invariant holds.
+\textbf{Maintenance:} During a iteration which does terminate the subroutine, 
+$j$ is decreased to $j'$ until $A[j'] \ge x$. $i$ is increased to $i'$ until 
+$A[i'] \ge x$. Then $A[i']$ is exchanged with $A[j']$. So $A[p\dots i'] \le x$ 
+and $A[j'\dots r] \ge x$. \\
+\textbf{Termination:} When the subroutine is terminated, $i \ge j$, $A[p\dots 
+i-1] \le x$ and $A[j+1\dots r] \ge x$. When $i=j$, $A[i] = A[j] = x$, So 
+$A[p..j]$ is less than or equal to every element of $A[j+1\dots r]$. When $i = 
+j+1$, $A[j] \le x$, $d$'s conclusion also holds. There no there relations 
+between $i$ and $j$. So $d$ is proved.
+ 
+\textbf{e:}
+\begin{codebox}
+\Procname{$\proc{Quicksort}(A,p,r)$}
+\li \If $p < r$
+\li \Then $q \gets \proc{Hoare-Partition}(A,p,r)$
+\li $\proc{Quicksort}(A,p,q)$
+\li $\proc{Quicksort}(A,q+1,r)$
+\End
+\end{codebox}
+
+\subsection*{7.2} \textbf{a:} Since all element values are equal, 
+$\proc{Randomized-Partition}$ always return the same element. The behaviour of 
+the randomized quicksort is the same as the ordinary quicksort. So the running 
+time is $\Uptheta(n^2)$.
+
+\textbf{b:}
+\begin{codebox}
+\Procname{$\proc{Partition}'(A,p,r)$}
+\li $x \gets A[r]$
+\li $i \gets p-1$
+\li $k \gets p-1$
+\li \For $j=p$ \To $r-1$
+\li \Do \If $A[j] < x$
+\li \Then $i \gets i+1$
+\li $k \gets k+1$
+\li $temp \gets A[i]$
+\li $A[i] \gets A[j]$
+\li $A[j] \gets A[k]$
+\li $A[k] \gets temp$
+\li \ElseIf $A[j] \isequal x$
+\li \Then $k \gets k+1$
+\li exchange $A[k]$ with $A[j]$
+\End
+\End
+\li exchange $A[k+1]$ with $A[r]$
+\li \Return $(i+1,k+1)$
+\end{codebox}
+We can do a loop invariant analysis for this subroutine. It is easy. And it is 
+easy to see that this subroutine takes $\Uptheta(r-p)$ time.
+
+\textbf{c:}
+\begin{codebox}
+\Procname{$\proc{Randomized-Partition}'(A,p,r)$}
+\li $i \gets \proc{Random}(p,r)$
+\li exchange $A[r]$ with $A[i]$
+\li \Return $\proc{Partition}'(A,p,r)$
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Quicksort}'(A,p,r)$}
+\li \If $p < r$
+\li \Then $(q,t) \gets \proc{Randomized-Partition}'(A,p,r)$
+\li $\proc{Quicksort}'(A,p,q-1)$
+\li $\proc{Quicksort}'(A,t+1,r)$
+\End
+\end{codebox}
+
+\textbf{d:} We need to rename the elements of the array $A$ as 
+$z_1,z_2,\dots\dots,z_n$ ($z_a \le z_b, a < b$). This is the only adjustment 
+needed.
+
+\subsection*{7.3} \textbf{a:} E[$X_i$] = $1/n$. \\
+\textbf{b:} First we argue that $T(n) = T(q-1) + T(n-q) + \Uptheta(n)$. $T(n)$ 
+has two costs. The first cost is to partition the input array. This cost is 
+$\Uptheta(n)$. The other part is to sort the partitioned two parts. The size of 
+one part is $q-1$. The size of the other part is $n-q$. So the cost to sort 
+these two parts are $T(q-1) + T(n-q)$. So the total cost 
+$T(q-1)+T(n-q)+\Uptheta(n)$. Since the probability of choosing a element as 
+pivort is $1/n$. We have:
+\begin{align*}
+E[T(n)] &= E\Bigg[\sum_{q=1}^{n}\frac{1}{n}(T(q-1)+T(n-q)+\Uptheta(n)) \Bigg] \\
+&= E\Bigg[\sum_{q=1}^{n}X_q(T(q-1)+T(n-q)+\Uptheta(n)) \Bigg]
+\end{align*}
+
+\textbf{c:}
+\begin{align*}
+E[T(n)] &= E\Bigg[\sum_{q=1}^{n}X_q(T(q-1)+T(n-q)+\Uptheta(n)) \Bigg] \\
+&= E\Bigg[\sum_{q=1}^{n}\frac{1}{n}(T(q-1)+T(n-q)+\Uptheta(n)) \Bigg] \\
+&= \frac{1}{n}E\Bigg[\sum_{q=1}^{n}(T(q-1)+T(n-q)) \Bigg] + \Uptheta(n) \\
+&= \frac{1}{n}E\Bigg[\sum_{q=1}^{n}T(q-1)+\sum_{q=1}^{n}T(n-q) \Bigg] + \Uptheta(n) \\
+&= \frac{2}{n}E\Bigg[\sum_{q=1}^{n}T(q-1) \Bigg] + \Uptheta(n) \\
+&= \frac{2}{n}E\Bigg[\sum_{q=2}^{n-1}T(q)+ T(0) + T(1)\Bigg] + \Uptheta(n) \\
+&= \frac{2}{n}E\Bigg[\sum_{q=2}^{n-1}T(q)\Bigg] + T(0) + T(1) + \Uptheta(n) \\
+&= \frac{2}{n}E\Bigg[\sum_{q=2}^{n-1}T(q)\Bigg] + \Uptheta(n) \\
+&= \frac{2}{n}\sum_{q=2}^{n-1}E[T(q)] + \Uptheta(n)
+\end{align*}
+
+\textbf{d:}
+\begin{align*}
+\sum_{k=2}^{n-1}k\lg k & = \sum_{k=2}^{\lceil\frac{n}{2}\rceil -1}k\lg k + 
+\sum_{k=\lceil\frac{n}{2}\rceil}^{n-1}k\lg k \\
+& \le \lg(\lceil\frac{n}{2}\rceil-1)\sum_{k=2}^{\lceil\frac{n}{2}\rceil-1} k + 
+\lg(n-1)\sum_{k=\lceil\frac{n}{2}\rceil}^{n-1}k \\
+& = \lg(\lceil\frac{n}{2}\rceil-1) 
+\frac{1}{2}(\lceil\frac{n}{2}\rceil-1+2)(\lceil\frac{n}{2}\rceil-2) + 
+\lg(n-1)\frac{1}{2}(n-1+\lceil\frac{n}{2}\rceil)(n-\lceil\frac{n}{2}\rceil) \\
+& \le \lg(\frac{n}{2})
+\frac{1}{2}(\lceil\frac{n}{2}\rceil+1)(\lceil\frac{n}{2}\rceil-2) + 
+\lg(n)\frac{1}{2}(n-1+\lceil\frac{n}{2}\rceil)(n-\lceil\frac{n}{2}\rceil) \\
+& = \frac{1}{2}(\lg n-1)(\lceil\frac{n}{2}\rceil^2-\lceil\frac{n}{2}\rceil - 
+2) + \frac{1}{2}\lg(n)(n^2-\lceil\frac{n}{2}\rceil^2-n+\lceil\frac{n}{2}\rceil) 
+   \\
+& \le \frac{1}{2}(\lg n-1)(\lceil\frac{n}{2}\rceil^2) + \frac{1}{2}\lg(n)(n^2-\lceil\frac{n}{2}\rceil^2) \\
+& \le \frac{1}{2}(\lg n-1)(\lceil\frac{n}{2}\rceil^2) + 
+\frac{1}{2}\lg(n)(n^2-\lceil\frac{n}{2}\rceil^2) \\
+& = -\frac{1}{2}\lceil\frac{n}{2}\rceil^2 + \frac{1}{2}n^2\lg n \\
+& \le \frac{1}{2}n^2\lg n - \frac{1}{8}n^2
+\end{align*}
+
+We have another way to prove the inequality. Since $k\lg k$ is a monotonically 
+increasing function, we have from (A.11):
+\begin{align*}
+\sum_{k=2}^{n-1}k\lg k & \le \int_{2}^{n}x\lg x \mathrm{d}x \\
+& = \Big[\frac{1}{2}x^2\lg x - \frac{x^2}{4\ln 2}\Big]_2^{n} \\
+& = \frac{1}{2}n^2\lg n - \frac{1}{4\ln2}n^2-(2-\frac{1}{\ln2}) \\
+& \le \frac{1}{2}n^2\lg n - \frac{1}{4\ln2}n^2 \\
+& \le \frac{1}{2}n^2\lg n - \frac{1}{8}n^2 \\
+\end{align*}
+
+\textbf{e:} First to prove that $E[T(n)] = O(n\lg n)$. Assume $E[T(n)] \le an\lg 
+n$.
+\begin{align*}
+\text{E}[T(n)] & = \frac{2}{n}\sum_{q=2}^{n-1}E[T(q)] + \Uptheta(n) \\
+& \le \frac{2a}{n}\sum_{q=2}^{n-1}q\lg q + \Uptheta(n) \\
+& \le \frac{2a}{n}(\frac{1}{2}n^2\lg n - \frac{1}{8}n^2) + \Uptheta(n) \\
+& = an\lg n - \frac{1}{4}an + \Uptheta(n) \\
+& \le an\lg n
+\end{align*}
+since we can pick a large enough. So E$[T(n)] = O(n\lg n)$.From Exercise 7.4-2, 
+we know quicksort's best-case running time is $\Omega(n\lg n)$. So E$[T(n)] = 
+\Uptheta(n \lg n)$.
+
+\subsection*{7.4}
+\textbf{a:}
+$$p_i = \frac{(i-1)(n-i)}{\binom{n}{3}}, i = 2,3,\dots, n-1$$
+
+\textbf{b:} New probability 
+$\frac{(\lfloor(n+1)/2\rfloor-1)(n-\lfloor(n+1)/2\rfloor)}{\binom{n}{3}}$. Old 
+probability $1/n$. So the increasement is 
+$\frac{(\lfloor(n+1)/2\rfloor-1)(n-\lfloor(n+1)/2\rfloor)}{\binom{n}{3}}-\frac{1}{n}$.
+
+\begin{align*}
+\frac{P_{new}}{P_{old}} & = 
+\frac{\frac{(\lfloor(n+1)/2\rfloor-1)(n-\lfloor(n+1)/2\rfloor)}{\binom{n}{3}}}{\frac{1}{n}}\\
+& = 6\frac{(\lfloor(n+1)/2\rfloor-1)(n-\lfloor(n+1)/2\rfloor)}{(n-1)(n-2)} \\
+& \ge 6\frac{(\frac{n+1}{2}-1)(n-\frac{n+1-1}{2})}{(n-1)(n-2)} \\
+& = \frac{3}{2}(\frac{n}{n-2})
+\end{align*}
+When $n \to \infty$, the ratio is $3/2$.
+
+\textbf{c:}
+For the ordinary implementation, the probability is $\frac{\frac{n}{3}+1}{n}$.  
+Its approximation is $1/3$. Let $f(i) = (i-1)(n-i) = -i^2+(n+1)i-n$. $f'(i) = 
+n+1-2i$. When $i=(n+1)/2$, $f'(i)$ is zero. So $f(i)$ is monotonically 
+increasing in $[-\infty, \frac{n+1}{2}]$. And $f(i)$ is monotonically decreased 
+in $[\frac{n+1}{2},\infty]$.For the median-of-3 implementation.  
+\begin{align*}
+p & = 1 - \sum_{i=2}^{\frac{n}{3}}\frac{f(i)}{\binom{n}{3}} - 
+\sum_{i=\frac{2n}{3} + 1}^{n-1}\frac{f(i)}{\binom{n}{3}} \\
+& \ge 1 - \frac{1}{\binom{n}{3}}(\int_2^{\frac{n}{3}+1}f(x)\mathrm{d}x + 
+\int_{\frac{2n}{3}}^{n-1}f(x)\mathrm{d}x) \\
+& = 1 - 
+\frac{6}{n(n-1)(n-2)}(\Big[-\frac{i^3}{3}+\frac{n+1}{2}i^2-ni\Big]_2^{\frac{n}{3}+1}+
+\Big[-\frac{i^3}{3}+\frac{n+1}{2}i^2-ni\Big]_{\frac{2n}{3}}^{n-1}) \\
+& \approx 
+1 - 
+  \frac{6}{n(n-1)(n-2)}(\Big[-\frac{i^3}{3}+\frac{n+1}{2}i^2-ni\Big]_2^{\frac{n}{3}}+
+\Big[-\frac{i^3}{3}+\frac{n+1}{2}i^2-ni\Big]_{\frac{2n}{3}}^{n}) \\
+& \approx 1 - \frac{6}{n^3} \frac{7}{81}n^3, (only\: consider\: n^3\: terms) \\
+& = \frac{13}{27}
+\end{align*}
+So the increasement is approximately $\frac{13}{27}-\frac{1}{3}=\frac{4}{27}$.
+
+\textbf{d:} Even though we always pick the median of the input array as the pivot
+during the recursion call, the best running time is still $\Omega(n \lg n)$. So 
+the median-of-3 version of quicksort cannot affect the asymptotic running time, 
+it only affect the constant factor.
+
+\subsection*{7.6}
+\textbf{a:}
+\begin{codebox}
+\Procname{$\proc{Fuzzy-Sort}(A,p,r)$}
+\li \If $p < r$
+\li \Then $(q,t) \gets \proc{Randomized-Partition}(A,p,r)$
+\li $\proc{Fuzzy-sort}(A,p,q-1)$
+\li $\proc{Fuzzy-sort}(A,q+1,r)$
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Randomized-Partition}(A,p,r)$}
+\li $i \gets \proc{Random}(p,r)$
+\li exchange $A[r]$ with $A[i]$
+\li \Return $\proc{Partition}(A,p,r)$
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Compare}(x,y)$}
+\li \If $x.b < y.a$
+\li \Then \Return $-1$
+\li \ElseIf $x.a > y.b$
+\li \Then \Return $1$
+\li \Else \Return $0$
+\end{codebox}
+
+
+\begin{codebox}
+\Procname{$\proc{Partition}(A,p,r)$}
+\li $x \gets A[r]$
+\li $i \gets p-1$
+\li $k \gets p-1$
+\li \For $j=p$ \To $r-1$
+\li \Do $comp = \proc{Compare}(A[j], x)$
+\li \If $comp < 0$
+\li \Then $i \gets i+1$
+\li $k \gets k+1$
+\li $temp \gets A[i]$
+\li $A[i] \gets A[j]$
+\li $A[j] \gets A[k]$
+\li $A[k] \gets temp$
+\li \ElseIf $comp \isequal 0$
+\li \Then $k \gets k+1$
+\li exchange $A[k]$ with $A[j]$
+\End
+\End
+\li exchange $A[k+1]$ with $A[r]$
+\li \Return $(i+1,k+1)$
+\end{codebox}
+
+\textbf{b:} The running time of subroutine $\proc{Partition}$ is clearly 
+$\Theta(n)$.  Hence, the total running time of $\proc{Fuzzy-Sort}$ is $\Theta(n 
+\lg n)$.  As more and more intervals overlap, the left group and right group 
+will have fewer and fewer intervals. So the running time will speed up. If all 
+intervals overlap, then the running time is $\Theta(n)$.
+
+\chapter{Sorting in Linear Time}
+\subsection*{8.1-1} $n-1$.
+\subsection*{8.1-2} $\lg(n!) = \sum_{i=1}^{n}\lg n$. Since $\sum_{i=1}^{n}\lg i \le 
+n\lg n$. So we have $\lg(n!) = O(n\lg n)$.
+\begin{align}
+\sum_{i=1}^{n}\lg i & \ge \sum_{i=\lceil\frac{n}{2}\rceil}^{n}\lg i \\
+& \ge \sum_{i=\lceil\frac{n}{2}\rceil}^{n}\lg(\lceil\frac{n}{2}\rceil) \\
+& = (n-\lceil\frac{n}{2}\rceil+1)\lg(\lceil\frac{n}{2}\rceil) \\
+& = (\lfloor\frac{n}{2}\rfloor+1)\lg(\lceil\frac{n}{2}\rceil) \\
+& \ge \frac{n}{2}\lg(\frac{n}{2}) \\
+& \ge \frac{1}{2}n\lg\sqrt n \\
+& = \frac{1}{4}n\lg n
+\end{align}
+(5.6) holds when $n \ge 4$. So we have $\lg(n!) = \Omega(n\lg n)$. Now $\lg(n!) 
+= \Uptheta(n\lg n)$.
+
+\subsection*{8.1-4}
+For a $k$ element subsequence, the comparison number $h_i \ge \lg(k!)$ ($1 \le i 
+\le n/k$).  So for $n/k$ such subsequences, the comparison number 
+$\sum_{i=1}^{n/k}h_i \ge \frac{n}{k}lg(k!) \ge \frac{n}{k}(k\lg k - k\lg e) = 
+n\lg k - n\lg e = \Omega(n\lg k)$.
+
+\subsection*{8.2-4}
+\begin{codebox}
+\Procname{$\proc{Preprocess}(A, C, k)$}
+\li let $C[-1\dots k]$ be a new array
+\li \For $i \gets -1$ \To $k$
+\li \Do $C[i] \gets 0$
+\End
+\li \For $j \gets 1$ \To $A.length$
+\li \Do $C[A[j]] \gets C[A[j]]+1$
+\End
+\li \Comment $C[i]$ now contains the number of elements equal to $i$.
+\li \For $i \gets 1$ \To $k$
+\li \Do $C[i] \gets C[i] + C[i-1]$
+\End
+\li \Comment $C[i]$ now contains the number of elements less than or equal to 
+$i$.
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Query}(C, a, b)$}
+\li $a \gets \proc{Max}(a, 0)$
+\li $b \gets \proc{Min}(b, k)$
+\li \Return $C[b] - C[a-1]$
+\end{codebox}
+
+\subsection*{8.3-5}
+In the first card-sorting algorithm in this subsection*, exactly how many sorting passes are needed to sort d-digit decimal numbers in the worst cas? How many piles of cards would an operator need to keep track of in the worst case?
+solution:
+There are $$1 + 10 + 10^2 + \cdots +10^{d-1} = \frac{10^d - 1}{10 - 1} = \frac{10^d - 1}{9}$$ passes needed to sort all numbers.
+Each time we recursively sort numbers in a bin, we must keep track of other 9 
+bins. And we have to recursively sort the numbers for each digit. Hence we have 
+to keep track of $9(d-1)$ piles of cards in the worst case.
+
+\subsection*{8.4-3} This is a 2 Bernoulli trails with $p=1/2$.
+\begin{align*}
+E[X]_2 & = (np)^2 \\
+& = (2 \cdot \frac{1}{2})^2 \\
+&= 1^2 \\
+& = 1
+\end{align*}
+Define $X_i$ as the event that head is shown up in the $i$th filp.
+\begin{align*}
+E[X_i] & = 1 \cdot \frac{1}{2} + 0 \cdot \frac{1}{2} \\
+& = \frac{1}{2}
+\end{align*}
+\begin{align*}
+E[X_i^2] & = 1^2 \cdot \frac{1}{2} + 0^2 \cdot \frac{1}{2} \\
+& = \frac{1}{2}
+\end{align*}
+\begin{align*}
+E[X^2] & = E[(X_1+X_2)^2] \\
+& = E[X_1^2+X_2^2+2X_1 X_2] \\
+& = E[X_1^2] + E[X_2^2] + 2 E[X_1] E[X_2] \\
+& = \frac{1}{2} + \frac{1}{2} + 2 \cdot \frac{1}{2} \cdot \frac{1}{2} \\
+& = \frac{3}{2}
+\end{align*}
+
+\subsection*{8.4-4}
+Note that the expected number of points residing in an area is proportional to 
+the size of the area. To satisfy the assumption of BUCKET-SORT, we have to make 
+the interval $(0, 1]$ split in a proper way. Consider a distance $d$ between $a$ 
+and $b$, where $0 \leq a < d < b \leq 1$. The area is $\pi(b^2 - a^2)$. Dividing 
+$(0, 1]$ into n equal-sized intervals does not help a lot. It does not mean we 
+divide a unit circle into n areas evenly. To achieve our goal, we divide $(0, 
+1]$ into $<0, \sqrt{1/n}, \sqrt{2/n}, \ldots, \sqrt{n-1/n}, 1>$ intervals 
+instead. In the context of such dividing, we can see that the $\pi(1/n) = 
+\pi((\sqrt{2/n})^2 - (\sqrt{1/n})^2) = \cdots = \pi(1 - (\sqrt{n-1/n})^2)$. 
+Because of the equal size of area, we'll expect that each bucket contain roughly 
+the same points.
+
+\subsection*{8.4-5}
+\begin{codebox}
+\Procname{$\proc{Bucket-Sort}(A)$}
+\li let $B[0\dots n-1]$ a new array
+\li $n \gets A.length$
+\li \For $i \gets 0$ \To $n-1$
+\li \Do make $B[i]$ a empty list
+\End
+\li \For $i\gets 1$ \To $n$
+\li \Do Insert $A[i]$ into list $B[\lfloor n \proc{P}(A[i] )\rfloor]$
+\End
+\li \For $i \gets 0$ \To $n-1$
+\li \Do sort list $B[i]$ with insert sort
+\End
+\li concatenate the lists $B[0], B[1], \dots, B[n-1]$ together in order
+\end{codebox}
+
+$P(x)$ is defined in a manner of cumulative distribution function. By 
+probability integral transform, we know that $P(X_i)$ has a uniform 
+distribution, where $i = 1, 2, \ldots, n$. As a result, we can sort these 
+transformed numbers by BUCKET-SORT in linear time.
+
+\subsection*{8.2}
+\textbf{a:} counting sort \\
+\textbf{b:} Use a partition \\
+\textbf{c:} insert sort \\
+\textbf{d:} Counting sort. Choose $r=1$. The running time 
+$$\Uptheta((b/r)(n+2^r) = \Uptheta(b(n+2)) = \Uptheta(bn)$$
+\textbf{e:}
+
+\begin{codebox}
+\Procname{$\proc{Counting-Sort}(A, k)$}
+\li let $C[0\dots k]$ be a new array
+\li \For $i \gets 0$ \To $k$
+\li \Do $C[i] \gets 0$
+\End
+\li \For $j \gets 1$ \To $A.length$
+\li \Do $C[A[j]] \gets C[A[j]] + 1$
+\End
+\li $index \gets 1$
+\li \For $i \gets 0$ \To $k$
+\li \Do \For $j \gets 1$ \To $C[i]$
+\li \Do $A[index] = i$
+\li $index \gets index + 1$
+\End
+\End
+\End
+\end{codebox}
+This algorithm is not stable.
+
+\subsection*{8.3}
+\textbf{a:} First to sort the integers using the $i$th digit (Count sort can be 
+used). Then put all the integers which only has $i$ digits before other 
+integers. Invoke this algorithm recursively on the latter group with $i$ 
+increased to $i+1$. The initial value of $i$ is $1$ (the least significant 
+digit).  Terminate this algorithm when the latter group is empty. Let $m_i$ be 
+the number of integers which have $i$ digits and $l$ the maximum length of all 
+the integers.  $T=\sum_{i=1}^{l}O(m_i+k) = O(\sum_{i=1}^l (m_i+k)) O(n+lk)$.  
+Since $l \le n$. So $T=O(n)$.
+
+\textbf{b:} When a string $x$ and a string $y$ are compared, if the first letter 
+of a string $x$ is lexicographically greater than the first letter of a string 
+$y$, then $x$ is lexicographically greater than $y$. We need a algorithm which 
+sorts the strings on the $i$th letter, and gather strings with the same $i$th 
+letter into groups (Counting sort can be used). The strings which don't have the 
+$i$th letter are taken out and put first. Then, the sorting is recursive within 
+each group with $i$ increased to $i+1$. We invokes this algorithm with $i = 1$.  
+Finally, all strings will be sorted.
+We analyze the running time of the sorting process. The $m_i$ denotes the number 
+of strings of i characters. $l$ is the maximum length of all the input strings.  
+And we have $\sum_{i = 1}^l i \cdot m_i = n$. If there are $t_i$ strings with i 
+characters and the total characters over all strings is $n$, then the total cost 
+to call counting sort is $\sum_{i=1}^l O(t_i) = O(\sum_{i=1}^l t_i) = O(n)$.  
+Thus, the overall running time is $O(n)$.  
+
+\subsection*{8.5}
+\textbf{a:} Ordinaray sorting. \\
+\textbf{b:} \\
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+\hline
+6 & 1 & 7 & 2 & 8 & 3 & 9 & 4 & 10 & 5 \\ \hline
+\end{tabular} \\
+\textbf{c:} First to prove the $if$ part. For $A[i] \le A[i+k]$, for all 
+$i=1,2,\dots, n-k$. Add $A[i+1] + \dots + A[i+k-1]$ to the two sides of the 
+equation. We have $A[i] + A[i+1] + \dots + A[i+k-1] \le A[i+1] + \dots + 
+A[i+k-1] + A[i+k]$. Divide the tow sides of the equation with $k$. We have 
+$\frac{\sum_{j=i}^{i+k-1}A[j]}{k} \le \frac{\sum_{j=i+1}^{i+k}A[j]}{k}$.
+
+Second to prove the $only-if$ part. Mutiply $\frac{\sum_{j=i}^{i+k-1}A[j]}{k} 
+\le \frac{\sum_{j=i+1}^{i+k}A[j]}{k}$ with $k$ and subtract 
+$A[i+1]+\dots+A[i+k-1]$. We have $A[i] \le A[i+k]$.
+
+\textbf{d:} We can divide the input array array to $k$ groups. $i$ ($0 \le i \le 
+k-1$) groups contains elements $A[i], A[i+k], \dots$. Heapsort every groups.  
+From c:, we know that the input arrary is k-sorted. The cost to sort 1 group is 
+$O((n/k)\lg (n/k))$. So the total cost is $k \cdot O((n/k)\lg(n/k)) = 
+O(n\lg(n/k))$.
+
+\textbf{e:} Without loss of generality, we assume that $n = km$. That is, an 
+n-element array can be divide into m group of length k. The first element of 
+each group can form a sorted list. The second element of each group form a 
+sorted list as well and so on. By Exercise 6.5-9, we can merge these $(n/k)$ 
+sorted list into a sorted list in $O(n\lg(n/k))$ time.
+
+\textbf{f:} The problem of k-sorting an input array is equivalent to sort $k$ 
+groups of the input array. Sorting a group requires $\Omega((n/k)\lg(n/k))$. So 
+the total cost is $k \Omega((n/k)\lg(n/k)) = \Omega(n\ln(n/k))$.
+
+\subsection*{8-6}
+\textbf{a:} $\binom{2n}{n}$.
+
+\textbf{b:} Let the height of the decision tree be h. The decision tree contains 
+at least $C^{2n}_n$ leaves.  By Stirling's formula, we know that $$n! = \sqrt{2\pi 
+n}(\frac{n}{e})^ne^{\alpha_n}$$, where $$\frac{1}{12n+1} < \alpha_n < 
+\frac{1}{12n}$$. Then,
+\begin{align*}
+2^h \geq C^{2n}_n &= \frac{(2n)!}{n!n!} \\
+& \geq \frac{\sqrt{4\pi n}(\frac{2n}{e})^{2n}e^{\frac{1}{24n+1}}}{[\sqrt{2\pi 
+n}(\frac{n}{e})^ne^{\frac{1}{12n}}]^2} \\
+& \geq \frac{\sqrt{4\pi n}(\frac{2n}{e})^{2n}e^{\frac{1}{25n}}}{[\sqrt{2\pi 
+n}(\frac{n}{e})^ne^{\frac{1}{12n}}]^2} \\
+& \geq \frac{(\frac{2n}{e})^{2n}}{2\pi n(\frac{n}{e})^{2n}e^{\frac{19}{150n}}}  
+\\
+& \geq \frac{2^{2n}}{2\pi n\cdot e^{\frac{19}{150n}}}
+\end{align*}
+
+$$\Rightarrow h \geq 2n - \lg 2\pi n - \frac{19}{150n}\lg e = 2n - o(n)$$, where
+$$\lim_{n \rightarrow \infty}\frac{\lg 2\pi n + \frac{19}{150n}\lg e}{n} = 0 
+\Rightarrow \lg 2\pi n + \frac{19}{150n}\lg e \in o(n)$$.
+
+c. Let the two sorted array be A and B, and $a_1, a_2, \ldots, a_n$ and $b_1, 
+b_2, \ldots, b_n$ are elements of A and B respectively.Suppose that $a_i$ and 
+$b_j$ are adjacent in final sorted list.
+$\cdots, a_{i-1}, a_i, a_{i+1}, \cdots$
+$\cdots, b_{j-1}, b_j, b_{j+1}, \cdots$
+If $b_j$ compares to $a_k$ where $k = 1, \ldots, i-1$, the result must be $a_k 
+\leq b_j$ but we are not able to determine the whether $b_j$ is greater than 
+$a_i$ or not. Similarly, if $b_j$ compares to $a_K$ where $K = i+1, \ldots, n$, 
+the result must be $a_K \ge b_j$ we cannot know that if $b_j$ is greater than 
+$a_i$ or not, either. Therefore, the only way we figure out the order of $b_j$ 
+and $a_i$ in the final sorted list is comparing $b_j$ to $a_i$ directly.
+
+d. We consider a worst-case to determine the lower bound. Let $a_1, a_2, \ldots, 
+a_{2n}$ be a sorted list, and $A = \langle a_1, a_3, \ldots, a_{2n-1}\rangle$, 
+$B = \langle a_2, a_4, \ldots, a_{2n}\rangle$. By problem c, we know that $a_i$ 
+must compare to $a_{i+1}$ in the merging process. So, there must be at least 
+$2n-1$ comparisons.
+
+\subsection*{8-7}
+\textbf{a:} If $A[p] \isequal A[q]$, $A[p]$ is in its right position which 
+contradicts with that $A[p]$ is in a wrong position. So we have $A[p] \neq 
+A[q]$.  If there are $l$ elements equal to $A[q]$, one of them must be in a 
+wrong position. Assmue it is $A[q'] = A[q]$. Since $A[p]$ is the samllest of the 
+values which are put into wrong positions, $A[q'] >= A[p]$.
+$$A[p]\neq A[q], A[q] \ge A[p] \Rightarrow A[q] > A[p]$$
+
+So we have $A[q] > A[p]$.  $B[p] = 0$ and $B[q] = 1$ follows. 
+
+Let $k$ be the first position where a wrong element is put. And since $A[p]$ is 
+the smallest of values which are put into wrong positions, $A[p]$ should have 
+gone into $k$. Since $A[k]$ is in a wrong position, $A[k] \neq A[p]$. And $A[p]$ 
+is smallest, we have $A[k] > A[p]$. So we have $B[k] = 1$ and $k < p$.
+
+\textbf{b:} Whenever the algorithm compares a pair of 1's or 0's in $B$, it not 
+important whether it exchanges the values or not, so we may simply assume that 
+it does the same as on $A$. On the other hand, whenever the algorithm compares 
+some values $B[i]=0$ and $B[j]=1$, this means that $A[i] \le A[p] < A[j]$.  
+Therefore, in this case the oblivious compare-exchange algorithm will do the 
+same on $A$ and $B$. So after the sorting, $B$'s definition still holds. And 
+from the discussion in a:, we know that X fails to correctly sort $B$.
+
+\textbf{c:} Difference of sorting methods used in odd steps does not have any 
+effect of the columnsort. So we can assume that oblivious compare-exchange 
+insert-sort is used. For the event steps, they only involves compare-exchange 
+operations which are based on elements' indices. So columnsort can be treated as 
+an oblivious compare-exchange algorithm.
+
+\textbf{d:} After step 1, every column is sorted. Every column is a string 
+$\underbrace{0\dots0}_\text{$l$ 0s}\underbrace{1\dots1}_\text{$m$ 1s}$. After 
+step 2, every column is transposed into at least $2s$ rows. Since the column is 
+sorted before the transposition, there is at most 1 dirty row among these rows.  
+Since there are $s$ columns which are transposed, the total number of dirty rows 
+is at most $s$. After step 3, all the clean 0-rows are at the top and all the 
+clean 1-rows are at the bottom. And there are at most $s$ dirty rows between 
+them.
+
+\textbf{e:} After step 4's inverse permutation, all clean 0-rows at the top are 
+combined into 0-columns on the left side since $s$ is a divisor of $r$. All 
+clean 1-rows at the bottom are combined into 1-columns on the right side. The at 
+most $s$ dirty rows are transposed into a dirty area which contains at most 
+$s^2$ elements.
+
+\textbf{f:} If there is no dirty column, a fully-sorted output is already 
+produced.  If there is only $1$ dirty column, step 5 will produce a fully-sorted 
+output.  The following steps does not have any effects on the final output since 
+the sorting on sorted columns does nothing and a permutation and an inverse 
+permutation means no array element movements.
+
+The other case is that there are $2$ dirty columns.  And dirty column $j$'s top 
+half part is all 0s. Dirty column $j+1$'s bottom half part is all 1s. After step 
+6, column $j+1$ are composed of the bottom part of column $j$ and the top part 
+of column $j+1$. And all the other areas are clean. After step 7, the top part 
+of column $j+1$ are clean-0s. The bottom part is $\underbrace{0\dots0}_\text{$a$ 
+0s}\underbrace{1\dots1}_\text{$b$ 1s}$. After step 8, column $j$ are 0-column.  
+And column $j+1$ are $\underbrace{0\dots0}_\text{$a$ 
+0s}\underbrace{1\dots1}_\text{$b+s^2$
+1s}$. All the columns on the left side are 0-columns and all the columns on the 
+right side are 1-columns. So the output is fully-sorted.
+
+\textbf{g:} Since $s$ does not divide $r$, every column is transposed into some 
+0-rows, 1 dirty row, some 1-rows and one sequence of 1 whose lenght is less than 
+$s$. The transposed result is that columns except the first one are shifted by 
+some number less than $s$. So for the $s$ dirty rows mentioned above, there are 
+still at most $s$ dirty rows. And there are $s-1$ rows which are contribute by 
+the ending part of $i$ column and $i+1$ column. These rows may be dirty. So 
+there are at most $2s-1$ dirty rows. At the top, there are 0-rows. At the 
+bottom, there are 1-rows. After step 4, there will a at most $s(2s-1)$ dirty 
+area. So if $r \ge 2\cdot s(2s-1)$, columnsort still works.
+
+\textbf{h:} If $s$ does not divide $r$, we can append $r \mod s$ $\infty$'s to 
+every column. The new column lengh is $r'=r+(r\mod s)$. Since these appended 
+$\infty$s will be in the last $s (r \mod s)$ positions of the fully-sorted 
+output, they are just be discarded.  The left elements are fully-sorted. \\
+Another solution is to append $s(r \mod s)$ to the end of the input array. The 
+discussion is similar.
+
+
+\chapter{Medians and Order Statistics}
+
+\subsection*{9.1-2}
+The following text is 
+\href{http://rightwayman.blogspot.com/2010/12/algo-exercise-91.html}{rightwayman's 
+solution}. \\
+Initially, there are n potential items of maximum candidates and minimum 
+candidates. If $a_i$ and $a_j$ are simultaneous in the candidate set of maximum 
+and minimum respectively, after $a_i$ compares to $a_j$ the cardinality of 
+candidate set of maximum and minimum will decrease by 1. If $a_i$ and $a_j$ are 
+in the candidate set of maximum or minimum, after $a_i$ compares to $a_j$ the 
+cardinality of the set will decrease by 1.
+(1) when n is even:
+After $n/2$ comparisons, the candidate set of maximum and minimum will remain 
+$n/2$ candidates. Next, it requires $n/2 - 1$ comparisons to determine the 
+maximum and another $n/2 - 1$ comparisons to determine the minimum. Total 
+comparisons needed is $3n/2 - 2 = \lceil 3n/2 \rceil -2$.
+(2) when n is odd:
+After $(n-1)/2$ comparisons, the candidate set of maximum and minimum will 
+remain $(n+1)/2$ candidates. Next, it requires at most $(n+1)/2 - 1$ comparisons 
+to determine the maximum and another at most $(n+1)/2 - 1$ comparisons to 
+determine the minimum. Total comparisons needed is $3n/2 - 3/2 = \lceil 3n/2 
+\rceil -2$.
+
+\subsection*{9.2-1} There are two possible cases of recursive calls to 0-length 
+array. One case is when $q = p$. In this case, $k = 1$. If $i = 1$, line-6 is 
+executed.  If $i > 1$, line-9 is executed. Since $i < k$ is imposssible, line-8 
+0-length recursive call will not be executed. The discussion for the case that 
+$q = r$ is similar.
+
+\subsection*{9.2-2} Occurrence of $X_k$ makes the time it takes to do the recursive 
+call neither more nor less.
+
+\subsection*{9.2-3}
+\begin{codebox}
+\Procname{$\proc{Randomized-Select}(A,p,r,i)$}
+\li \While $p < r$
+\li \Do $q \gets Randomized-Partition(A,p,r)$
+\li $k \gets q-p+1$
+\li \If $i \isequal k$
+\li \Then \Return $A[q]$
+\li \ElseIf $i < k$
+\li \Then $r \gets q-1$
+\li \Else $p \gets q+1$
+\li $i \gets i-k$
+\End
+\End
+\li \Return $A[p]$
+\end{codebox}
+
+\subsection*{9.2-4} 9, 8, 7, 6, 5, 4, 3, 2, 1, 0
+
+\subsection*{9.3-2}
+$$n \ge 140 \Rightarrow \frac{3n}{10} -6 \ge \frac{n}{4}+1 \Rightarrow 
+\frac{3n}{10}-6 \ge \lceil\frac{n}{4}\rceil$$
+Since there are at least $\frac{3n}{10}-6$ elements which are greater that the 
+median-of-medians $x$ and at least $\frac{3n}{10}-6$ elements which are less 
+than $x$. So we have the solution.
+
+\subsection*{9.3-3}
+Before PARTITION is performed, we call $\proc{SELECT}$ to pick up the median of 
+the input array. The median is used for a pivot to split the array into two 
+subarrays.  Because of the median, it guarantees the left hand side and right 
+hand side must be of the same length. Let $T(n)$ be the running time needed by 
+the modified quicksort to perform on input array of n elements. We can derive 
+the recurrence as follows: $T(n) \leq 2T(n/2) + \Theta(n)$. By master theorem, 
+$T(n) = \Theta(n\lg n)$.
+
+\begin{codebox}
+\Procname{$\proc{Modified-Partition}(A, p, r)$}
+\li $n \gets n-p+1$
+\li $k \gets \proc{Select}(A,p,r,\lfloor(n+1)/2\rfloor)$
+\li exchange $A[r]$ with $A[k]$
+\li \Return $\proc{Partition}(A,p,r)$
+\end{codebox}
+
+\subsection*{9.3-4 $\star$}
+Suppose that the algorithm uses $m$ comparisons to find the ith smallest element 
+$x$ in a set of $n$ elements. If we trace these $m$ comparisons in the log, we 
+can easily find the $i-1$ smaller elements by transitivity. If $x > a$ and $a > 
+b$, then $x > b$ can be deduced without actually performing a comparison between 
+$x$ and $b$.  Similarly, the $n-i$ larger elements can be found, too. Is it 
+possible there exists a number, say $p$, we cannot decide whether $x$ is greater 
+than $p$ or not by the comparison log? That's impossible! Otherwise, the 
+algorithm does not work correctly.
+
+\subsection*{9.3-6}
+The k quantiles of an n-element array A are
+$A[\lceil 1\cdot n/k \rceil], A[\lceil 2\cdot n/k \rceil],\cdots,A[\lceil 
+(k-1)\cdot n/k \rceil]$.
+The following algorithm finds kth quantiles of an array A, and these (k-1) 
+elements are put  just like the positions they reside if entire range is sorted.
+
+\begin{codebox}
+\Procname{$\proc{Quantile-Base}(A,p,r,Q,k)$}
+\li \If $k \le 0$
+\li \Then \Return
+\li \ElseIf $k \isequal 1$
+\li \Then $x \gets \proc{Select}(A,p,r,Q[1])$
+\li $\proc{Partition}(A,p,r,x)$
+\li \Else $i \gets \lfloor(k+1)/2\rfloor$
+\li $x \gets \proc{Select}(A,p,r,Q[i])$
+\li $q \gets \proc{Partition}(A,p,r,x)$
+\li $\proc{Quantile-Base}(A,p,q-1,Q[1\dots (i-1)], i-1)$
+\li \For $j \gets (i+1)$ \To $Q.length$
+\li \Do $Q[j] = Q[j] - Q[i]$
+\End
+\li $\proc{Quantile-Base}(A, q+1, r, Q[(i+1)\dots Q.length], k-i)$
+\End
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Quantile}(A,p,r,k)$}
+\li \If $k \le 1$
+\li \Then \Return
+\li \Else $n \gets r-p+1$
+\li $\proc{Quantile-Base}(A,p,r,[\lceil 1\cdot n/k\rceil, \lceil 2\cdot 
+n/k\rceil,\cdots, \lceil (k-1)\cdot n/k\rceil], k-1)$
+\end{codebox}
+
+$$
+\left\{
+\begin{array}{ll}
+T(n, k) = T(\lceil\lfloor \frac{k+1}{2} \rfloor \frac{n}{k}\rceil-1, 
+\lfloor\frac{k+1}{2}\rfloor-1) + T(n-\lceil\lfloor \frac{k+1}{2} \rfloor 
+\frac{n}{k}\rceil, k - \lfloor\frac{k+1}{2}\rfloor) + O(n) & \mbox{if } k > 
+1 \\ T(n, k) = O(n) & \mbox{otherwise}\\
+\end{array}
+\right.
+$$
+I will not prove that $T(n) = O(n\lg k)$. The proof seems quite messy.
+
+\subsection*{9.3-7}
+The median $x$ can be found by the procedure SELECT in $O(n)$ time. After 
+finding the median $x$, we call the modified procedure SELECT' to find the kth 
+element. In the modified procedure SELECT', the elements, for instance $a, b$ 
+are compared by the distance to the median x($|a-x| - |b-x|$). The comparison 
+takes $\Theta(1)$ time. So the modified SELECT' still runs in $O(n)$ time. After 
+the kth element is found by SELECT', it is used as the pivot to partition the 
+set $S$, and $S[1\dots k]$ is the k numbers that are closest to the median.
+
+\subsection*{9.3-8}
+Let $Z$ be the union of array $X$ and array $Y$ and in sorted order. For the 
+$k$-th statistic of Z $a$, $a$ must be greater than exactly $(k-1)$ numbers. If 
+$a$ is $X[x]$, we must have $Y[n-x] \leq X[p] \leq Y[n-x+1]$.  Why?  $X[p]$ is 
+greater than exactly p-1 numbers in X. And $Y[n-p] \leq X[p] \leq Y[n-p+1]$, 
+then X[p] is greater than exactly n-p numbers in Y.  Thus, X[p] is greater than 
+exactly $k-1$ numbers in total and $X[x]$ must be the $k$-th statistic $a$.
+\begin{codebox}
+\Procname{$\proc{Median}(A,B,n)$}
+\li $median \gets \proc{Select}(A,1,n,B,1,n,n)$
+\li \Return $median$
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Select}(A,p,r,B,q,s,k)$}
+\li $x \gets \lfloor(k+1)/2\rfloor$
+
+\li \If $A[p+x-1] \isequal A[q+k-x-1]$
+\li \Then \Return $A[p+x-1]$
+\li \ElseIf $A[p+x-1] > A[q+k-x-1]$
+\li \Then \If $A[p+x-1] \le A[q+k-x]$
+\li \Then \Return $A[p+x-1]$
+\li \Else $\proc{Select}(A, p, p+x-2, B, q+x-k, s,x)$
+\End
+\li \Else \If $A[q+k-x-1] \le A[p+x]$
+\li \Then \Return $A[q+k-x-1]$
+\li \Else $\proc{Select}(A, p+x, r, B, q, q+x-k-2,k-x)$
+\End
+\End
+\end{codebox}
+
+Some boundary case checks are omitted for simplicity. And by intuition, $T(n) = 
+T(n/2) + \Uptheta(1)$. Solve it with master theorem. We have $T(n) = 
+\Uptheta(\lg n)$.
+
+\subsection*{9.3-9}
+Let $(x_1, y_1), (x_2, y_2), \cdots, (x_n, y_n)$ be the coordinates of n wells. 
+We want to find a number $y^*$ such that $$d(y^*) = \sum_{i = 1}^n |y_i - y^*|$$ 
+achieves the minimum. Note that $$|y_i - y^*|$$ is the distance between $y_i$ 
+and $y^*$. The median of $y_1, y_2, \ldots, y_n$ will always have less value 
+than any other fixed number substituted into function $d(\cdot)$. So the optimal 
+location can be determined by SELECT in $O(n)$ time.
+
+\subsection*{9.2}
+\textbf{a:} The lower median $x$ of the elements $x_1,x_2,\dots,x_n$ satisfying 
+$|\{x_i: 1\le i \le n \text{ and } x_i < x\} \le \lceil n/2 \rceil -1 < n/2$ and 
+$|\{x_i: 1\le i \le n \text{ and } x_i > x\}| \le \lfloor n/2 \rfloor$.
+
+\begin{align*}
+\sum_{x_i < x} w_i & = \sum_{x_i < x} \frac{1}{n} \\
+& = \frac{1}{n}\cdot \sum_{x_i < x} 1 \\
+& = \frac{1}{n}\cdot |\{x_i: 1 \le i \le n \text{ and } x_i < x\}| \\
+& < \frac{1}{n} \cdot \frac{n}{2} \\
+& = \frac{1}{2}
+\end{align*}
+
+\begin{align*}
+\sum_{x_i > x} w_i & = \sum_{x_i > x} \frac{1}{n} \\
+& = \frac{1}{n} \cdot \sum_{x_i > x} 1 \\
+& = \frac{1}{n} \cdot |\{x_i: 1\le i \le n \text{ and } x_i > x\}| \\
+& \le \frac{1}{n}\cdot\lfloor\frac{n}{2}\rfloor \\
+& \le \frac{1}{n}\cdot \frac{n}{2} \\
+& = \frac{1}{2}
+\end{align*}
+
+\subsection*{9.3}
+\textbf{a:} We can give a intuitive proof of $U_i(n)+O(T(2i)\lg(n/i))$ by 
+recursion-tree method. First we ignore floors and ceilings:
+\begin{equation*}
+U_i(n) = \left\{\begin{array}{lr}
+T(n) & \text{if }2i \ge n, \\
+n/2 + U_i(n/2) + T(2i) & \text{otherwise},
+\end{array} \right.
+\end{equation*}
+The cost for every intermediate level is $\frac{n}{2^{h+1}}+T(2i)$. $h$ is level 
+depth. The tree ends when $\frac{n}{2^h}=2i$. Solve it. We have $h=\lg(n/i)-1$.  
+So the total cost:
+\begin{align*}
+U_i(n) & = \sum_{h=0}^{lg(n/i)-2}(\frac{n}{2^{h+1}}+T(2i))+T(2i) \\
+& = \sum_{h=0}^{lg(n/i)-2}\frac{n}{2^{h+1}}+(\lg(n/i)-1)T(2i) \\
+& = \frac{n}{2}\sum_{h=0}^{lg(n/i)-2}(\frac{1}{2})^h+(\lg(n/i)-1)T(2i) \\
+& = 
+\frac{n}{2}\cdot\frac{(\frac{1}{2})^{\lg(n/i)-1}-1}{\frac{1}{2}-1}+(\lg(n/i)-1)T(2i) 
+\\
+& = (1-(\frac{1}{2})^{\lg(n/i)-1})n + (\lg(n/i)-1)T(2i) \\
+& = (1-\frac{2^{\lg i + 1}}{n})n + (\lg(n/i)-1)T(2i)
+\end{align*}
+
+Now we show by substitution that if $i < n/2$, then $U_i(n) = n + 
+O(T(2i)\lg(n/i))$. In particular, we shall show that $U_i(n) \le n + 
+cT(2i)\lg(n/i) - d(\lg\lg n)T(2i) = n + cT(2i)\lg n - cT(2i)\lg i - d(\lg\lg 
+n)T(2i)$ for some positive constants $c$ and $d$, and $n\ge4$. We have
+\begin{align*}
+U_i(n) & = \lfloor n/2 \rfloor + U_i(\lceil n/2 \rceil) + T(2i) \\
+& \le \lfloor n/2 \rfloor + \lceil n/2 \rceil + cT(2i)\lg\lceil n/2 \rceil - 
+cT(2i)\lg i -d(\lg\lg\lceil n/2 \rceil)T(2i) + T(2i) \\
+& = n + cT(2i)\lg\lceil n/2 \rceil -cT(2i)\lg i - d(\lg\lg\lceil n/2 
+\rceil)T(2i) + T(2i) \\
+& \le n + cT(2i)\lg(n/2+1) -cT(2i)\lg i - d(\lg\lg(n/2))T(2i) + T(2i) \\
+& = n + cT(2i)\lg(n/2+1) - cT(2i)\lg i - d(\lg(\lg n - 1))T(2i) + T(2i) \\
+& \le n + cT(2i)\lg n - cT(2i)\lg i - d(\lg\lg n)T(2i)
+\end{align*}
+
+If $cT(2i)\lg(n/2+1) -d(\lg(\lg n -1))T(2i) + T(2i) \le cT(2i)\lg n - d(\lg\lg 
+n)T(2i)$. Simple algebraic manipulations gives the following sequence of 
+equivalent conditions:
+
+\begin{align*}
+cT(2i)\lg(n/2+1) -d(\lg(\lg n -1))T(2i) + T(2i) & \le cT(2i)\lg n - d(\lg\lg 
+n)T(2i) \\
+c\lg(n/2+1) - d(\lg(\lg n - 1)) + 1 & \le c\lg n - d(\lg\lg n) \\
+c(\lg(n/2+1)-\lg n) - d(\lg(\lg n -1) - \lg\lg n) + 1 & \le 0 \\
+c\lg(\frac{1}{2}+\frac{1}{n}) - d\lg\frac{\lg n -1}{\lg n} + 1 & \le 0
+\end{align*}
+
+Observe that $1/2+1/n$ decreases as $n$ increases, but $(\lg n -1)/\lg n$ 
+increases as $n$ increases. When $n = 4$, we have $1/2+1/n=3/4$ and $(\lg n - 
+1)/\lg n = 1/2$. We just need to choose $d$ such that $c\lg(3/4) - d\lg(1/2) + 1 
+  \le 0$. Solve it. We have $d \le c\lg(4/3) - 1$.
+
+\textbf{c:} When $i$ is a constant, $T(2i) = O(1)$ and $\lg(n/i) = \lg n - \lg i 
+= O(\lg n)$. Thus, when $i$ is a constant less than $n/2$, we have that
+\begin{align*}
+U_i(n) & = n + O(T(2i)\lg(n/i)) \\
+& = n + O(O(1)\cdot O(\lg n)) \\
+& = n + O(\lg n)
+\end{align*}
+
+
+\textbf{d:} Suppose that $i = n/k$ for $k \ge 2$. Then $i \le n/2$. If $k > 2$, 
+then $i < n/2$, and we have
+\begin{align*}
+U_i(n) & = n + O(T(2i)\lg(n/i)) \\
+& = n + O(T(2n/k)\lg(n/(n/k)) \\
+& = n + O(T(2n/k)\lg k).
+\end{align*}
+
+If $k=2$, then $n = 2i$ and $\lg k = 1$. We have
+
+\begin{align*}
+U_i(n) & = T(n) \\
+& = n + (T(n) - n) \\
+& \le n + (T(2i) - n) \\
+& = n + (T(2n/k) - n) \\
+& = n + (T(2n/k)\lg k - n) \\
+& = n + O(T(2n/k)\lg k).
+\end{align*}
+
+\subsection*{9.4}
+\textbf{a:}
+
+There are 3 cases.  When $k < i <j$, if any elements between $z_k$ and $z_j$ is 
+chosen, $z_{ij}$ is broken. In this case, if $z_k$ is chosen, the algorithm 
+terminates. If $z_l$ ($k+1 < l <i$) is chosen, the part containing $z_{ij}$ is 
+discarded.  When $i \le k \le j$, if any elements between $z_i$ and $z_j$ is 
+chosen, $z_{ij}$ is broken.  When $i < j < k$, if any elements between $z_i$ and 
+$z_k$ is chosen, $z_{ij}$ is broken. The reason is similar to case 1. In all the 
+cases, only if $z_i$ or $z_j$ is chosen, they will be compared.
+
+
+\begin{equation*}
+X_{ijk} = \left\{
+\begin{array}{ll}
+\frac{2}{j-k+1} & \mbox{if }k < i <j \\
+\frac{2}{j-i+1}  & \mbox{if }i \le k \le j \\
+\frac{2}{k-i+1} & \mbox{if } i < j < k
+\end{array}
+\right.
+\end{equation*}
+
+\textbf{b:}
+Make a sum of $X_{ijk}$, we have:
+
+\begin{align*}
+E[X_k] & = \sum X_{ijk} \\
+& = \sum_{j=k+2}^{n}\sum_{i=k+1}^{j-1}\frac{2}{j-k+1} + 
+\Big(\sum_{i=1}^{k}\sum_{k-1}^{n}\frac{2}{j-i+1} + 
+\sum_{j=k+1}^{n}\frac{2}{j-i+1}\Big)
++\sum_{i=1}^{k-2}\sum_{j=i+1}^{k-1}\frac{2}{k-i+1} \\
+& = 2\sum_{j=k+2}^{n}\frac{j-k-1}{j-k+1} + 
+\Big(\sum_{i=1}^{k}\sum_{k-1}^{n}\frac{2}{j-i+1} + 
+\sum_{j=k+1}^{n}\frac{2}{j-i+1}\Big)
++ 
+2\sum_{i=1}^{k-2}\frac{k-i-1}{k-i+1}\\
+& = 2\sum_{j=k+1}^{n}\frac{j-k-1}{j-k+1} + 
+\Big(\sum_{i=1}^{k}\sum_{k-1}^{n}\frac{2}{j-i+1} + 
+\sum_{j=k+1}^{n}\frac{2}{j-i+1}\Big) + 2\sum_{i=1}^{k-2}\frac{k-i-1}{k-i+1}\\
+& \le 2\sum_{j=k+1}^{n}\frac{j-k-1}{j-k+1} + 
+\sum_{i=1}^{k}\sum_{k}^{n}\frac{2}{j-i+1} + 2\sum_{i=1}^{k-2}\frac{k-i-1}{k-i+1} 
+\\
+& = 2\Big(\sum_{i=1}^{k}\sum_{j=k}^{n}\frac{1}{j-i+1} + 
+\sum_{j=k+1}^{n}\frac{j-k-1}{j-k+1} + \sum_{i=1}^{k-2}\frac{k-i-1}{k-i+1}\Big)
+\end{align*}
+
+\textbf{c:}
+
+\begin{align*}
+\sum_{j=k+1}^{n}\frac{j-k-1}{j-k+1} + \sum_{i=1}^{k-2}\frac{k-i-1}{k-i+1} & = 
+\sum_{i=2}^{n-k+1}\frac{i-2}{i} + \sum_{i=3}^{k}\frac{i-2}{i} \\
+& \le \sum_{i=2}^{n-k+1}1 + \sum_{i=3}^{k}1 \\
+& = (n-k) + (k-2) \\
+& = n-2 \\
+& \le n
+\end{align*}
+
+\begin{align*}
+\sum_{i=1}^{k}\sum_{j=k}^{n}\frac{1}{j-i+1} & = 
+\sum_{i=1}^{k-1}\sum_{j=1}^{i}\frac{1}{i} + \sum_{i=k}^{n-k+1}\frac{k}{i} + 
+\sum_{i=n-k+2}^{n}\sum_{j=1}^{n-i+1}\frac{1}{i} \\
+& = \sum_{i=1}^{k-1}1 + \sum_{i=k}^{n-k+1}\frac{k}{i} + 
+\sum_{i=n-k+2}^{n}\frac{n-i+1}{i} \\
+& = (k-1) + \sum_{i=k}^{n-k+1}\frac{k}{i} + \sum_{i=n-k+2}^{n}\frac{n-i+1}{i} \\
+& \le (k-1) + \sum_{i=k}^{n-k+1}1 + \sum_{i=n-k+2}^{n}\frac{n-i+1}{i} \\
+& = (k-1) + (n-2k+2) + \sum_{i=n-k+2}^{n}\frac{n-i+1}{i} \\
+& = n-k-1 + \sum_{i=n-k+2}^{n}\frac{n-i+1}{i} \\
+& \le n-k-1 + \sum_{i=n-k+2}^{n}\frac{k-1}{n-k+2} \\
+& \le n-k-1 + \sum_{i=n-k+2}^{n}1 \\
+& = n-k-1 + (k-1) \\
+& = n
+\end{align*}
+
+So we have
+\begin{align*}
+E[X_k] \le 2\Bigg(\sum_{i=1}^{k}\sum_{j=k}^{n}\frac{1}{j-i+1} + 
+\sum_{j=k+1}^{n}\frac{j-k-1}{j-k+1} + \sum_{i=1}^{k-2}\frac{k-i-1}{k-i+1} \Bigg) 
+& \le 2(n+n) \\
+& = 4n
+\end{align*}
+
+The following matrix is an example for the first term when $n=7$ and $k=3$.
+\begin{equation*}
+\left(
+\begin{array}{ccccccc}
+ & &  \frac{1}{3} & \frac{1}{4} & \frac{1}{5} & \frac{1}{6} & \frac{1}{7} \\
+ & \frac{1}{2} & \frac{1}{3} & \frac{1}{4} & \frac{1}{5} & \frac{1}{6} \\
+1 & \frac{1}{2} & \frac{1}{3} & \frac{1}{4} & \frac{1}{5} \\
+\end{array} \right)
+\end{equation*}
+
+
+\textbf{d:} The running time of $\proc{Randomized-Select}$ is dominated by the 
+time spent in the $\proc{Randomized-Partition}$ procedure. There are at most $n$ 
+calls to $\proc{Randomized-Partition}$ procedure. Each call takes $O(1)$ time.  
+So the calls of $\proc{Randomized-Partition}$ takes $O(n)$. The number of 
+comparisons made $\proc{Randomized-Partition}$'s expected value is $4n$. So 
+$\proc{Randomized-Select}$ runs in expected time $O(n)$.
+
+\part{Data Structures}
+
+\chapter{Elementary Data Structures}
+
+\subsection*{10.1-2} One stack grows upwards from $S[1]$. The other stack grows 
+downwards from $S[n]$.
+
+\subsection*{10.1-4}
+\begin{codebox}
+\Procname{$\proc{Enqueue}(Q,x)$}
+\li \If $Q.head \isequal Q.tail+1$ or ($Q.head \isequal 1$ and $Q.tail \isequal 
+n$)
+\li \Then \Error "overflow"
+\li \Else $Q[Q.tail] \gets x$
+\li \If $Q.tail \isequal Q.length$
+\li \Then $Q.tail = 1$
+\li \Else $Q.tail \gets Q.tail + 1$
+\End
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Dequeue}(Q)$}
+\li \If $Q.head \isequal Q.tail$
+\li \Then \Error "underflow"
+\li \Else $x \gets Q[Q.head]$
+\li \If $Q.head \isequal Q.length$
+\li \Then $Q.head \gets 1$
+\li \Else $Q.head \gets Q.head + 1$
+\End
+\li \Return $x$
+\End
+\end{codebox}
+
+\subsection*{10.1-5}
+
+Operations at the big end:
+\begin{codebox}
+\Procname{$\proc{Add-Last}(D, x)$}
+\li $D[D.tail] \gets x $
+\li \If $D.tail \isequal D.length$
+\li \Then $D.tail \gets 1$
+\li \Else $D.tail = D.tail + 1$
+\End
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Remove-Last}(D)$}
+\li \If $D.tail \isequal 1$
+\li \Then $D.tail \gets D.length$
+\li \Else $D.tail = D.tail - 1$
+\End
+\li \Return $D[D.tail]$
+\end{codebox}
+
+The operations at the small end:
+\begin{codebox}
+\Procname{$\proc{Add-First}(D,x)$}
+\li \If $D.head \isequal 1$
+\li \Then $D.head \gets D.length$
+\li \Else $D.head = D.head - 1$
+\End
+\li $D[D.head] = x$
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Remove-First}(D)$}
+\li $x \gets D[D.head]$
+\li \If $D.head \isequal D.length$
+\li \Then $D.head \gets 1$
+\li \Else $D.head \gets D.head + 1$
+\End
+\li \Return $x$
+\end{codebox}
+
+\subsection*{10.1-6}
+
+\begin{description}
+\item[Enqueue(Q,x)] Push x onto Stack 1.
+\item[Dequeue(Q)] Pop all items from Stack 1 while pushing onto Stack 2.  Now 
+the top item in Stack 2 is the one to be dequeued(Pop Stack 2). Pop all the 
+remaining items from Stack 2 while pushing onto Stack 1.
+\end{description} 
+
+Enqueue takes $O(1)$ time. Dequeue takes $O(n)$ time.
+
+\subsection*{10.1-7}
+\begin{description}
+\item[Push(S, x)] Dequeue all the items in Queue 1 while enqueuing onto Queue 2.  
+Enqueue x onto Queue 1. Dequeue all the items in Queue2 while enqueuing onto 
+Queue 1.
+\item[Pop(S)] Dequeue from Queue 1. \end{description}
+
+Push takes $O(n)$ time. Pop takes $O(1)$ time.
+Another solution:
+\begin{description}
+\item[Push(item)]	Enqueue item onto Queue 1.
+\item[Pop()] Dequeue all items but one from Queue 1 while enqueuing onto Queue 
+2. The last item in Queue 1 is what is popped (dequeue Queue 1). Now think of 
+   Queue 2 as Queue 1 and vice versa.
+\end{description}
+Push $O(1)$.	Pop	$O(n)$
+
+\subsection*{10.2-1}
+\begin{codebox}
+\Procname{$\proc{List-Insert}(L, x)$}
+\li $x.next \gets L.head$
+\li $L.head \gets x$
+\end{codebox}
+DELETE can't be implemented in $O(1)$ time since $x$'s predecessor can't be 
+accessed in $O(1)$ time.
+
+\subsection*{10.2-2}
+
+\begin{codebox}
+\Procname{$\proc{Push}(S, x)$}
+\li $\proc{List-Insert}(S, x)$
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Pop}(S)$}
+\li $x \gets S.head$
+\li \If $x \ne $ Nil
+\li \Then $S.head \gets x.next$
+\End
+\li $x.next \gets $ Nil
+\li \Return $x$
+\end{codebox}
+
+\subsection*{10.2-3}
+The singly linked list $L$ needs a additional pointer pointing to the tail of 
+the list. Enqueue adds item at the tail of the list. Dequeue removes item at the 
+head of the list.
+
+\subsection*{10.2-4}
+Assign $L.nil.key$ a value which is impossible for any valid $key$. For example, 
+$\infty$.
+
+\subsection*{10.2-5}
+
+\begin{codebox}
+\Procname{$\proc{Search}(S, k)$}
+\li $x \gets L.head$
+\li \If $x \ne nil$ and $x.key \ne k$
+\li \Then $x \gets x.next$
+\li \While $x \ne L.head$ and $x.key \ne k$
+\li \Do $x \gets x.next$
+\End
+\End
+\li \Return $x$
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Insert}(S, k)$}
+\li $x.next \gets L.head$
+\li \If $L.head \isequal \const{nil}$
+\li \Then $x.next \gets x$
+\li \Else $y \gets L.head$
+\li \While $y.next \ne L.head$
+\li \Do $y \gets y.next$
+\End
+\li $y.next \gets x$
+\End
+\li $L.head \gets x$
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Delete}(S, x)$}
+
+\li $p \gets x$
+\li \While $p.next \ne x$
+\li \Do $p \gets p.next$
+\End
+
+\li \If $p \isequal x$
+\li \Then $L.head \gets \const{nil}$
+\li \Else $p.next \gets x.next$
+\li \If $L.head \isequal x$
+\li \Then $L.head \gets x.next$
+\End
+\End
+\end{codebox}
+SEARCH takes $O(n)$ time. INSERT takes $O(n)$ time. DELETE takes $O(n)$.
+
+\subsection*{10.2-6} Use a singly linked list with a head pointer and a tail 
+pointer.
+\begin{codebox}
+\Procname{$\proc{Union}(S_1, S_2)$}
+\li $S_1.tail.next \gets S_2.head$
+\li $S.head \gets S_1.head$
+\li $S.tail \gets S_2.tail$
+\end{codebox}
+This procedure takes $O(1)$. It is obvious.
+
+\subsection*{10.2-7}
+
+\begin{codebox}
+\Procname{$\proc{Reverse}(L)$}
+\li \If $L.head \isequal \const{nil}$
+\li \Then \Return
+\End
+
+\li $p \gets L.head$
+\li $L.head \gets \const{nil}$
+
+\li \While $p \ne \const{nil}$
+\li \Do  $x \gets p.next$
+\li $p.next \gets L.head$
+\li $L.head \gets p$
+\li $p \gets x$
+\End
+\end{codebox}
+
+\subsection*{10.2-8}
+
+\begin{codebox}
+\Procname{$\proc{Search}(L,k)$}
+\li $y \gets \const{nil}$
+\li $x \gets L.head$
+\li \While $x.np \ne y$ and $x.key \ne k$
+\li \Do $z \gets x$
+\li $x \gets y $ xor $x.np$
+\li $y \gets z$
+\End
+\li \If $x.key \isequal k$
+\li \Then \Return $x$
+\li \Else \Return $\const{nil}$
+\End
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Insert}(L, x)$}
+\li \If $L.head \ne \const{nil}$
+\li \Then $L.head.np \gets L.head.np$ xor $x$
+\li $x.np \gets L.head$
+\End
+\li $L.head \gets x$
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Delete}(L, x)$}
+\li \If $x.np \isequal \const{nil}$
+\li \Then $L.head \gets \const{nil}$
+\End
+\li $q \gets \const{nil}$
+\li $p \gets L.head$
+\li \While $p \ne x$
+\li \Do $t \gets q$
+\li $q \gets p$
+\li $p \gets t$ xor $p.np$
+\End
+\li $r \gets x.np $ xor $q$
+\li \If $q \ne \const{nil}$
+\li \Then $q.np \gets q.np \text{ xor } x \text{ xor } r$
+\End
+\li \If $r \ne \const{ni}$
+\li \Then $r.np \gets r.np \text{ xor } x \text{ xor } q$
+\End
+\end{codebox}
+To reverse such a list, we only need to point $L.head$ to the end of the list.  
+So it takes $O(1)$.
+
+\subsection*{10.3-2}
+
+\begin{codebox}
+
+\Procname{$\proc{Allocate-Object}$}
+\li \If $free \isequal \const{nil}$
+\li \Then \Error "out of space"
+\li \Else $x \gets free$
+\li $free \gets A[x+1]$
+\li \Return $x$
+\End
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Free-Object}(x)$}
+\li $A[x+1] \gets free$
+\li $free \gets x$
+\end{codebox}
+
+
+
+\subsection*{10.3-3}
+We don't need to set or reset the $prev$ attributes of objects in the 
+implementation of the ALLOCATE-OBJECT and FREE-OBJECT procedure since the INSERT 
+method of doubly linked list will handle it.
+
+\subsection*{10.3-4}
+Treat the free list of multiple-array representation as a stack growing towards 
+the start of the multiple-array.  Initially, $S.top$ is 1.  ALLOCATE-OBJECT 
+procedure just calls $POP(S)$ procedure. If an element of the doubly-linked list 
+is freed.  First, the freed element $x$ is move to the end of the list while the 
+structure of the doubly-linked list is kept.  Then, $PUSH(S, x)$ is called.
+
+\subsection*{10.3-5}
+
+\begin{codebox}
+\Procname{$\proc{Compactify-List}(L, F)$}
+\li $h \gets 1$
+\li $x \gets L$
+\li \While $x \ne \const{nil}$
+\li \Do \If $x \ne h$
+\li \Then \If $h \isequal F$
+\li \Then $F \gets x$
+\End
+\li $\proc{Exchange}(h, x)$
+\End
+\li $x \gets h.next$
+\li $h \gets h + 1$
+\End
+\li $L \gets 1$
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Exchange}(h, x)$}
+\li \If $x.next \isequal h$
+\li \Then \If $x.prev \ne \const{nil}$
+\li \Then $x.prev.next \gets h$
+\End
+\li \If $h.next \ne \const{nil}$
+\li \Then $h.next.prev \gets x$
+\End
+\li $\proc{Swap-Key}(h, x)$
+\li $x.next \gets h.next$
+\li $h.prev \gets x.prev$
+\li $x.prev \gets h$
+\li $h.next \gets x$
+\li \Else \li \If $h.prev \ne \const{nil}$
+\li \Then $h.prev.next \gets x$
+\End
+\li \If $h.next \ne \const{nil}$
+\li \Then $h.next.prev \gets x$
+\End
+\li \If $x.prev \ne \const{nil}$
+\li \Then $x.prev.next \gets h$
+\End
+\li \If $x.next \ne \const{nil}$
+\li \Then $x.next.prev \gets h$
+\End
+\li $\proc{Swap}(h,x)$
+\End
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Swap-Key}(a, b)$}
+\li $temp \gets a.key$
+\li $a.key \gets b.key$
+\li $b.key \gets temp$
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Swap-Next}(a, b)$}
+\li $temp \gets a.next$
+\li $a.next \gets b.next$
+\li $b.next \gets temp$
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Swap-Prev}(a, b)$}
+\li $temp \gets a.prev$
+\li $a.prev \gets b.prev$
+\li $b.prev \gets temp$
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Swap}(a,b)$}
+\li $\proc{Swap-Next}(a,b)$
+\li $\proc{Swap-Key}(a,b)$
+\li $\proc{Swap-Prev}(a,b)$
+\end{codebox}
+
+Since $\proc{Exchange}$ takes $\Uptheta(1)$ time, $\proc{Compactify-List}$ takes 
+$\Uptheta(n)$ time.
+
+\subsection*{10.4-2}
+Recursive pre-root traversal.
+\begin{codebox}
+\Procname{$\proc{Traverse}(node)$}
+\li \If $node \ne \const{nil}$
+\li \Then print $node.key$
+\li $\proc{Traverse}(node.left)$
+\li $\proc{Traverse}(node.right)$
+\End
+\end{codebox}
+
+\subsection*{10.4-3}
+Non-recursive pre-root traversal.
+\begin{codebox}
+\Procname{$\proc{Traverse}(node)$}
+\li \If $node \isequal \const{nil}$
+\li \Then \Return
+\End
+\li let S be a n-element stack
+\li $\proc{Push}(S,x)$
+\li \While not $\proc{Stack-Empty}(S)$
+\li \Do $y \gets \proc{Pop}(S)$
+\li print y.key
+\li \If $y.right \ne \const{nil}$
+\li \Then $\proc{Push}(S, y.right)$
+\End
+\li \If $y.left \ne \const{nil}$
+\li \Then $\proc{Push}(S, y.left)$
+\End
+\end{codebox}
+
+\subsection*{10.4-4}
+\begin{codebox}
+\Procname{$\proc{Traverse}(node)$}
+\li \If $node \ne \const{nil}$
+\li \Then print $node.key$
+\li $\proc{Traverse}(node.left\text{-}child)$
+\li $\proc{Traverse}(node.right\text{-}sibling)$
+\End
+\end{codebox}
+
+\subsection*{10.4-5}
+When visiting the tree, the status is either TRAVERSE or BACKTRACK. And 
+different statuses are handle differently.
+%\lstinputlisting[language=C]{/data/code/algorithm/prog/n-traverse.c}
+
+\subsection*{10.4-6}
+$p$ points to either parent or right-sibling. If $flag$ is PARENT, then $p$ 
+points to parent. Otherwise, it points to right-sibling.
+%\lstinputlisting[language=C]{/data/code/algorithm/prog/navigate.c}
+
+\subsection*{10.1}
+\begin{tabular}{p{3.5cm}|p{1.5cm}|p{1.5cm}|p{1.5cm}|p{1.5cm}|}
+& unsorted, singly linked & sorted, singly linked & unsorted, doubly linked & 
+sorted, doubly linked \\ \hline
+$\proc{Search}(L,k)$ & $O(n)$ & $O(n)$ & $O(n)$ & $O(n)$ \\ \hline
+$\proc{Insert}(L,x)$ & $O(1)$ & $O(n)$ & $O(1)$ & $O(n)$ \\ \hline
+$\proc{Delete}(L,x)$ & $O(n)$ & $O(n)$ & $O(1)$ & $O(1)$ \\ \hline
+$\proc{Successor}(L,x)$ & $O(1)$ & $O(1)$ & $O(1)$ & $O(1)$ \\\hline
+$\proc{Predecessor}(L,x)$ & $O(n)$ & $O(n)$ & $O(1)$ & $O(1)$ \\ \hline
+$\proc{Minimum}(L)$ & $O(n)$ & $O(1)$ & $O(n)$ & $O(1)$ \\ \hline
+$\proc{Maximum}(L)$ & $O(n)$ & $O(n)$ & $O(n)$ & $O(n)$ \\ \hline
+\end{tabular}
+
+\subsection*{10.2}
+I don't quite understand the author's meaning. And I get no relevant information 
+after searching the web.
+
+\subsection*{10.3}
+
+\textbf{a:}
+There are 2 cases. One is that $\proc{Compact-List-Search}(L,n,k)$ returns from 
+line 7. In this case, \textbf{for} loop of 
+$\proc{Compact-List-Search'}(L,n,k,t)$ runs $t$ times. And the latter returns at 
+line-7. The other is that the former returns at line-10 or line-11. In this 
+case, the integers returned by $\proc{Random}(1,n)$ don't contain $p(key[p]=k)$.  
+So the later will run $t$ iterations of the \textbf{for} loop. And it will 
+continue at line 8. So the latter will run $t$ iterations of both \textbf{for} 
+loop and \textbf{while} loop.
+
+\textbf{b:}
+There are two parts of the running time. One part is the \textbf{while} loop. It 
+has $O(t)$ iterations. The other part is the \textbf{for} loop. It has $X_t$ 
+iterations. So the expected running time is $O(t+\text{E}[X_t])$.
+
+\textbf{c:}
+Assume that $key[p] \isequal k$. $X_t$'s sample space is $\{0, 1, 2, \dots, 
+p-1\}$. $X_t \ge r$ means that in all the $t$ iterations, not an element between 
+position $p-r+1$ (inclusive) and $p$ (inclusive) is chosen. In every iteration, 
+there are $n-r$ such elements which can be chosen. So we have:
+
+\begin{align*}
+Pr\{X_t\ge r\} = \big(\frac{n-r}{n}\big)^t
+\end{align*}
+\begin{align*}
+\text{E}[X_t] & = \sum_{r=0}^{p-1}r\cdot Pr\{X_t = r\} \\
+& = \sum_{r=0}^{p-1}r\cdot\Big(Pr\{X_t \ge r\}-Pr\{X_t \ge r+1\}\Big) \\
+& = \sum_{r=1}^{p-1}Pr\{X_t \ge r\} - (p-1)Pr\{X_t = p\} \\
+& = \sum_{r=1}^{p-1}Pr\{X_t \ge r\} \\
+& = \sum_{r=1}^{p-1}(\frac{n-r}{n})^t \\
+& \le \sum_{r=1}^{n}(\frac{n-r}{n})^t \\
+\end{align*}
+
+\textbf{d:}
+\begin{align*}
+\sum_{r=0}^{n-1}r^t & \le \int_{0}^{n} r^t {\mathrm{d}r} \\
+& = \Big[\frac{r^{t+1}}{t+1}\Big]_0^n \\
+& = n^{t+1}/(t+1)
+\end{align*}
+
+\textbf{e:}
+\begin{align*}
+\text{E}[X_t] & \le \sum_{r=1}^{n}(1-r/n)^t \\
+& = \sum_{r=1}^{n}(\frac{n-r}{n})^t \\
+& = \frac{1}{n^t}\sum_{r=1}^{n}(n-r)^t \\
+& = \frac{1}{n^t}\sum_{r=0}^{n-1}r^t \\
+& \le \frac{1}{n^t}\frac{n^{t+1}}{t+1} \\
+& = \frac{n}{t+1}
+\end{align*}
+
+\textbf{f:}
+\begin{align*}
+T(n) & = O(t+\text{E}[X_t]) \\
+& \le O(t+n/(t+1)) \\
+& \le O(t+n/t) \\
+\end{align*}
+
+\textbf{g:}
+
+The running time of $\proc{Compact-List-Search}$ is the expected number of 
+\textbf{while} loop. Both the \textbf{for} loop logic and \textbf{while} loop 
+($i = next[i]$) in $\proc{Compact-List-Search'}$ runs the same number of 
+iterations in $\proc{Compact-List-Search}$. So we have $O(t) = O(n/t)$. Solve 
+it, we have $\sqrt{n}$. So $\proc{Compact-List-Search}$ runs in $O(\sqrt{n})$ 
+expected time.
+
+
+\textbf{h:}
+If there are some duplicated keys in the list, the effect of random skips will 
+be reduced. For example, if all keys before $k$ are the same, the random skips 
+does not have any effect.
+
+\chapter{Hash Tables}
+\subsection*{11.1-1}
+
+\begin{codebox}
+\Procname{$\proc{Search-Max}(T)$}
+\li \For $i \gets m-1$ \To $0$
+\li \Do \If $T[i] \ne \const{nil}$
+\li \Then \Return $T[i]$
+\End
+\End
+\li \Return $\const{nil}$
+\end{codebox}
+The worst-case performance is $\Uptheta(n)$.
+
+\subsection*{11.1-2}
+%\lstinputlisting[language=C]{/data/code/algorithm/prog/bit-vector.c}
+
+\subsection*{11.1-3}
+For insert, it means to create a doubly linked list and let the direct-address 
+table element points to it. For search, return the head to the doubly linked 
+list. For delete, just delete the element from the doubly linked list. Since the 
+list is doubly linked, it can be done in $O(1)$.
+
+\subsection*{11.1-4}
+The answer is in "Instructor's Manual".
+C program is as follows:
+%\lstinputlisting[language=C]{/data/code/algorithm/prog/huge.c}
+
+\subsection*{11.2-3}
+Average-case running time:
+\begin{description}
+\item[successful searches] $O(1+\alpha)$
+\item[unsuccessful searches] $O(1+\alpha)$
+\item[insertions] $O(1+\alpha)$
+\item[deletions] $O(1)$
+\end{description}
+For the analysis of successful searches, we assume that $k_i$ and $k_j$ ($h(k_i) 
+= h(k_j)$). $k_j$ is inserted before $k_i$. This assumption does not influence 
+the running time of successful searches. So the analysis in the book applies.
+
+\subsection*{11.2-5}
+Assume that no more that $n-1$ keys map to a slot. We have
+\begin{align*}
+|U| &= \sum_{i=0}^{m-1}k_i \\
+&\le \sum_{i=0}^{m-1} (n-1) \\
+& = m(n-1)
+\end{align*}
+
+$k_i$ is the number of keys which maps to $i$ slot. We have $|U|\le m(n-1)$ 
+which contradicts with $|U|>nm$. So $U$ has a subset of size $n$ consisting of 
+keys that all hash to the same slot.
+
+\subsection*{11.2-6}
+The C program:
+
+%\lstinputlisting[language=C]{/data/code/algorithm/prog/random-hash-element.c}
+
+The sample space of the random number is $\{0,1, \cdot, Lm-1\}$. The probability 
+of selecting a key is $1/(Lm)$. There are two parts of the running time $X$.  
+$X=Y+Z$.  $Y$ is the number of $\proc{select\_hash\_element}$ function 
+invocations. $Z$ is the number of linked list elements visited. $X$ is a random 
+variable for geometric distribution. 
+
+\begin{align*}
+\text{E}[Y] &= \sum_{i=1}^{\infty}i\cdot Pr\{X=i\} \\
+& = \sum_{i=1}^{\infty}i\cdot\frac{n}{Lm} \\
+& = \frac{Lm}{n}
+\end{align*}
+
+\begin{align*}
+\text{E}[Z] \le L
+\end{align*}
+
+\begin{align*}
+\text{E}[X] &= \text{E}[Y+Z] \\
+&=\text{E}[Y] + \text{E}[Z] \\
+& \le \frac{Lm}{n}+L \\
+& = L\cdot(1+1/\alpha)
+\end{align*}
+
+So the expected running time is $O(L\cdot(1+1/\alpha))$.
+
+\subsection*{11.3-1}
+Let $a$ denotes the given key. When traversing the linked list, compare $h(a)$ 
+against $h(k)$. Only if $h(a) \isequal h(k)$, do the comparsion between $a$ and 
+$k$.
+
+\subsection*{11.3-2}
+The solution is based on the following properties of modular addition and 
+multiplication:
+\begin{align*}
+a + b & \equiv a' + b' & (\mbox{mod}\;n), \\
+ab & \equiv a'b' & (\mbox{mod}\;n).
+\end{align*}
+\begin{codebox}
+\Procname{$\proc{Hash}(A)$}
+\li $power \gets 1$
+\li $hash \gets 0$
+\li \For $i \gets 0$ \To $r$
+\li \Do $hash \gets (hash + (A[i] \cdot power) \mod m) \mod m$
+\li $power \gets (power \cdot 128) \mod m$
+\End
+\li \Return $hash$
+\end{codebox}
+
+\subsection*{11.3-3}
+Given a string $a_0 a_1 \dots a_{r-1}$. Let's compute its hash value. $k$ is 
+$\sum_{i=0}^{r-1}a_i 2^{ip}$.
+
+hash value:
+\begin{align*}
+hash(k) & = k \mod m \\
+& = (\sum_{i=0}^{r-1}a_i 2^{ip}) \mod (2^p-1) \\
+& = \sum_{i=0}^{r-1}(a_i 2^{ip}) \mod (2^p-1) \\
+& = \sum_{i=0}^{r-1}(a_i ((2^{p}-1)+1)^i) \mod (2^p-1) \\
+& = \sum_{i=0}^{r-1}(a_i (\sum_{j=0}^{i}b_j(2^p-1)^j) \mod (2^p-1) \\
+& = \sum_{i=0}^{r-1}(a_i + (a_i\sum_{j=1}^{i}b_j(2^p-1)^j) \mod (2^p-1) \\
+& = \sum_{i=0}^{r-1}\Big(a_i\mod (2^p-1) + (a_i\sum_{j=1}^{i}b_j(2^p-1)^j) \mod 
+(2^p-1) \Big)\\
+& = \sum_{i=0}^{r-1}\Big(a_i\mod (2^p-1)\Big)
+\end{align*}
+
+We can see that the hash value of $a_0 a_1 \dots a_{r-1}$ does not relate to the 
+positions of individual characters. So if we can derive string $x$ from string 
+$y$ by permuting its characters, then $x$ and $y$ hash to
+the same value.
+
+In Insturctor's Manual, there is another solution.
+
+\subsection*{11.3-4}
+$$A=(\sqrt{5}-1)/2=0.6180339887498949$$
+$$h(61) = \lfloor 1000 (61A \mod 1)\rfloor = 700$$
+$$h(62) = \lfloor 1000 (62A \mod 1)\rfloor = 318$$
+$$h(63) = \lfloor 1000 (63A \mod 1)\rfloor = 936$$
+$$h(64) = \lfloor 1000 (64A \mod 1)\rfloor = 554$$
+$$h(65) = \lfloor 1000 (64A \mod 1)\rfloor = 172$$
+
+\subsection*{11.3-5}
+In Insturctor's manual, there is a solution. The key of proof is the following 
+lemma:
+
+The total number of collisions is minimized when $u_j = u/b$ for each $j \in B$.
+
+But the proof does not apply if $b$ is not a divisor of $u$. 
+
+
+We will prove that for $x_i, (1 \le i \le n)$. If $\sum_{i=1}^{n}x_i=k$, then 
+$\sum_{i=1}^{n}x_i(x_i-1)$ is minimum when $x_i=k/n$. There are two ways to 
+prove it. One is to use Lagrange multipliers. Here we show the other way. 
+
+\begin{align*}
+\sum_{i=1}^{n}x_i(x_i-1) & = 
+\sum_{i=1}^{n}\Big((x_i-\frac{1}{2})^2-\frac{1}{4}\Big) \\
+& = \Big(\sum_{i=1}^{n}(x_i-\frac{1}{2})^2\Big)-\frac{n}{4}
+\end{align*}
+
+Let $t_i=x_i-1/2, (1\le i \le n)$. We have $\sum_{i=1}^{n}t_i=k-n/2$. Let 
+$nc=k-n/2$. So:
+
+\begin{align*}
+\sum_{i=1}^{n}x_i(x_i-1) & = \sum_{i=1}^{n}t_i^2-\frac{n}{4} \\
+& = \sum_{i=1}^{n}(c+t_i-c)^2 \\
+& = c^2n-2c\sum_{i=1}^{n}(t_i-c)+\sum_{i=1}^{n}(t_i-c)^2 \\
+& = c^2n+\sum_{i=1}^{n}(t_i-c)^2 \\
+\end{align*}
+The right hand is obviously minimized when $t_i=c$. Since $t_i=x_i-1/2$. We have 
+$x_i=c+1/2=(k-n/2)n+1/2=k/n$. For a detailed discussion of this solution, refer 
+to 
+\href{http://math.stackexchange.com/questions/67192/how-to-prove-the-sum-of-squares-is-minimum}{How 
+to prove the sum of squares is minimum?}.
+
+\chapter{Binary Search Tree}
+
+$successor$ and $predecessor$ are symmetic. The case of $successor$ w/ right 
+subtree is the case of $predecessor$ w/o left subtree. The case of $predecessor$ 
+w/ left subtree is the case of $successor$ w/o right subtree. So to analyze the 
+case of $successor$ w/o right subtree uses the case of $predecessor$ w/ left 
+subtree.
+
+$\proc{Tree-Delete}$ handle case c and d in right subtree. It can also handle
+them in left subtree. The method is symmetric.
+
+\subsection*{MyProblem-1}
+Given a sorted array. Design an algorithm that creates an AVL using array 
+elements.
+
+\begin{codebox}
+\Procname{$\proc{To-Avl}(A, l, h)$}
+\li \If $l > h$
+\li \Then \Return Nil
+\End
+\li $m = \lfloor(l + h)/2 \rfloor $
+\li $root = \proc{Allocate-Node}()$
+\li $root.key = A[m]$
+\li $root.left = \proc{To-Avl}(A, l, m-1)$
+\li $root.right = \proc{To-Avl}(A, m+1, h)$
+\li \Return $root$
+\end{codebox}
+
+Now let's prove that the resulted tree returned from $\proc{To-Avl}$ is a AVL. 
+Let $n = h-l+1$ and use $f(n)$ represent $\proc{To-Avl}(A, n)$. We will prove 
+the following \textbf{Statement}:
+
+$f(i)$ ($i = 0...n$, $n \ge 1$) is an AVL. And $f(i)$'s and $f(i-1)$'s heights 
+differs at most $1$.
+
+\begin{proof} \textbf{Base case:} For $n = 1$, $f(0)$ is empty which is 
+  a AVL. $f(1)$ is a single node which is also an AVL. $f(0)$''s height is -1.
+  And $f(1)$'s height is 1. Their heights differs with 1. So for $n = 1$, the 
+  statement is $true$. 
+
+\textbf{Induction step:} 
+If $n$ is odd, $f(n)$ is constructed as $f(n).key = A[\frac{n-1}{2}]$, 
+$f(n).left = f(\frac{n-1}{2})$ and $f(n).right = f(\frac{n-1}{2})$. Because 
+$\frac{n-1}{2} < n$, $f(\frac{n-1}{2})$ is AVL from induction.
+Since $f(n).left$ and $f(n).right$ have the same shape, $f(n)$ is a AVL. 
+$f(n-1)$ is constructed as $f(n).key = A[\frac{n-1}{2}-1]$, $f(n).left = 
+f(\frac{n-1}{2}-1)$, and $f(n).right = f(\frac{n-1}{2})$. The proof for $f(n-1)$ 
+being an AVL is similar to $f(n)$. The subtrees for $f(n)$ and $f(n-1)$ are 
+$f(\frac{n-1}{2}-1)$ or $f(\frac{n-1}{2})$. By induction, we know that they are 
+AVL whose heights differs at most 1. So $f(n)$ and $f(n-1)$ are AVL trees whose 
+heights differ at most 1.
+
+If $n$ is even, it can be proved that $f(n)$ and $f(n-1)$ both are AVLs. And their 
+subtrees are $f(\frac{n}{2}-1)$ and $f(\frac{n}{2})$. So $f(n)$ and $f(n-1)$ 
+are AVLs whose heights differs at most 1.
+\end{proof}
+
+
+\chapter{Red-Black Trees}
+\chapter{Augmenting Data Structures}
+
+\subsection*{14.3-4}
+\url{http://fileadmin.cs.lth.se/cs/Personal/Rolf_Karlsson/tut2.pdf} solves with
+the use of the solution to 14.3.-3. It is complicated. Actually, searchAll method in
+\url{http://algs4.cs.princeton.edu/93intersection/IntervalST.java.html} does the
+same thing, but it is much simpler.
+
+\begin{codebox}
+\Procname{$\proc{Interval-Search-All}(x, i, list)$}
+\li $foundInLeft = False$
+\li $foundInX = False$
+\li $foundInRight = False$
+\li \If $x.left \ne nil$ and $x.left.max \ge i.low$
+\li \Then $foundInLeft = \proc{Interval-Search-All}(x.left, i, list)$
+\End
+\li \If $i$ overlaps $x.int$
+\li \Then $\proc{Add}(list, x.int)$
+\li $foundInNode = True$
+\End
+\li \If $foundInLeft$ or $x.left = nil$ or $x.left.max < i.low$
+\li \Then $foundInRight = \proc{Interval-Search-All}(x.right, i, list)$
+\End
+\li \Return $foundInLeft$ or $foundInX$ or $foundInRight$
+\End
+\end{codebox}
+
+The above method is an inorder walk of the interval tree, it is obvious that the
+time complexity is $O(n)$. The first interval found by this method is the min
+interval. And it costs $\lg n$. After it, $foundInLeft$ is true. The method will
+contiue to find the second min interval since the method performs an inorder walk
+of the tree. And it wil also cost $\lg n$. The method will find all $k$
+intervals in this way. After failing t find $k+1$ interval, the method will
+terminate. And the whole mehod will cost $(k+1)\lg n = O(k\ln n)$. So the
+conclusion is $O(min(n, k \lg n))$.
+
+\url{https://godoc.org/github.com/biogo/store/interval} augments a LLRB with an
+additional $min$. Its $Get$ method is equivalent to $\proc{Interval-Search-All}$.
+And its time complexity is also $O(min(n, k \lg n))$. It does not need to check
+$foundInLeft$ because of the existence of $min$. $foundInLeft$ is actually an
+estimate of $min$. $foundInLeft = True$ means that $min > i.high$.
+
+\part{Advanced Design and Analysis Techniques}
+\part{Advanced Data Structures}
+\chapter{B-Trees}
+CLLS and Algorithms has a different definition of B-Tree. A B-Tree with 
+$t=3$ in CLRS has $3$, $4$, $5$ and $6$ children. A B-Tree with $M=6$ in Algorithms 
+can has $3$, $4$ and $5$ children. And Algorithms B-Tree is a B+-Tree since it only 
+has data in leaf nodes.
+
+\subsection*{18.3-2}
+
+\begin{codebox}
+\Procname{$\proc{B-Tree-Delete}(T, k)$}
+\li $i = x.n$
+\li \While $i \ge 1$ and $k < x.key_i$
+\li \Do $i = i -1$
+\End
+\li \If $x.leaf$
+\li \Then \If $i \ge 1$ and $x.key_i = k$
+\li \Then \Comment case 1
+\li $\proc{Delete-Key}(x, i)$
+\li \Return $True$
+\li \Else
+\li \Return $False$
+\End
+\End
+\li \If $x.key_i = k$
+\li \Then \If $x.c_i.n \ge t$
+\li \Then \Comment case 2a
+\li $x.key_i = Min(x.c_i)$
+\li \ElseIf $x.c_{i+1}.n \ge t$
+\li \Then \Comment case 2b
+\li $x.key_i = Max(x.c_{i+1})$
+\li \Else \Comment case 2c
+\li $\proc{Merge-With-Right}(x,i)$
+\End
+\li \Return $true$
+\End
+\li $i = i + 1$
+\li \If $x.c_{i}.n < t$
+\li \Then \Comment case 3a and 3b
+\li \If $i > 1$ and $x.c_{i-1}.n \ge t$
+\li \Then $\proc{Borrow-From-Left}(x, i)$
+\li \ElseIf $i \le x.n$ and $x.c_{i+1}.n \ge t$
+\li \Then $\proc{Borrow-From-Right}(x, i)$
+\li \Else $\proc{Merge}(x, i)$
+\End
+\End
+\li $\proc{B-Tree-Delete}(x.c_i, k)$
+\End
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Min}(x)$}
+\li $y = x$
+\li \While $y.leaf = false$
+\li \Do $y = y.c_{y.n}$
+\End
+\li $y.n = y.n - 1$
+\li \Return $y.key_{y.n+1}$
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Max}(x)$}
+\li $y = x$
+\li \While $y.leaf = false$
+\li \Do $y = y.c_1$
+\End
+\li $k = y.key_1$
+\li \For $j = 1$ to $y.n-1$
+\li \Do $y.key_j = y.key_{j+1}$
+\End
+\li $y.n = y.n - 1$
+\li \Return $k$
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Delete-Key}(x, i)$}
+\li \For $j = i$ to $x.n-1$
+\li \Do $x.key_i = x.key_{i+1}$
+\End
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Borrow-From-Right}(x, i)$}
+\li $y = x.c_i$
+\li $z = x.c_{i+1}$
+\li $y.n = y.n + 1$
+\li $y.key_n = x.key_i$
+\li $y.c_{y.n+1} = z.c_1$
+\li $x.key_i = z.key_1$
+\li \For $j = 1$ to $z.n - 1$
+\li \Do $z.key_i = z.key_{i+1}$
+\End
+\li \For $j = 1$ to $z.n$
+\li \Do $z.c_i = z.c_{i+1}$
+\End
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Borrow-From-Left}(x, i)$}
+\li $z = x.c_{i-1}$
+\li $y = x.c_i$
+\li $y.n = y.n + 1$
+\li \For $j = x.n - 1$ downto $1$
+\li \Do $y.key_{j+1} = y.key_j$
+\End
+\li \For $j = x.n$ downto $1$
+\li \Do $y.c_{j+1} = y.c_j$
+\End
+\li $y.key_1 = x.key_{i-1}$
+\li $y.c_1 = z.c_{z.n+1}$
+\li $x.key_{i-1} = z.key_1$
+\li $z.n = z.n - 1$
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Merge}(x,i)$}
+\li \If $i > 1$
+\li \Then $\proc{Merge-With-Left}(x, i)$
+\li \Else $\proc{Merge-With-Right}(x, i)$
+\End
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Merge-With-Left}(x, i)$}
+\li $y = x.c_i$
+\li $z = c.c_{i-1}$
+\li \For $j = y.n$ downto $1$
+\li \Do $y.key_{j+z.n+1} = y.key_j$
+\End
+\li \For $j = y.n+1$ downto $1$
+\li \Do $y.c_{j+z.n+1} = y.c_j$
+\End
+\li $y.key_{z.n + 1} = x.key_{i-1}$
+\li \For $j = 1$ to $z.n$
+\li \Do $y.key_j = z.key_j$
+\End
+\li \For $j = 1$ to $z.n + 1$
+\li \Do $y.c_j = z.c_j$
+\End
+\li \For $j = i-1$ to $x.n-1$
+\li \Do $x.key_{j} = x.key_{j+1}$
+\End
+\li \For $j = i$ to $x.n$
+\li \Do $x.c_j = x.c_{j+1}$
+\End
+\li $x.n = x.n - 1$
+\li $y.n = y.n + z.n + 1$
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Merge-With-Right}(x, i)$}
+\li $y = x.c_i$
+\li $z = x.c_{i+1}$
+\li $y.key_{x.n + 1} = x.key_i$
+\li \For $j = 1$ to $z.n$
+\li \Do $y.key_{x.n + 1 + j} = z.key_j$ 
+\End
+\li \For $j = 1$ to $z.n + 1$
+\li \Do $y.key_{x.n + 1 + j} = z.c_j$
+\End
+\li \For $j = i$ to $x.n-1$
+\li \Do $x.key_i = x.key_{i+1}$
+\End
+\li \For $j = i+1$ to $x.n$
+\li \Do $x.c_j = x.c_{j+1}$
+\End
+\li $x.n = x.n - 1$
+\li $y.n = y.n + z.n + 1$
+\end{codebox}
+
+
+\part{Graph Algorithms}
+\chapter{Elementary Graph Theory}
+
+\subsection*{MyProblem-1}
+For directed graph $G = (V, E)$, if every vertex's \textit{\textbf{in-degree}} 
+is bigger than $0$, then $G$ has a cycle.
+
+\begin{proof}
+  Remove all vertices whose \textit\textbf{out-degree} is $0$. Then each 
+  remaining vertex has at lease one incoming edge and at lease one outgoing 
+  edge. Choose any vertex $v_1$. Follow one outgoing edge from $v_1$ to another 
+  vertex $v_2$.  Again follow one outgoing edge from $v_2$ to another vertex 
+  $v_3$ and so on.  We can get an infinite sequence $v_1, v_2, ...$. Since there 
+  is only a finite number of vertices. Some vertices must appear more than once 
+  in the sequence.  So $G$ has a cycle.
+\end{proof}
+
+\part{Selected Topics}
+
+\chapter{Number-Theoretic Algorithms}
+
+\subsection*{31.1-5}
+From $n \divides ab$, we have $ab=kn$. From gcd$(a, n)= 1$, we have $ax + ny = 
+1$.  Multiply it by $b$, we have $abx + nby = b$. $b$ is a linear combination of 
+$ab$ and $n$. Both of them are divisible by $n$. So $n\divides b$.
+
+\subsection*{31.1-11}
+
+\part{Appendix: Mathematical Background}
+
+\chapter{B Sets, Etc.}
+\subsection*{B.5-3}
+Make the following definitions:
+\begin{itemize}
+  \item$n$: the total number of nodes
+  \item$B$: the number of branches
+  \item$n_{0}$: the number of nodes with no children (degree-0 nodes)
+  \item$n_{1}$: the number of nodes with a single child (degree-1 nodes)
+  \item$n_{2}$: the number of nodes with two children (degree-2 nodes)
+\end{itemize}
+$B = n -1 $ (since all nodes except the root node come from a single branch).  
+$B = n_{1} + 2\cdot n_{2}$ (sincel all branches are from degree-$1$ nodes and 
+degree-$2$ nodes). From the above two equations, we have $n = n_{1} + 2\cdot 
+n_{2} + 1$. And by $n$'s defintion, we have $n = n_{0} + n_{1} + n_{2}$. From $n 
+= n_{1} + 2 \cdot n_{2} + 1$ and $n = n_{0} + n_{1} + n_{2}$, we have $n_{2} = 
+n_{0} - 1$.  So the number of degree-2 nodes in any nonempty binary tree is 1 
+fewer than the number of leaves.
+
+The above conclusion can also be proved by induction. If the binary tree has 
+only $1$ node, $n_{0} = n_{2} + 1$ holds since $n_{0} = 1$ and $n_{2} = 0$.  
+Let's assume $n_{0} = n_{2} + 1$ (The binary tree has $n-1$ nodes. And $n-1 \geq 
+1$). Now add a new node to this binary tree. If the node node is added to a 
+degree-$0$ node, there is a new degree-{0} node. But one existing degree-$0$ 
+node becomes degree-$1$ node.  So $n_{0}$ does not change. And $n_{2}$ does not 
+change. So the equantion still nodes. If the node is added to a degree-$1$ node, 
+there is a new degree-$0$ node and a new degree-$2$ node. So the equation also 
+holds. Therefore, the equation holds for a $n$-node binary tree when adding a 
+new node. Now we can claim the orignal conclustion.
+
+For a fully binary, there are only degree-0 nodes and degree-2 nodes. So $n_2$ 
+is the number of all internal nodes. And $n_{0} = n_{2} + 1$. So the number of 
+internal nodes in a full binary tree is 1 fewer than the number of leaves.
+
+\end{CJK}
+\end{document}
+

@@ -1,0 +1,134 @@
+\documentclass[a4paper]{article}
+\usepackage{fixltx2e} % LaTeX patches, \textsubscript
+\usepackage{cmap} % fix search and cut-and-paste in Acrobat
+\usepackage{ifthen}
+\usepackage[hidelinks]{hyperref}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+%%% Custom LaTeX preamble
+% PDF Standard Fonts
+\usepackage{mathptmx} % Times
+\usepackage[scaled=.90]{helvet}
+\usepackage{courier}
+\usepackage{CJKutf8}
+
+
+%%% User specified packages and stylesheets
+%%% Fallback definitions for Docutils-specific commands
+
+% providelength (provide a length variable and set default, if it is new)
+\providecommand*{\DUprovidelength}[2]{
+  \ifthenelse{\isundefined{#1}}{\newlength{#1}\setlength{#1}{#2}}{}
+}
+
+% lineblock environment
+\DUprovidelength{\DUlineblockindent}{2.5em}
+\ifthenelse{\isundefined{\DUlineblock}}{
+  \newenvironment{DUlineblock}[1]{%
+    \list{}{\setlength{\partopsep}{\parskip}
+            \addtolength{\partopsep}{\baselineskip}
+            \setlength{\topsep}{0pt}
+            \setlength{\itemsep}{0.15\baselineskip}
+            \setlength{\parsep}{0pt}
+            \setlength{\leftmargin}{#1}}
+    \raggedright
+  }
+  {\endlist}
+}{}
+
+% hyperlinks:
+\ifthenelse{\isundefined{\hypersetup}}{
+  \usepackage[colorlinks=true,linkcolor=blue,urlcolor=blue]{hyperref}
+  \urlstyle{same} % normal text font (alternatives: tt, rm, sf)
+}{}
+
+
+%%% Body
+\begin{document}
+\begin{CJK}{UTF8}{gkai}
+
+\section*{个人信息}
+
+\begin{DUlineblock}{0em}
+\item[] 姓名：么敬国
+\item[] 性别：男
+\item[] 手机：(86)139-1033-4380
+\item[] Email：yaojingguo@gmail.com
+\item[] Web site: \url{http://yaojingguo.github.io/},
+\url{https://github.com/yaojingguo},
+\item[] 出生日期: 1976年
+\end{DUlineblock}
+
+
+\section*{自我评价}
+\begin{itemize}
+\item 10年以上年软件研发和管理经验。
+\item 熟练使用Java/Scala/Clojure，C/C++，Go, Python, JS。
+\item 丰富的互联网系统架构和研发经验。
+\item 丰富的教育行业系统架构和研发管理经验。
+\item 掌握分布式数据库系统理论，丰富的分布式数据系统研发经验。
+\item 熟练使用主流大数据系统和掌握数据分析技术。丰富的Hadoop平台上数据分析应用开发经验。
+\end{itemize}
+
+\section*{英语}
+CET6优秀，口语流利，多年和海外团队合作经验。
+
+\section*{教育，认证和培训}
+\begin{itemize}
+\item 北京理工大学       计算机应用技术            硕士，2004年4月
+\item 北京理工大学       计算机科学                学士，1999年7月
+\end{itemize}
+
+\section*{工作经历}
+\subsection*{北京新东方教育科技集团 (2014/05 -{}- 至今)}
+\begin{DUlineblock}{0em}
+\item[] 首席架构师
+\item[] Java, Go
+\item[] 2014/05 -{}- 至今
+\end{DUlineblock}
+\begin{itemize}
+\item 新东方集团核心业务系统的架构，研发和调优。
+\item 新东方集团初高中业务和国外业务的架构和研发管理。
+\item 新东方乐词公司的研发管理。
+\item 新东方在线国外业务的研发管理。
+\item 基于Hadoop/Spark/MemSQL建设新东方大数据平台。
+\item 基于Kafka设计开发新东方数据总线系统。
+\item 参与NewSQL分布式数据库系统CockroachDB开发，PMC member。
+\end{itemize}
+
+\subsection*{海南天涯在线网络科技有限公司 (2010/08 -{}- 2014/04)}
+
+\subsubsection*{天涯大数据部}
+\begin{DUlineblock}{0em}
+\item[] 总监
+\item[] Java, Clojure， Hadoop
+\item[] 09/2012 -{}- 2014/04
+\end{DUlineblock}
+\begin{itemize}
+\item 数据挖掘，信息过滤，搜索，BI和会员团队管理。
+\item 用Hadoop/Hive/Pig开发天涯的日志分析平台和BI平台。
+\item 列表数据存储引擎Memlink的研发。
+\end{itemize}
+
+
+\subsection*{IBM中国软件开发中心 (2004/11 -{}- 2010/08)}
+\begin{DUlineblock}{0em}
+\item[] 架构师
+\item[] 企业内容管理和流程管理
+\item[] Java
+\item[] 06/2010 -{}- 08/2010
+\end{DUlineblock}
+\begin{itemize}
+\item IBM Hadoop大数据平台查询语言JAQL的研发。
+\item IBM内容管理和流程管理解决方案中心的管理。
+\item 泰康人寿保全工作流项目的架构和核心模块研发。
+\item IBM Content Manager的产品研发。
+\item UI测试自动化和API测试自动化。
+\end{itemize}
+
+\end{CJK}
+\end{document}

@@ -1,0 +1,327 @@
+\documentclass{book}
+
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{extarrows}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{
+	cd,
+	math,
+	decorations.markings,
+	decorations.pathreplacing,
+	positioning,
+	arrows.meta,
+	circuits.logic.US,
+	shapes,
+	calc,
+	fit,
+	quotes}
+
+
+\begin{document}
+
+\chapter{Isomorphisms}
+
+\newtheorem{isomorphism}{Isomorphism}
+
+\begin{isomorphism}
+  A map A $\xlongrightarrow{f}$ B is called an isomorphism, or invertible
+  map, if there is a map $ B \xlongrightarrow{g} A$ for which $g \circ f
+  = 1_{A}$ and $f \circ g = 1_{B}$.\\
+  A map $g$ related to $f$ by satisfying these equations is called an
+  \textbf{inverse for} $f$.\\
+  Two objects A and B are said to be isomorphic if there is at least one
+  isomorphism A $\xlongrightarrow{f}$ B.
+\end{isomorphism}
+
+Reflexive: A is isomorphic to A.
+
+\begin{proof}
+  $1_{A} \circ 1_{A} = 1_{A}$
+\end{proof}
+
+Symmetric: If $A$ is isomorphic to B, then $B$ is isomorphic to $A$.
+\begin{proof}
+  The definition of isomorphism is symmetric.
+\end{proof}
+
+Transitive: If $A$ is isomorphic to $B$, and $B$ is isomorphic to $C$, the $A$
+is isomorphic $C$.
+\begin{proof}
+  \begin{align*}
+    (k \circ f) \circ (f^{-1} \circ k^{-1}) & = k \circ f \circ f^{-1} \circ
+    k^{-1} \\
+                                            & = k \circ (f \circ f{-1}) \circ
+                                            k^{-1} \\
+                                            & = k \circ 1_{B} \circ k^{-1} \\
+                                            & = k \circ k^{-1} \\
+                                            & = 1_{C}
+  \end{align*}
+  And it is similar to prove $(f^{-1} \circ k^{-1}) \circ (f \circ k) = 1_{A}$.
+  So $A \xlongrightarrow{f \circ g} C$ is an isomorphism.
+
+\end{proof}
+
+Suppose $B \xlongrightarrow{g} A$ and $B \xlongrightarrow{k} A$ are both inverse
+for $A \xlongrightarrow{f} B$. Show that $g = k$.
+
+\begin{proof}
+  \begin{align*}
+    g & = g \circ 1_{B} \\
+      & = g \circ f \circ k \\
+      & = (g \circ f) \circ k \\
+      & = 1_{A} \circ k \\
+      & = k
+  \end{align*}
+\end{proof}
+
+
+\begin{flushleft}
+\textbf{Exercise 3:}
+\end{flushleft}
+If $f$ has an inverse, then $f$ satisfies the two cancellation laws:
+\begin{enumerate}[label=(\alph*)]
+  \item If $f \circ h = f \circ k$, then $h = k$.
+  \item If $h \circ f = k \circ f$, then $h = k$.
+\end{enumerate}
+
+Warning: The following 'cancellation law' is not correct, even if $f$ has an inverse.
+
+\begin{enumerate}[label=(\alph*), start=3]
+\item (wrong): If $h \circ f = f \circ k$ , then $h = k$.
+\end{enumerate}
+
+\begin{proof}
+  \begin{align*}
+    h & = 1_{A} \circ h \\
+      & = f{-1} \circ f \circ h \\
+      & = f{-1} \circ f \circ k \\
+      & = 1_{A} \circ k \\
+      & = k
+  \end{align*}
+  \begin{align*}
+    h & = h \circ 1_{B}  \\
+      & = h \circ f \circ f{-1}  \\
+      & = k \circ f \circ f{-1} \\
+      & = k
+  \end{align*}
+
+$h \circ f = f \circ k$ does not hold, here is a counter example. $f$, $h$ and
+$k$ are three endomaps:
+
+\includegraphics[width=0.8\textwidth, angle=0]{exercise3-sol.eps}
+
+\end{proof}
+
+
+1. Determination\\
+Given $f$ and $h$ as shown, which are all $g$, if any, for which $h = g \circ
+f$?
+
+\begin{tikzcd}
+                                  & B \arrow[rd, "g?", dashed] &   \\
+A \arrow[ru, "f"] \arrow[rr, "h"] &                            & C
+\end{tikzcd}
+
+
+2. Choice\\
+Given $g$ and $h$ as shown, what are all $f$, if any, for whihc $h = g \circ f$?
+
+\begin{tikzcd}
+                                  & B \arrow[rd, "g"] &   \\
+A \arrow[ru, dashed, "f?"] \arrow[rr, "h"] &                            & C
+\end{tikzcd}
+
+
+\begin{flushleft}
+  \textbf{Definitions:} If $A \xlongrightarrow{f} B$: \\
+  a retraction for $f$ is  map $B \xlongrightarrow{r} A$ for which $r \circ f =
+  1_{A}$\\
+  a section for $f$ is a map $B\xlongrightarrow{s} A$ for which $f \circ s =
+  1_{B}$.
+\end{flushleft}
+
+retraction:
+
+\begin{tikzcd}
+                                  & B \arrow[rd, "r?", dashed] &   \\
+  A \arrow[ru, "f"] \arrow[rr, "1_{A}"] &                            & A
+\end{tikzcd}
+\begin{tikzcd}
+B \arrow[dd, "r?", bend left, dashed] \\
+                                      \\
+A \arrow[uu, "f", bend left]         
+\end{tikzcd}
+
+section:
+
+\begin{tikzcd}
+                                  & A \arrow[rd, "f"] &   \\
+  B \arrow[ru, "s?", dashed] \arrow[rr, "1_{A}"] &                            & B
+\end{tikzcd}
+\begin{tikzcd}
+A \arrow[dd, "f", bend left] \\
+                                      \\
+B \arrow[uu, "s?", bend left, dashed]         
+\end{tikzcd}
+
+\begin{flushleft}
+  \textbf{Proposition 1}: I f a map $A \xlongrightarrow{f} B$ has a section,
+  then for any $T$ and for any map $T \xlongrightarrow{x} B$ there exists a map
+  $T \xlongrightarrow{x} A$ for which $f \circ x = y$.
+\end{flushleft}
+
+\begin{tikzcd}
+  & A \arrow[rdd, "f", bend left] & \\ 
+  && \\
+  T \arrow[ruu, "x?", dashed] \arrow[rr, "y"] && B \arrow[luu, "s", bend left]
+\end{tikzcd}
+\\
+$f$ is surjective for maps from $T$.
+
+\begin{flushleft}
+  \textbf{Proposition 1*}: I f a map $A \xlongrightarrow{f} B$ has a retraction,
+  then for any $T$ and for any map $A \xlongrightarrow{g} T$ there exists a map
+  $B \xlongrightarrow{t} T$ for which $t \circ f = g$.
+\end{flushleft}
+
+\begin{proof}
+  $t = g \circ r$\\
+\begin{tikzcd}
+  & B \arrow[rdd, "t?", dashed] \arrow[ldd, "r", bend left] & \\ 
+  && \\
+  A \arrow[ruu, "f", bend left] \arrow[rr, "g"] && T 
+\end{tikzcd}\\
+\end{proof}
+
+\begin{flushleft}
+  \textbf{Proposition 2}: Suppose a map $A \xlongrightarrow{f} B$ has a
+  retraction. Then for any set $T$ and for any pair of maps $T
+  \xlongrightarrow{x_1} A$, $T \xlongrightarrow{x_2} A$ from any set $T$ to
+  $A$.
+\end{flushleft}
+  if $f \circ x_1 = f \circ x_2$, then $x_1 = x_2$.
+
+
+  $f$ is injective for maps from $T$.  I $f$ is \textbf{injective} for maps from $T$ for
+  every $T$, one says that $f$ is \textbf{injective}, or is a
+  \textbf{monomorphism}.
+
+\begin{flushleft}
+  \textbf{Proposition 2*}: Suppose a map $A \xlongrightarrow{f} B$ has a
+  section. Then for any set $T$ and for any pair of maps $B
+  \xlongrightarrow{t_1} T$, $B \xlongrightarrow{t_2} T$ from any set $B$ to
+  $T$.\\
+  if $t_1 \circ f = t_2 \circ f$ then $t_1 = t_2$.
+\end{flushleft}
+
+\begin{proof}
+  ~\\
+  \begin{tikzcd}
+    B \arrow[rrrr, "1_B", bend left] \arrow[rr, "s"] && A \arrow[rrrr, bend
+    right]\arrow[rr, "f"] && B \arrow[rr, shift left, "t_1"] \arrow[rr, shift right,
+    "t_2"' ] && T
+  \end{tikzcd}
+  \begin{align*}
+    t_1 & = t_1 \circ 1_B \\
+        & = t_1 \circ f \circ s \\
+        & = t_2 \circ f \circ s \\
+        & = t_2 \circ 1_B \\
+        & = t_2
+  \end{align*}
+\end{proof}
+
+\begin{flushleft}
+  \textbf{Definition:} A map $f$ with this cancellation property (if $t_1 \circ f =
+  t_2 \circ f$ then $t_1 = t_2$) for every $T$ is called an
+  \textbf{epimorphism}.
+\end{flushleft}
+
+\textbf{Exercise 8:} Prove that the composite of two maps, each having sections,
+has itself a section.
+\begin{proof}
+  \begin{align*}
+  (g \circ f) \circ s & = (g \circ f) \circ (s_1 \circ s_2) \\
+                      & = g \circ (f \circ s_1) \circ s_2 \\
+                      & = g \circ 1_{B} \circ s_2 \\
+                      & = g \circ s_2 \\
+                      & = 1_{A}
+\end{align*}
+\begin{tikzcd}
+  A \arrow[rr, "f"] \arrow[rrrr, bend left, "g \circ f"] && B \arrow[ll, "s_1"',
+  bend left] \arrow[rr, "g"] && C \arrow[ll, bend left, "s_2"'] \arrow[llll, "s
+  = s_1 \circ s_2",
+ bend left]
+\end{tikzcd}
+~\\
+\end{proof}
+
+
+\textbf{Exercise 9}
+\begin{proof}
+  \begin{align*}
+    e \circ e & = (f \circ r) \circ (f \circ r) \\
+              & = f \circ (r \circ f) \circ r \\
+              & = f \circ 1_{A} \circ r \\
+              & = f \circ r \\
+              & = e 
+  \end{align*}
+\end{proof}
+
+\textbf{Exercise 1:} Prove that $d$ is an isomorphism.
+\begin{proof}
+  Prove that $(\mathbb{R}, +) \xlongrightarrow{d} (\mathbb{R}, +)$'s inverse is
+  $(\mathbb{R}, +) \xlongrightarrow{h} (\mathbb{R}, +)$, $h(x) = \frac{1}{2}x$.
+  \begin{align*}
+    h(a + b) & = \frac{1}{2}(a + b) \\
+             & = \frac{1}{2}a + \frac{1}{2} b \\
+             & = h(a) + b(b)
+  \end{align*}
+  \begin{align*}
+    (h \circ d)(x) & = h( d(x)) \\
+                   & = \frac{1}{2} \cdot (2 \cdot x) \\
+                   & = (\frac{1}{2} \cdot 2) x \\
+                   & = 1 \cdot x \\
+                   & = x
+  \end{align*}
+  So $h \circ d = 1_{(\mathbb{R}, +)}$
+  \begin{align*}
+    (d \circ h)(x) & = d( h(x)) \\
+                   & = 2 \cdot (\frac{1}{2} \cdot x) \\
+                   & = (2 \cdot \frac{1}{2}) \cdot x \\
+                   & = 1 \cdot x \\
+                   & = x
+  \end{align*}
+  So $d \circ h = 1_{(\mathbb{R}, +)}$
+\end{proof}
+
+\textbf{Exercse 2:} $f = \{odd \xlongrightarrow{} positive, even
+\xlongrightarrow{} negative\}$
+\begin{align*}
+  f(odd + odd) & = f(even) \\
+               & = negative
+\end{align*}
+\begin{align*}
+  f(odd) \times f(odd) & = positive \times positive \\
+               & = positive
+\end{align*}
+So $f$ does not honor the combining rule. $f = \{even \xlongrightarrow{} positive,
+odd \xlongrightarrow{} negative\}$ does.
+
+\textbf{Exercise 3:}
+\begin{enumerate}[label=(\alph*)]
+  \item $p(x + y) = x + y + 1 \neq = (x + 1) + (y + 1) = p(x) + p(y)$
+  \item $sq(x \times y) = (x \times y)^2 = x^2 \times y^2 = sq(x) \times sq(y)$.
+    Assume $f$ is the inverse. Then we can have $sq \circ f = 1_{(\mathbb{R},
+    \times)}$. But $sq$'s image is $\mathbb{R}_{\ge 0}$. Conflict.
+  \item Assmue $f \circ sg = 1_{\mathbb{R}}$.$sq(2) = sq(-2) = 4$. We can make
+    $f(4) = 2$ or $f(4) = -2$ instead of both.
+  \item Yes.
+  \item $m(x \times y) = -(x \times y) = -xy \neq (-x) \times (-y) = m(x)
+    \times m(y)$
+  \item If $x < 0$, $c(x) = x^3 < 0$. So $c(x) \notin \mathbb{R}_{>0}$ 
+\end{enumerate}
+\end{document}

@@ -1,0 +1,162 @@
+\documentclass[a4paper]{article}
+\usepackage{fixltx2e} % LaTeX patches, \textsubscript
+\usepackage{cmap} % fix search and cut-and-paste in Acrobat
+\usepackage{ifthen}
+\usepackage[hidelinks]{hyperref}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+%%% Custom LaTeX preamble
+% PDF Standard Fonts
+\usepackage{mathptmx} % Times
+\usepackage[scaled=.90]{helvet}
+\usepackage{courier}
+\usepackage{CJKutf8}
+
+
+%%% User specified packages and stylesheets
+%%% Fallback definitions for Docutils-specific commands
+
+% providelength (provide a length variable and set default, if it is new)
+\providecommand*{\DUprovidelength}[2]{
+  \ifthenelse{\isundefined{#1}}{\newlength{#1}\setlength{#1}{#2}}{}
+}
+
+% lineblock environment
+\DUprovidelength{\DUlineblockindent}{2.5em}
+\ifthenelse{\isundefined{\DUlineblock}}{
+  \newenvironment{DUlineblock}[1]{%
+    \list{}{\setlength{\partopsep}{\parskip}
+            \addtolength{\partopsep}{\baselineskip}
+            \setlength{\topsep}{0pt}
+            \setlength{\itemsep}{0.15\baselineskip}
+            \setlength{\parsep}{0pt}
+            \setlength{\leftmargin}{#1}}
+    \raggedright
+  }
+  {\endlist}
+}{}
+
+% hyperlinks:
+\ifthenelse{\isundefined{\hypersetup}}{
+  \usepackage[colorlinks=true,linkcolor=blue,urlcolor=blue]{hyperref}
+  \urlstyle{same} % normal text font (alternatives: tt, rm, sf)
+}{}
+
+
+%%% Body
+\begin{document}
+\begin{CJK}{UTF8}{gkai}
+
+\section*{个人信息}
+
+\begin{DUlineblock}{0em}
+\item[] 姓名：么敬国
+\item[] 性别：男
+\item[] 手机：(86)139-1033-4380
+\item[] Email：yaojingguo@gmail.com
+\item[] Web site: \url{http://yaojingguo.github.io/},
+\url{https://github.com/yaojingguo},
+\item[] 出生日期: 1976年
+\end{DUlineblock}
+
+\section*{自我评价}
+\begin{itemize}
+\item 12年软件研发和管理经验。
+\item 熟练使用Java，C/C++，Go, Python和Lisp。熟悉Scala和Ruby。
+\item 掌握分布式数据库系统相关理论。
+\item 熟练使用主流大数据系统和熟悉数据挖掘技术。丰富的Hadoop平台上数据分析应用开发经验。
+\end{itemize}
+
+\section*{工作经历}
+\subsection*{北京新东方教育科技集团 (2014/05 -{}- 至今)}
+\subsubsection*{信息管理部}
+\begin{DUlineblock}{0em}
+\item[] 集团企业架构师
+\item[] 2014/05 -{}- 至今
+\end{DUlineblock}
+\begin{itemize}
+\item 新东方集团核心系统的架构，开发和调优。参与部分数据挖掘系统的开发。
+\item 基于Hadoop/Spark/MemSQL建设新东方大数据平台。
+\item 基于Kafka设计开发新东方数据总线系统。
+\item 参与CockroachDB开发，主要PR：
+\begin{itemize}
+  \item \href{https://github.com/cockroachdb/cockroach/pull/8867}{WIP perf: replace LLRB-tree with btree in interval.Tree}
+  \item \href{https://github.com/cockroachdb/cockroach/pull/3912}{sql: allow user priority to be set via SQL}
+  \item \href{https://github.com/cockroachdb/cockroach/pull/3783}{make MakePriority function more math precise}
+\end{itemize}
+\end{itemize}
+
+\subsection*{海南天涯在线网络科技有限公司 (2010/08 -{}- 2014/04)}
+
+\subsubsection*{天涯大数据部}
+\begin{DUlineblock}{0em}
+\item[] 总监
+\item[] 09/2012 -{}- 2014/04
+\end{DUlineblock}
+\begin{itemize}
+\item 数据挖掘，信息过滤，搜索，BI和会员团队管理。
+\end{itemize}
+
+\subsubsection*{天涯Hadoop数据分析平台}
+\begin{DUlineblock}{0em}
+\item[] 技术经理
+\item[] Java, Clojure, Hadoop
+\item[] 09/2010 -{}- 08/2012
+\end{DUlineblock}
+%
+\begin{itemize}
+\item 用Hadoop/Hive/Pig开发天涯的日志分析平台，并提交Hadoop相关软件Patch。
+\item 自主开发和维护天涯BI系统。
+\item Memlink列表数据存储引擎开发。
+\end{itemize}
+
+\subsection*{IBM中国软件开发中心 (CDL) (2004/11 -{}- 2010/08)}
+
+\subsubsection*{大数据查询语言Jaql}
+\begin{DUlineblock}{0em}
+\item[] Technical Leader
+\item[] 07/2009 -{}- 08/2010
+\item[] Java/C++/Hadoop/SPSS
+\end{DUlineblock}
+Jaql是IBM BigInsight大数据平台上的查询语言。这个
+项目是IBM CDL和IBM Almaden Research Center数据库团队的合作项目。我设计实现了Jaql catalog server，SPSS与Jaql的集成以及JSON与CSV的转换。
+
+\subsubsection*{IBM内容管理(ECM)和流程管理(BPM)研发部门}
+\begin{DUlineblock}{0em}
+\item[] Advisory Software Engineer
+\item[] Enterprise Content Mangement/Business Process Management
+\item[] 11/2004 -{}- 08/2010
+\end{DUlineblock}
+\begin{itemize}
+\item 参与泰康人寿保全工作流项目的架构和开发，参与一些金融客户的售前工作。
+\item IBM Content Manager和Filenet BPM集成的设计开发。
+\item IBM Content Manager和BPM平台上的代码生成工具开发。
+\item 自动化测试系统开发和软件测试。
+\end{itemize}
+
+\subsection*{NEC-CAS (05/2004 -{}- 10/2004)}
+\begin{DUlineblock}{0em}
+\item[] Software Engineer
+\end{DUlineblock}
+参与了文档管理系统开发。
+
+\section*{英语}
+CET6优秀，口语流利，多年和海外团队合作经验。
+
+\section*{教育，认证和培训}
+\begin{itemize}
+\item 北京理工大学       计算机应用技术            硕士，2004年4月
+\item 北京理工大学       计算机及应用                学士，2001年7月
+\item MIT-6.033 Computer Systems Engineering
+\item MIT-6.830 Database Systems
+\item MIT-6.828 Operating System Engineering
+\item MIT-6.824 Distributed Systems
+\item Stanford-CS143 Compilers
+\end{itemize}
+
+\end{CJK}
+\end{document}
