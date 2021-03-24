@@ -54,11 +54,16 @@ formater is no larger that the latter. So the former is less than or equal to th
 
 \subsection*{Problem 1.5}
 \begin{center}
-  \begin{tabular}{c|c}
+  \begin{tabular}{|c|c|}
+    \hline
     $T = \frac{\tau}{2}$ & $h[n]=h[0](\frac{1}{2})^n$ \\
+    \hline
     $T = \tau$ & $h[n] = 0$ \\
+    \hline
     $T = 2\tau$ & $h[n] = h[0](-1)^n$ \\
+    \hline
     $T = 3\tau$ & $h[n] = h[0](-2)^n$ \\
+    \hline
   \end{tabular}
 \end{center}
 It is obvious that $h[n] = h[0](1-\frac{T}{\tau})^n$ is not a good approximation of $h(n)$ if $T$ is big.
