@@ -8,6 +8,8 @@
 \usepackage{amsmath, amssymb, amsthm}
 \usepackage{mathabx}
 \usepackage{CJKutf8}
+\usepackage[open]{bookmark}
+
 
 \begin{document}
 \begin{CJK}{UTF8}{gkai}
@@ -3047,7 +3049,7 @@ same thing, but it is much simpler.
 \End
 \li \If $i$ overlaps $x.int$
 \li \Then $\proc{Add}(list, x.int)$
-\li $foundInNode = True$
+\li $foundInX = True$
 \End
 \li \If $foundInLeft$ or $x.left = nil$ or $x.left.max < i.low$
 \li \Then $foundInRight = \proc{Interval-Search-All}(x.right, i, list)$
@@ -3056,20 +3058,17 @@ same thing, but it is much simpler.
 \End
 \end{codebox}
 
-The above method is an inorder walk of the interval tree, it is obvious that the
-time complexity is $O(n)$. The first interval found by this method is the min
-interval. And it costs $\lg n$. After it, $foundInLeft$ is true. The method will
-contiue to find the second min interval since the method performs an inorder walk
-of the tree. And it wil also cost $\lg n$. The method will find all $k$
-intervals in this way. After failing t find $k+1$ interval, the method will
-terminate. And the whole mehod will cost $(k+1)\lg n = O(k\ln n)$. So the
-conclusion is $O(min(n, k \lg n))$.
+The above method is an inorder walk of the interval tree, it is obvious that the time complexity is less than $O(n)$.
+The first interval found by this method is the min interval. And it costs $\lg(n)$. After it, $foundInLeft$ is true. The
+method will contiue to find the second min interval since the method performs an inorder walk of the tree. And it wil
+also cost $\lg(n)$. The method will find all $k$ intervals in this way. And the whole mehod will cost $(k+1)\lg(n) =
+O(k\lg(n))$. So the conclusion is $O(min(n, k \lg n))$.
 
-\url{https://godoc.org/github.com/biogo/store/interval} augments a LLRB with an
-additional $min$. Its $Get$ method is equivalent to $\proc{Interval-Search-All}$.
-And its time complexity is also $O(min(n, k \lg n))$. It does not need to check
-$foundInLeft$ because of the existence of $min$. $foundInLeft$ is actually an
-estimate of $min$. $foundInLeft = True$ means that $min > i.high$.
+\url{https://godoc.org/github.com/biogo/store/interval} augments a LLRB with an additional $min$. Its $Get$ method is
+equivalent to $\proc{Interval-Search-All}$.  And its time complexity is also $O(min(n, k \lg n))$. It does not need to
+check $foundInLeft$ because of the existence of $min$. $foundInLeft = True$ means that $left.min > i.high$. Figure
+14.5(b) in CLRS shows such a case. And $foundInLeft = False$ means: $x.left \ne null$ and $x.left.max \ge i.low$ and $foundInLeft =
+   False$.
 
 \part{Advanced Design and Analysis Techniques}
 \part{Advanced Data Structures}
