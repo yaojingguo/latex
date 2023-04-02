@@ -1,0 +1,267 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Welcome to Overleaf --- just edit your LaTeX on the left,
+% and we'll compile it for you on the right. If you open the
+% 'Share' menu, you can invite other users to edit at the same
+% time. See www.overleaf.com/learn for more info. Enjoy!
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{article}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{xspace}
+\usepackage{makecell}
+\usepackage{xcolor}
+
+\newcommand{\DV}{GPT-4\xspace}
+\newcommand{\ournameshort}[0]{PaLM\xspace}
+\newcommand{\sota}[1]{\textcolor{black}{$\textbf{#1}$}}
+\newcommand{\shot}[1]{\tiny (#1)}
+\begin{document}
+\begin{center}
+\begin{tabular}{ |c|c|c| } 
+ \hline
+ cell1 & cell2 & cell3 \\ 
+ cell4 & cell5 & cell6 \\ 
+ cell7 & cell8 & cell9 \\ 
+ \hline
+\end{tabular}
+\end{center}
+
+{\color{red} \rule{\linewidth}{0.5mm}}
+
+
+Sample tables from Sparks of Artificial General Intelligence: Early experiments with GPT-4:
+
+{\color{red} \rule{\linewidth}{0.5mm}}
+\vspace{-4mm}
+\begin{table}[H]
+\begin{center}
+ \begin{tabular}{c|cccc}
+\toprule
+Model& \textbf{\DV} & \texttt{text-davinci-003} & Codex(\texttt{code-davinci-002}) & CODEGEN-16B \\
+\midrule
+\midrule
+Accuracy& \textbf{82\%} & 65\% & 39\% & 30\% \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{-.6cm}
+\caption{Zero-shot pass$@1$ accuracy comparison of different models on HumanEval}
+\vspace{-3mm}
+\end{table}
+
+{\color{red} \rule{\linewidth}{0.5mm}}
+
+
+
+\vspace{-3mm}
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{l|c|c|c|c|c|c||c|c}
+\toprule
+  & \multicolumn{2}{c|}{Easy} &  \multicolumn{2}{c|}{Median} &  \multicolumn{2}{c||}{Hard} & \multicolumn{2}{c}{Overall}\\
+\hline
+pass@$k$  & $k=1$ & $k=5$ & $k=1$ & $k=5$ & $k=1$ & $k=5$ & $k=1$ & $k=5$\\
+\hline
+\textbf{\DV}              & \textbf{68.2} & \textbf{86.4} & \textbf{40.0} & \textbf{60.0} & \textbf{10.7} & \textbf{14.3} & \textbf{38.0} & \textbf{53.0}\\
+\texttt{text-davinci-003} & 50.0 & 81.8 & 16.0 & 34.0 &  0.0 &  3.6 & 19.0 & 36.0\\
+Codex (\texttt{code-davinci-002}) & 27.3 & 50.0 &  12.0 & 22.0 &  3.6 &  3.6 &  13.0 & 23.0\\
+\hline
+Human (LeetCode users) & \multicolumn{2}{c|}{72.2} & \multicolumn{2}{c|}{37.7} & \multicolumn{2}{c||}{7.0} & \multicolumn{2}{c}{38.2} \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{-6mm}
+\caption{Zero-shot pass@1 and pass@5 accuracies (\%) on LeetCode.}
+\label{tab:leetcode-results}
+\end{table}
+
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lcccc}
+\toprule
+Model & GSM8K &  MATH  & MMMLU-STEM\\
+\midrule
+\midrule
+\texttt{text-davinci-003} & 61.3\%  & 23.5\% &54.2\% \\
+Minerva & 58.8\% & 33.6\%& 63.9\% \\
+{\DV} & 87.1\%  & 42.5\%  & 82.7\% \\
+\bottomrule
+\end{tabular}
+\caption{Accuracy of different models on math data sets}
+\label{tab:math}
+\end{table}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{l|c}
+\toprule
+Error type & Percentage of wrong solutions \\ 
+\midrule
+\midrule
+Arithmetic mistakes (including counting) & 68\% \\ 
+Misunderstanding the problem statement & 10\% \\ 
+Wrong approaches & 22\% \\
+\bottomrule
+\end{tabular}
+\caption{Manual inspection of {\DV} errors in MATH dataset on a random selection of 100 wrong answers. We can see that {\DV} uses the correct approach on the significant majority of the questions.}
+\end{table}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c| c | c |} 
+ \hline
+ Occupation & World distribution & \DV Pronoun Likelihoods \\  
+ \hline\hline
+ Nanny & 95\% female, 5\% male & 0.99 she, 0.01 he, 0.0 (she/he) or they \\ 
+Administrative assistant & 89\% female, 11\% male & 0.98 she, 0.02 he, 0.0 (she/he) or they \\
+Elementary school teacher & 87\% female, 13\% male & 0.93 she, 0.07 he, 0.0 (she/he) or they \\
+OBGYN & 85\% female, 15\% male & 0.93 she, 0.03 he, 0.04 (she/he) or they \\
+Pediatrician & 72\% female, 28\% male & 0.09 she, 0.83 he, 0.08 (she/he) or they \\
+Physician & 40\% female, 60\% male & 0.04 she, 0.92 he, 0.04 (she/he) or they \\
+Software engineer & 22\% female, 78\% male & 0.01 she, 0.98 he, 0.01 (she/he) or they \\
+Urologist & 10\% female, 90\% male & 0.0 she, 0.99 he, 0.01 (she/he) or they \\
+Orthopedic surgeon & 7\% female, 93\% male & 0.0 she, 0.99 he, 0.01 (she/he) or they \\
+Plumber & 3\% female, 97\% male & 0.0 she, 1.0 he, 0.0 (she/he) or they \\
+ \hline
+\end{tabular}
+\caption{Table showing world representation and \DV pronoun likelihoods for different occupations.}
+\label{table:occupations}
+\end{table}
+
+
+Sample tables from PaLM: Scaling Language Modeling with Pathways:
+
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{ lccccc } 
+\toprule
+Model & Layers   & \# of Heads   &  $d_\textrm{model}$ &  \makecell[c]{\# of Parameters \\(in billions)} & Batch Size  \\ 
+\midrule
+\ournameshort{}~8B & $32$ & $16$  & $4096$ & $8.63$ & $256$ $\rightarrow$ $512$ \\
+\ournameshort{}~62B & $64$ & $32$  & $8192$ & $62.50$ & $512$ $\rightarrow$ $1024$ \\
+\ournameshort{}~540B & $118$ & $48$ & $18432$ & $540.35$ & $512$ $\rightarrow$ $1024$ $\rightarrow$ $2048$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\caption{Model architecture details. We list the number of layers, $d_\textrm{model}$, the number of attention heads and attention head size. The feed-forward size $d_\textrm{ff}$ is always $4 \times d_\textrm{model}$ and attention head size is always 256.}
+\label{table:model-hyperparams}
+\end{table}
+
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{ lc } 
+\toprule
+  \multicolumn{2}{c}{Total dataset size = 780 billion tokens}      \\ 
+\midrule
+  Data source & Proportion of data     \\ 
+\midrule
+ Social media conversations (multilingual) & 50\% \\
+ Filtered webpages (multilingual)     & 27\%         \\ 
+ Books (English) & 13\%   \\ 
+ GitHub (code) & 5\% \\
+ Wikipedia (multilingual) & 4\%  \\ 
+ News (English) & 1\% \\
+\bottomrule
+\end{tabular}
+\end{center}
+\caption{Proportion of data from each source in the training dataset.}
+\label{table:dataset-mix}
+\end{table}
+
+\begin{table}[ht!]
+    \setlength{\tabcolsep}{6pt}
+    \centering
+    \small
+    \begin{tabular}{p{3.5cm}lllllll}
+    \toprule
+    & \multicolumn{2}{c}{0-shot} & \multicolumn{2}{c}{1-shot} &  \multicolumn{2}{c}{Few-shot} \\
+    \cmidrule(l{3pt}r{3pt}){2-3} \cmidrule(l{3pt}r{3pt}){4-5} \cmidrule(l{3pt}r{3pt}){6-7}
+    Task & \makecell[c]{Prior \\SOTA} & \makecell[c]{\ournameshort \\540B} & \makecell[c]{Prior \\SOTA} & \makecell[c]{\ournameshort \\540B} & \makecell[c]{Prior \\SOTA} & \makecell[c]{\ournameshort \\540B} \\
+    \midrule
+    \\
+    TriviaQA (EM) & $71.3^a$ & \sota{76.9} & $75.8^a$ & \sota{81.4} & $75.8^a$ \shot{1} & \sota{81.4} \shot{1} \\
+    Natural Questions (EM) & \sota{24.7}$^a$ & $21.2$ & $26.3^a$ & \sota{29.3} & $32.5^a$ \shot{1} & \sota{39.6} \shot{64} \\
+    Web Questions (EM) & \sota{19.0}$^a$ & $10.6$ & \sota{25.3}$^b$ & $22.6$ & $41.1^b$ \shot{64} & \sota{43.5} \shot{64} 
+    \\ \\
+    Lambada (EM) & $77.7^f$ & \sota{77.9} & $80.9^a$ & \sota{81.8} & $87.2^c$ \shot{15} & \sota{89.7} \shot{8} \\
+    HellaSwag & $80.8^f$ & \sota{83.4} & $80.2^c$ & \sota{83.6} & $82.4^c$ \shot{20} & \sota{83.8} \shot{5} \\
+    StoryCloze & $83.2^b$ & \sota{84.6} & $84.7^b$ & \sota{86.1} & $87.7^b$ \shot{70} & \sota{89.0} \shot{5} \\
+    \\
+    Winograd & $88.3^b$ & \sota{90.1} & \sota{89.7}$^b$ & $87.5$ & $88.6^a$ \shot{2} & \sota{89.4} \shot{5} \\
+    Winogrande & $74.9^f$ & \sota{81.1} & $73.7^c$ & \sota{83.7} & $79.2^a$ \shot{16} & \sota{85.1} \shot{5} \\
+    \\
+    Drop (F1) & $57.3^a$ & \sota{69.4} & $57.8^a$ & \sota{70.8} & $58.6^a$ \shot{2} & \sota{70.8} \shot{1} \\
+    CoQA (F1) & \sota{81.5}$^b$ & $77.6$ & \sota{84.0}$^b$ & $79.9$ & \sota{85.0}$^b$ \shot{5} & $81.5$ \shot{5} \\
+    QuAC (F1) & $41.5^b$ & \sota{45.2} & $43.4^b$ & \sota{47.7} & $44.3^b$ \shot{5} & \sota{47.7} \shot{1} \\
+    SQuADv2 (F1) & $71.1^a$ & \sota{80.8} & $71.8^a$ & \sota{82.9} & $71.8^a$ \shot{10} & \sota{83.3} \shot{5}\\
+    SQuADv2 (EM) & $64.7^a$ & \sota{75.5} & $66.5^a$ & \sota{78.7} & $67.0^a$ \shot{10} & \sota{79.6} \shot{5}\\
+    RACE-m & $64.0^a$ & \sota{68.1} & $65.6^a$ & \sota{69.3} & $66.9^{a\dagger}$ \shot{8} & \sota{72.1} \shot{8}\\
+    RACE-h & $47.9^c$ & \sota{49.1} & $48.7^a$ & \sota{52.1} & $49.3^{a\dagger}$ \shot{2} & \sota{54.6} \shot{5}\\
+    \\
+    PIQA & $82.0^c$ & \sota{82.3} & $81.4^a$ & \sota{83.9} & $83.2^c$ \shot{5} & \sota{85.2} \shot{5}\\
+    ARC-e & $76.4^e$ & \sota{76.6} & $76.6^a$ & \sota{85.0} & $80.9^e$ \shot{10}& \sota{88.4} \shot{5}\\
+    ARC-c & $51.4^b$ & \sota{53.0} & $53.2^b$ & \sota{60.1} & $52.0^a$ \shot{3}& \sota{65.9} \shot{5}\\
+    OpenbookQA & \sota{57.6}$^b$ & $53.4$ & \sota{55.8}$^b$ & $53.6$ & $65.4^b$ \shot{100}& \sota{68.0} \shot{32}\\
+    \\
+    BoolQ & $83.7^f$ & \sota{88.0} & $82.8^a$ & \sota{88.7} & $84.8^c$ \shot{32}& \sota{89.1} \shot{8}\\
+    Copa & $91.0^b$ & \sota{93.0} & \sota{92.0}$^a$ & $91.0$ & $93.0^a$ \shot{16}& \sota{95.0} \shot{5}\\
+    RTE & \sota{73.3}$^e$ & $72.9$ & $71.5^a$ & \sota{78.7} & $76.8$ \shot{5}& \sota{81.2} \shot{5}\\
+    WiC & $50.3^a$ & \sota{59.1} & $52.7^a$ & \sota{63.2} & $58.5^c$ \shot{32}& \sota{64.6} \shot{5}\\
+    Multirc (F1a) & $73.7^a$ & \sota{83.5} & $74.7^a$ & \sota{84.9} & $77.5^a$ \shot{4}& \sota{86.3} \shot{5}\\
+    WSC & $85.3^a$ & \sota{89.1} & $83.9^a$ & \sota{86.3} & $85.6^a$ \shot{2}& \sota{89.5} \shot{5}\\
+    ReCoRD & $90.3^a$ & \sota{92.9} & $90.3^a$ & \sota{92.8} & $90.6$ \shot{2}& \sota{92.9} \shot{2}\\
+    CB & $48.2^a$ & \sota{51.8} & $73.2^a$ & \sota{83.9} & $84.8^a$ \shot{8}& \sota{89.3} \shot{5}\\
+    \\
+    ANLI R1 & $39.2^a$ & \sota{48.4} & $42.4^a$ & \sota{52.6} & $44.3^a$ \shot{2}& \sota{56.9} \shot{5}\\
+    ANLI R2 & $39.9^e$ & \sota{44.2} & $40.0^a$ & \sota{48.7} & $41.2^a$ \shot{10}& \sota{56.1} \shot{5}\\
+    ANLI R3 & $41.3^a$ & \sota{45.7} & $40.8^a$ & \sota{52.3} & $44.7^a$ \shot{4}& \sota{51.2} \shot{5}\\
+    \bottomrule
+    \end{tabular}
+    \caption{Results obtained}
+    \label{tab:gpt3-br540B-table}
+\end{table}
+
+
+\begin{table}[t!]
+    \setlength{\tabcolsep}{6pt}
+    \centering
+    \small
+    \begin{tabular}{p{3.5cm}llllllllll}
+    \toprule
+    & \multicolumn{4}{c}{1-shot} & \multicolumn{5}{c}{Finetuning} \\
+    \cmidrule(l{3pt}r{3pt}){2-5} \cmidrule(l{3pt}r{3pt}){6-10}
+    Task & \makecell[c]{LaMDA \\137B} & \makecell[c]{\ournameshort \\8B} & \makecell[c]{\ournameshort \\62B} & \makecell[c]{\ournameshort \\540B} & \makecell[c]{Prior \\SOTA} & \makecell[c]{T5 \\XXL} & \makecell[c]{\ournameshort \\8B} & \makecell[c]{\ournameshort \\62B} &  \makecell[c]{\ournameshort \\540B} \\
+    \midrule
+    \multicolumn{10}{c}{\textbf{Data-To-Text}} \\
+    \midrule
+    Czech Restaurant (cs) & $6.6$ & $8.2$ & $12.2$ & $\textbf{16.1}$ & $30.2^a$ & $28.8$ & $30.2$ & $30.3$ & $\textbf{30.6}$ \\
+    E2E (en) & $29.2$ & $27.7$ & $33.5$ & $\textbf{35.2}$ & $\textbf{45.8}^b$ & $45.3$ & $45.7$ & $45.2$ & $45.3$ \\
+    WebNLG (en) & $30.5$ & $29.1$ & $38.6$ & $\textbf{44.4}$ & $\textbf{53.5}^c$ & $39.6$ & $47.6$ & $48.6$ & $49.3$ \\
+    WebNLG (ru) & $5.4$ & $4.5$ & $8.5$ & $\textbf{14.9}$ & $\textbf{25.5}^b$ & $23.2$ & $22.4$ & $23.3$ & $23.4$ \\
+    \midrule
+    \multicolumn{10}{c}{\textbf{Summarization}} \\
+    \midrule
+    MLSum (de) & $0.9$ & $4.6$ & $10.5$ & $\textbf{12.8}$ & $\textbf{36.4}^d$ & $35.9$ & $26.5$ & $30.0$ & $33.1$ \\
+    MLSum (es) & $0.5$ & $2.3$ & $3.2$ & $\textbf{3.6}$ & $\textbf{13.8}^b$ & $12.0$ & $10.6$ & $11.2$ & $12.0$ \\
+    WikiLingua (en $\rightarrow$ en) & $5.4$ & $5.6$ & $8.9$ & $\textbf{9.9}$ & - & $\textbf{23.8}$ & $19.3$ & $22.1$ & $23.2$ \\
+    WikiLingua (es $\rightarrow$ en) & $2.2$ & $3.4$ & $5.8$ & $\textbf{7.7}$ & $18.3^d$ & $17.9$ & $16.1$ & $18.2$ & $\textbf{20.9}$ \\
+    WikiLingua (ru $\rightarrow$ en) & $0.1$ & $2.3$ & $5.2$ & $\textbf{6.6}$ & $14.6^b$ & $12.5$ & $13.9$ & $16.6$ & $\textbf{18.6}$ \\
+    WikiLingua (tr $\rightarrow$ en) & $1.8$ & $1.8$ & $5.6$ & $\textbf{8.5}$ & $18.3^b$ & $13.8$ & $16.7$ & $21.4$ & $\textbf{23.1}$ \\
+    WikiLingua (vi $\rightarrow$ en) & $0.3$ & $1.5$ & $4.0$ & $\textbf{5.5}$ & $14.9^b$ & $9.7$ & $13.4$ & $16.3$ & $\textbf{19.1}$ \\
+    XSum (en) & $5.4$ & $7.9$ & $11.2$ & $\textbf{12.2}$ & $\textbf{23.2}^e$ & $21.0$ & $16.3$ & $18.5$ & $21.2$ \\
+    \bottomrule
+    \end{tabular}
+    \caption{ROUGE-2 results}
+    
+    \label{tab:gem-br540B-table}
+\end{table}
+
+
+
+\end{document}
+
